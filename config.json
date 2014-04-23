@@ -1,0 +1,21 @@
+{
+    "mode": "dev",
+    "info": {
+        "title": "Clicks"
+    },
+    "server": {
+        "port": 3000
+    },
+    "connectionString": "mongodb://crash:Clicks123@oceanic.mongohq.com:10031/clicks?safe=true",
+    "auth": {
+        "loginPage": "/sign-in",
+        "masterKey": "pass"
+    },
+    "email": {
+        "user": "devlmdashboard@gmail.com",
+        "password": "Password111",
+        "server": "smtp.gmail.com",
+        "port": 465,
+        "useSSL": true
+    }
+}
