@@ -19,7 +19,7 @@ module.exports.init = function () {
                 }
 
                 var filters = files.filter(function (f) {
-                    return !ignoreList.contains(f);
+                    return !_.contains(ignoreList, f);
                 }).map(function (f) {
                     return '<script src="filters/' + f + '" type="text/javascript"></script>'
                 });
@@ -31,7 +31,7 @@ module.exports.init = function () {
                     }
 
                     var services = files.filter(function (f) {
-                        return !ignoreList.contains(f);
+                        return !_.contains(ignoreList, f);
                     }).map(function (f) {
                         return '<script src="services/' + f + '" type="text/javascript"></script>'
                     });
@@ -43,7 +43,7 @@ module.exports.init = function () {
                         }
 
                         var directives = files.filter(function (f) {
-                            return !ignoreList.contains(f);
+                            return !_.contains(ignoreList, f);
                         }).map(function (f) {
                             if (f.indexOf('.js') != -1) {
                                 return '<script src="directives/' + f + '" type="text/javascript"></script>';
@@ -59,7 +59,7 @@ module.exports.init = function () {
                             }
 
                             var controls = files.filter(function (f) {
-                                return !ignoreList.contains(f);
+                                return !_.contains(ignoreList, f);
                             }).map(function (f) {
                                 return '<script src="controls/' + f + '/index.js" type="text/javascript"></script>';
                             });
@@ -71,21 +71,20 @@ module.exports.init = function () {
                                 }
 
                                 var steps = files.filter(function (f) {
-                                    return !ignoreList.contains(f);
+                                    return !_.contains(ignoreList, f);
                                 }).filter(function (f) {
-                                    return !f.contains('.js')
+                                    return !_.contains(f, '.js');
                                 }).map(function (f) {
                                     return function (finish) {
                                         fs.readdir('./client-side/controllers/' + f, function (err, files) {
                                             if (!files || err) {
-                                                finish(err);
-                                                return;
+                                                return finish(err);
                                             }
 
                                             finish(null, files.filter(function (f) {
-                                                return !ignoreList.contains(f);
+                                                return !_.contains(ignoreList, f);
                                             }).map(function (file) {
-                                                return f + '/' + file
+                                                return f + '/' + file;
                                             }));
                                         });
                                     }
