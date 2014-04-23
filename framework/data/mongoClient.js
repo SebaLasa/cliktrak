@@ -1,180 +1,178 @@
 var mongodb = require('mongodb');
 
-module.exports = store = function(collectionName, cb) {
-	store.exec(function(err_db, db) {
+module.exports = store = function (collectionName, cb) {
+    store.exec(function (err_db, db) {
 
-		if (err_db) { 
-			tryCloseConnection(db);
-			cb(err_db);
-			return; 
-		}
+        if (err_db) {
+            tryCloseConnection(db);
+            cb(err_db);
+            return;
+        }
 
-		db.collection(collectionName, function(err_collection, collection) {
-			cb(err_collection, collection, db);
-		});
-	});
-}
+        db.collection(collectionName, function (err_collection, collection) {
+            cb(err_collection, collection, db);
+        });
+    });
+};
 
 store.exec = function (cb) {
-	if (!store.connectionString) {
-		throw 'Please set the connectionstring...';
-	};
+    if (!store.connectionString) {
+        throw 'Please set the connectionstring...';
+    }
 
-	mongodb.Db.connect(store.connectionString, cb);
+    mongodb.Db.connect(store.connectionString, cb);
 };
 
-store.add = function(collectionName, doc, add_cb) {
-	store(collectionName, function(err, collection, db) {
+store.add = function (collectionName, doc, add_cb) {
+    store(collectionName, function (err, collection, db) {
 
-		if (err) { 
-			tryCloseConnection(db);
-			add_cb(err); 
-			return; 
-		}
+        if (err) {
+            tryCloseConnection(db);
+            add_cb(err);
+            return;
+        }
 
-		if(doc.id && doc.id != 0) {
-			doc["_id"] = doc.id;
-		}
+        if (doc.id && doc.id != 0) {
+            doc["_id"] = doc.id;
+        }
 
-		collection.insert(doc, function(err_insert, result) {
-			tryCloseConnection(db);
+        collection.insert(doc, function (err_insert, result) {
+            tryCloseConnection(db);
 
-			if (err_insert || !result) { 
-				add_cb(err_insert, result); 
-				return; 
-			}
+            if (err_insert || !result) {
+                add_cb(err_insert, result);
+                return;
+            }
 
-			add_cb(err, result[0])
-		});
-	});
+            add_cb(err, result[0])
+        });
+    });
 };
 
-store.update = function(collectionName, doc, update_cb) {
-	store(collectionName, function(err, collection, db) {
+store.update = function (collectionName, doc, update_cb) {
+    store(collectionName, function (err, collection, db) {
 
-		if (err) { 
-			update_cb(err); 
-			return; 
-		}
+        if (err) {
+            update_cb(err);
+            return;
+        }
 
-		if(doc.id && doc.id != 0) {
-			doc._id = doc.id;
-		}		
+        if (doc.id && doc.id != 0) {
+            doc._id = doc.id;
+        }
 
-		var mongoId = doc._id;
+        var mongoId = doc._id;
 
-		delete doc._id;
+        delete doc._id;
 
-		collection.update(
-			{ _id : mongoId }, 
-			{ $set: doc }, 
-			{ upsert: true, safe: true }, 
-			function(err_update, result) {
+        collection.update(
+            { _id: mongoId },
+            { $set: doc },
+            { upsert: true, safe: true },
+            function (err_update, result) {
 
-				db.close();
+                db.close();
 
-				if (err_update || !result) { 
-					update_cb(err_update, result); 
-					return; 
-				}
+                if (err_update || !result) {
+                    update_cb(err_update, result);
+                    return;
+                }
 
-				doc._id = mongoId;
+                doc._id = mongoId;
 
-				update_cb(err_update, doc);
-			});
-	});
-}
+                update_cb(err_update, doc);
+            });
+    });
+};
 
-store.findOne = function(collectionName, selector, get_cb) {
-	store(collectionName, function(err, collection, db) {
+store.findOne = function (collectionName, selector, get_cb) {
+    store(collectionName, function (err, collection, db) {
 
-		if (err) { 
-			get_cb(err); 
-			return; 
-		}
+        if (err) {
+            get_cb(err);
+            return;
+        }
 
-		collection.findOne(selector, function(find_err, result) {
-			tryCloseConnection(db);
+        collection.findOne(selector, function (find_err, result) {
+            tryCloseConnection(db);
 
-			if (find_err) {
-				get_cb(find_err)
-				return;
-			};
+            if (find_err) {
+                get_cb(find_err);
+                return;
+            }
 
-			get_cb(null, result);
-		});
-	});
-}
+            get_cb(null, result);
+        });
+    });
+};
 
 store.objectId = function (id) {
-	var BSON = mongodb.BSONPure;
-	var o_id;
+    var BSON = mongodb.BSONPure;
+    var o_id;
 
-	try {
-		o_id = new BSON.ObjectID(id.toString());
-	}
-	catch(e) {
-	}
+    try {
+        o_id = new BSON.ObjectID(id.toString());
+    }
+    catch (e) {
+    }
 
-	return o_id;
-}
+    return o_id;
+};
 
-store.findOneById = function(collectionName, id, get_cb) {
-	store(collectionName, function(err, collection, db) {
+store.findOneById = function (collectionName, id, get_cb) {
+    store(collectionName, function (err, collection, db) {
 
-		if (err) { 
-			get_cb(err); 
-			return; 
-		}
+        if (err) {
+            get_cb(err);
+            return;
+        }
 
-		collection.findOne({ _id: store.objectId(id) }, function(find_err, result) {
-			tryCloseConnection(db);
-			get_cb(find_err, result);
-		});
-	});
-}
+        collection.findOne({ _id: store.objectId(id) }, function (find_err, result) {
+            tryCloseConnection(db);
+            get_cb(find_err, result);
+        });
+    });
+};
 
-store.find = function(collectionName, selector, get_cb) {
-	if (typeof selector == 'function') {
-		//then selector is the callback and there is no selector.
-		get_cb = selector;
-		selector = null;
-	};
+store.find = function (collectionName, selector, get_cb) {
+    if (typeof selector == 'function') {
+        //then selector is the callback and there is no selector.
+        get_cb = selector;
+        selector = null;
+    }
 
+    store(collectionName, function (err, collection, db) {
 
-	store(collectionName, function(err, collection, db) {
+        if (err) {
+            get_cb(err);
+            return;
+        }
 
-		if (err) { 
-			get_cb(err); 
-			return; 
-		}
+        collection.find(selector).toArray(function (find_err, result) {
+            tryCloseConnection(db);
+            get_cb(find_err, result);
+        });
+    });
+};
 
-		collection.find(selector).toArray(function(find_err, result) {
-			tryCloseConnection(db);
-			get_cb(find_err, result);
-		});
-	});
-}
+store.removeById = function (collectionName, id, remove_cb) {
+    store(collectionName, function (err, collection, db) {
+        if (err) {
+            remove_cb(err);
+            return;
+        }
 
-store.removeById = function(collectionName, id, remove_cb) {
-	store(collectionName, function(err, collection, db) {
-
-		if (err) { 
-			remove_cb(err); 
-			return; 
-		}
-
-		collection.remove({ _id: store.objectId(id) }, function(find_err, numberOfRemovedDocs) {
-			tryCloseConnection(db);
-			remove_cb(find_err, numberOfRemovedDocs);
-		});
-	});
-}
+        collection.remove({ _id: store.objectId(id) }, function (find_err, numberOfRemovedDocs) {
+            tryCloseConnection(db);
+            remove_cb(find_err, numberOfRemovedDocs);
+        });
+    });
+};
 
 var tryCloseConnection = function (db) {
-	try {
-		db.close();
-	}
-	catch(e){
-	}
-}
+    try {
+        db.close();
+    }
+    catch (e) {
+    }
+};

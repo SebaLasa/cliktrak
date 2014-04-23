@@ -1,29 +1,29 @@
-module.exports = function(error, req, res, next) {
-	status = error.status || 500;
-	var msg = error.message || 'Unknown error';
+module.exports = function (error, req, res, next) {
+    status = error.status || 500;
+    var msg = error.message || 'Unknown error';
 
-	if (status == 500) {
-		if (app.config.mode == 'dev') {
-			console.log(error);
-		};
-		
-		app.log.error(error, function (err, traceId) {
-			var info  = {};
+    if (status == 500) {
+        if (app.config.mode == 'dev') {
+            console.log(error);
+        }
 
-			info.message = 	error.message || 'Unknown error';
+        app.log.error(error, function (err, traceId) {
+            var info = {};
 
-			if (traceId) {
-				info.traceId = traceId;
-			};
+            info.message = error.message || 'Unknown error';
 
-			res.json(status, info);
-		});
+            if (traceId) {
+                info.traceId = traceId;
+            }
 
-		return;
-	}
+            res.json(status, info);
+        });
 
-	var info = error.data || {};
-	info.message = msg;
+        return;
+    }
 
-	res.json(status, info);
-}
+    var info = error.data || {};
+    info.message = msg;
+
+    res.json(status, info);
+};

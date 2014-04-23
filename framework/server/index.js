@@ -72,4 +72,4 @@ server.start = function () {
     api.listen(api.get('port'), function () {
         console.log(app.config.info.title + ' started at port ' + api.get('port'));
     });
-}
+};
