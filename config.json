@@ -6,7 +6,8 @@
     "server": {
         "port": 3000
     },
-    "connectionString": "mongodb://crash:Clicks123@oceanic.mongohq.com:10031/clicks?safe=true",
+    "connectionString": "mongodb://127.0.0.1/clicks?safe=true",
+    "//": "mongodb://crash:Clicks123@oceanic.mongohq.com:10031/clicks?safe=true",
     "auth": {
         "loginPage": "/sign-in",
         "masterKey": "pass"

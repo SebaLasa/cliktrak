@@ -1,6 +1,6 @@
 // abc application system framework 0.1
-var fs = require('fs'),
-    colors = require('colors');
+require('colors');
+var fs = require('fs');
 
 // Extensions
 require('./extensions/errorExtensions');
@@ -44,8 +44,7 @@ app.start = function () {
 var readConfig = function (cb) {
     fs.readFile('./config.json', function (err, data) {
         if (err) {
-            cb('Missing config.json file.');
-            return;
+            return cb('Missing config.json file.');
         }
 
         try {
@@ -55,4 +54,3 @@ var readConfig = function (cb) {
         }
     });
 };
-
