@@ -4,7 +4,6 @@ var fs = require('fs');
 
 // Extensions
 require('./extensions/errorExtensions');
-require('./extensions/stringExtensions');
 
 global.app = { version: 0.1 };
 
