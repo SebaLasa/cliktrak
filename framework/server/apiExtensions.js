@@ -63,7 +63,6 @@ module.exports = function (api) {
                         return res.redirect(app.config.auth.loginPage);
                     }
                 }
-
                 return handler(req, res, next);
             }
 

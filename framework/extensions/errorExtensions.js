@@ -8,7 +8,6 @@ Error.create = function (msg, data, inner) {
 
     err.data = data;
     err.when = new Date();
-
     return err;
 };
 
@@ -29,7 +28,6 @@ Error.http = function (code, msg, data, inner) {
 };
 
 Error.toJson = function (err) {
-
     if (typeof(err) === 'string') return { message: err};
 
     var info = {};
@@ -44,7 +42,6 @@ Error.toJson = function (err) {
             info[prop] = (value instanceof Error) ? Error.toJson(value) : value;
         }
     }
-
     return info;
 };
 

@@ -19,6 +19,7 @@
         "mongoose": "3.8.x",
         "node-uuid": "1.4.x",
         "underscore": "1.6.x",
+        "underscore.string": "2.x",
         "async": "0.7.x"
     }
 }
