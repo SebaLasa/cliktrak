@@ -6,19 +6,19 @@
         "start": "node server.js"
     },
     "dependencies": {
-        "express": "4.0.x",
+        "express": "4.x",
         "static-favicon": "1.x",
         "morgan": "1.x",
         "cookie-parser": "1.x",
         "body-parser": "1.x",
-        "colors": "0.6.x",
-        "debug": "0.7.x",
-        "justhtml": "0.0.x",
-        "nodemailer": "0.6.x",
-        "mongodb": "1.4.x",
-        "mongoose": "3.8.x",
-        "node-uuid": "1.4.x",
-        "underscore": "1.6.x",
+        "colors": "0.x",
+        "debug": "0.x",
+        "justhtml": "0.x",
+        "nodemailer": "0.x",
+        "mongodb": "1.x",
+        "mongoose": "3.x",
+        "node-uuid": "1.x",
+        "underscore": "1.x",
         "underscore.string": "2.x",
         "async": "0.7.x"
     }
