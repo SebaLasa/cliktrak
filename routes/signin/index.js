@@ -7,7 +7,7 @@ var public = app.api.public,
 
 var passwordResetEmail = require('./passwordResetEmail');
 
-module.exports.init = function () {
+module.exports = function () {
     public.get('/signin', function (req, res, next) {
         res.render('signin');
     });

@@ -19,7 +19,7 @@
         "mongodb": "1.x",
         "mongoose": "3.x",
         "node-uuid": "1.x",
-        "underscore": "1.x",
+        "lodash": "^2.4.1",
         "underscore.string": "2.x",
         "async": "^0.7.x"
     }

@@ -1,8 +1,8 @@
 var fs = require('fs'),
     async = require('async'),
-    _ = require('underscore');
+    _ = require('lodash');
 
-module.exports.init = function () {
+module.exports = function () {
     var api = app.api;
 
     var ignoreList = ['.DS_Store'];
@@ -131,6 +131,6 @@ function loadModules() {
 
     modules.forEach(function (e) {
         console.log('Loading module ' + e + '...');
-        require('./' + e).init();
+        require('./' + e)();
     });
 }

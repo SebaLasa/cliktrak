@@ -10,7 +10,7 @@ var justhtml = require('justhtml'),
     path = require('path');
 
 var errorHandler = require('./errorHandler');
-var apiExtensions = require('./apiExtensions');
+var routeHandler = require('./routeHandler');
 
 var server = module.exports;
 
@@ -32,11 +32,11 @@ server.start = function () {
     api.use(cookieSession({ secret: 'MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG=' }));
     api.use(express.static(path.join(__dirname, '../../public')));
 
-    // App Extensions
-    apiExtensions(api);
+    // App route handler (private and public api)
+    routeHandler(api);
 
     // Load Modules
-    require('../../api/').init();
+    require('../../routes/')();
 
     // Errors
     api.use(errorHandler);
