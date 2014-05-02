@@ -30,7 +30,7 @@ server.start = function () {
     api.use(bodyParser.urlencoded());
     api.use(cookieParser('MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG='));
     api.use(cookieSession({ secret: 'MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG=' }));
-    api.use(express.static(path.join(__dirname, 'public')));
+    api.use(express.static(path.join(__dirname, '../../public')));
 
     // App Extensions
     apiExtensions(api);
