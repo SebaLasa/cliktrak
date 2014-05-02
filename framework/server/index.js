@@ -1,11 +1,13 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('static-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+// express modules
+var express = require('express'),
+    favicon = require('static-favicon'),
+    logger = require('morgan'),
+    bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
+    cookieSession = require('cookie-session');
 
-var justhtml = require('justhtml');
+var justhtml = require('justhtml'),
+    path = require('path');
 
 var errorHandler = require('./errorHandler');
 var apiExtensions = require('./apiExtensions');
@@ -27,6 +29,7 @@ server.start = function () {
     api.use(bodyParser.json());
     api.use(bodyParser.urlencoded());
     api.use(cookieParser('MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG='));
+    api.use(cookieSession({ secret: 'MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG=' }));
     api.use(express.static(path.join(__dirname, 'public')));
 
     // App Extensions

@@ -1,5 +1,5 @@
 module.exports = function (error, req, res, next) {
-    status = error.status || 500;
+    var status = error.status || 500;
     var msg = error.message || 'Unknown error';
 
     if (status == 500) {
@@ -7,10 +7,8 @@ module.exports = function (error, req, res, next) {
             console.log(error);
         }
 
-        app.log.error(error, function (err, traceId) {
-            var info = {};
-
-            info.message = error.message || 'Unknown error';
+        return app.log.error(error, function (err, traceId) {
+            var info = { message: error.message || 'Unknown error' };
 
             if (traceId) {
                 info.traceId = traceId;
@@ -18,12 +16,9 @@ module.exports = function (error, req, res, next) {
 
             res.json(status, info);
         });
-
-        return;
     }
 
     var info = error.data || {};
     info.message = msg;
-
     res.json(status, info);
 };

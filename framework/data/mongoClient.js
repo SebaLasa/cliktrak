@@ -5,8 +5,7 @@ module.exports = store = function (collectionName, cb) {
 
         if (err_db) {
             tryCloseConnection(db);
-            cb(err_db);
-            return;
+            return cb(err_db);
         }
 
         db.collection(collectionName, function (err_collection, collection) {
@@ -28,8 +27,7 @@ store.add = function (collectionName, doc, add_cb) {
 
         if (err) {
             tryCloseConnection(db);
-            add_cb(err);
-            return;
+            return add_cb(err);
         }
 
         if (doc.id && doc.id != 0) {
@@ -40,8 +38,7 @@ store.add = function (collectionName, doc, add_cb) {
             tryCloseConnection(db);
 
             if (err_insert || !result) {
-                add_cb(err_insert, result);
-                return;
+                return add_cb(err_insert, result);
             }
 
             add_cb(err, result[0])
@@ -53,8 +50,7 @@ store.update = function (collectionName, doc, update_cb) {
     store(collectionName, function (err, collection, db) {
 
         if (err) {
-            update_cb(err);
-            return;
+            return update_cb(err);
         }
 
         if (doc.id && doc.id != 0) {
@@ -89,16 +85,14 @@ store.findOne = function (collectionName, selector, get_cb) {
     store(collectionName, function (err, collection, db) {
 
         if (err) {
-            get_cb(err);
-            return;
+            return get_cb(err);
         }
 
         collection.findOne(selector, function (find_err, result) {
             tryCloseConnection(db);
 
             if (find_err) {
-                get_cb(find_err);
-                return;
+                return get_cb(find_err);
             }
 
             get_cb(null, result);
@@ -123,8 +117,7 @@ store.findOneById = function (collectionName, id, get_cb) {
     store(collectionName, function (err, collection, db) {
 
         if (err) {
-            get_cb(err);
-            return;
+            return get_cb(err);
         }
 
         collection.findOne({ _id: store.objectId(id) }, function (find_err, result) {
@@ -142,10 +135,8 @@ store.find = function (collectionName, selector, get_cb) {
     }
 
     store(collectionName, function (err, collection, db) {
-
         if (err) {
-            get_cb(err);
-            return;
+            return get_cb(err);
         }
 
         collection.find(selector).toArray(function (find_err, result) {
@@ -158,8 +149,7 @@ store.find = function (collectionName, selector, get_cb) {
 store.removeById = function (collectionName, id, remove_cb) {
     store(collectionName, function (err, collection, db) {
         if (err) {
-            remove_cb(err);
-            return;
+            return remove_cb(err);
         }
 
         collection.remove({ _id: store.objectId(id) }, function (find_err, numberOfRemovedDocs) {

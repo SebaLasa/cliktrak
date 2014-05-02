@@ -15,7 +15,7 @@ module.exports.send = function (info) {
 
     // setup e-mail data with unicode symbols
     var mailOptions = {
-        from: "Latin Medios - Dashboard <" + app.config.email.user + ">", // sender address
+        from: "ClikTrak - Dashboard <" + app.config.email.user + ">", // sender address
         to: info.to,
         subject: "Password Reset"
     };

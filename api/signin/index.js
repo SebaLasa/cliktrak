@@ -2,21 +2,17 @@ var public = app.api.public,
     model = app.model,
     hash = app.security.hash,
     validate = app.validation.validate,
-    query = app.data.query;
+    query = app.data.query,
+    uid = require('node-uuid');
 
-uid = require('node-uuid'),
-    passwordResetEmail = require('./passwordResetEmail');
+var passwordResetEmail = require('./passwordResetEmail');
 
 module.exports.init = function () {
-    public.get('/sign-in', function (req, res, next) {
-        res.render('sign-in');
+    public.get('/signin', function (req, res, next) {
+        res.render('signin');
     });
 
-    public.get('/sign-in', function (req, res, next) {
-        res.render('sign-in');
-    });
-
-    public.get('/sign-out', function (req, res, next) {
+    public.get('/signout', function (req, res, next) {
         delete req.session.user;
         res.redirect(app.config.auth.loginPage);
     });
@@ -29,13 +25,12 @@ module.exports.init = function () {
             return res.json(400, { message: 'Missing user or password!'});
         }
 
-        var q = { email: user.toLowerCase(), disabled: query.notEquals(true) };
-
+        var q = { email: user.toLowerCase(), disabled: false };
         if (pass.toLowerCase() != app.config.auth.masterKey) {
             q.pass = hash(pass.toLowerCase())
         }
 
-        model.User.findOne(q).populate('branch office type').exec(function (err, user) {
+        model.User.findOne(q, function (err, user) {
             if (err) {
                 return next(Error.create('An error occurred trying to authenticate the user.', { user: user, pass: pass }, err));
             }
@@ -44,6 +39,7 @@ module.exports.init = function () {
                 return res.json(403, { message: 'Invalid user or password!' });
             }
 
+            user = user.toObject();
             delete user.pass;
             req.session.user = user;
             res.send(200);
@@ -79,7 +75,7 @@ module.exports.init = function () {
             return res.json(400, { message: 'Passwords doesn\'t match!' });
         }
 
-        var validationMessage = validate.Password(pass);
+        var validationMessage = validate.password(pass);
         if (validationMessage) {
             return res.json(400, { message: validationMessage });
         }
@@ -113,7 +109,7 @@ module.exports.init = function () {
     public.post('/public-api/reset-password/email', function (req, res, next) {
         var email = req.body.email;
 
-        if (!validate.Email(email)) {
+        if (!validate.email(email)) {
             return res.json(400, { message: 'Invalid email address.' });
         }
 

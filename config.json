@@ -9,7 +9,7 @@
     "connectionString": "mongodb://127.0.0.1/clicks?safe=true",
     "//": "mongodb://crash:Clicks123@oceanic.mongohq.com:10031/clicks?safe=true",
     "auth": {
-        "loginPage": "/sign-in",
+        "loginPage": "/signin",
         "masterKey": "pass"
     },
     "email": {
