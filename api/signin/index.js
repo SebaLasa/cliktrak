@@ -18,21 +18,21 @@ module.exports.init = function () {
     });
 
     public.post('/public-api/sign-in', function (req, res, next) {
-        var user = req.body.user;
-        var pass = req.body.pass;
+        var email = req.body.email,
+            password = req.body.password;
 
-        if (!user || !pass) {
+        if (!email || !password) {
             return res.json(400, { message: 'Missing user or password!'});
         }
 
-        var q = { email: user.toLowerCase(), disabled: false };
-        if (pass.toLowerCase() != app.config.auth.masterKey) {
-            q.pass = hash(pass.toLowerCase())
+        var q = { email: email.toLowerCase(), enabled: true };
+        if (password.toLowerCase() != app.config.auth.masterKey) {
+            q.password = hash(req.body.password.toLowerCase())
         }
 
         model.User.findOne(q, function (err, user) {
             if (err) {
-                return next(Error.create('An error occurred trying to authenticate the user.', { user: user, pass: pass }, err));
+                return next(Error.create('An error occurred trying to authenticate the user.', { email: email, pass: password }, err));
             }
 
             if (!user) {

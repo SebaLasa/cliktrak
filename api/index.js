@@ -1,5 +1,6 @@
 var fs = require('fs'),
-    async = require('async');
+    async = require('async'),
+    _ = require('underscore');
 
 module.exports.init = function () {
     var api = app.api;
@@ -53,7 +54,7 @@ module.exports.init = function () {
                         });
 
                         // 4. Controls
-                        fs.readdir('./client-side/controls', function (err, files) {
+                        fs.readdir('./public/controls', function (err, files) {
                             if (err) {
                                 return next(Error.create('An error occurred trying to load the controls.', null, err));
                             }
@@ -76,7 +77,7 @@ module.exports.init = function () {
                                     return !_.contains(f, '.js');
                                 }).map(function (f) {
                                     return function (finish) {
-                                        fs.readdir('./client-side/controllers/' + f, function (err, files) {
+                                        fs.readdir('./public/controllers/' + f, function (err, files) {
                                             if (!files || err) {
                                                 return finish(err);
                                             }
