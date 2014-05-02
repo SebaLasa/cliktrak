@@ -2,7 +2,6 @@ var nodemailer = require('nodemailer');
 var fs = require('fs');
 
 module.exports.send = function (info) {
-
     var smtpTransport = nodemailer.createTransport("SMTP", {
         host: app.config.email.server, // hostname
         secureConnection: app.config.email.useSSL, // use SSL
@@ -24,7 +23,8 @@ module.exports.send = function (info) {
 
         var link = '<a href="' + info.link + '">' + info.link + '</a>';
 
-        mailOptions.html = data.toString().replace('{{userName}}', info.name)
+        mailOptions.html = data.toString()
+            .replace('{{userName}}', info.name)
             .replace('{{link}}', link);
 
         // send mail with defined transport object

@@ -5,18 +5,9 @@ var public = app.api.public,
     query = app.data.query,
     uid = require('node-uuid');
 
-var passwordResetEmail = require('./passwordResetEmail');
+var passwordResetEmail = require('./../../core/services/passwordResetEmail.js');
 
 module.exports = function () {
-    public.get('/signin', function (req, res, next) {
-        res.render('signin');
-    });
-
-    public.get('/signout', function (req, res, next) {
-        delete req.session.user;
-        res.redirect(app.config.auth.loginPage);
-    });
-
     public.post('/public-api/sign-in', function (req, res, next) {
         var email = req.body.email,
             password = req.body.password;
@@ -34,11 +25,9 @@ module.exports = function () {
             if (err) {
                 return next(Error.create('An error occurred trying to authenticate the user.', { email: email, pass: password }, err));
             }
-
             if (!user) {
                 return res.json(403, { message: 'Invalid user or password!' });
             }
-
             user = user.toObject();
             delete user.pass;
             req.session.user = user;

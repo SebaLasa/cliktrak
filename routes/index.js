@@ -1,11 +1,20 @@
-var fs = require('fs'),
+var api = app.api,
+    fs = require('fs'),
+    path = require('path'),
     async = require('async'),
     _ = require('lodash');
 
 module.exports = function () {
-    var api = app.api;
-
     var ignoreList = ['.DS_Store'];
+
+    api.public.get('/signin', function (req, res, next) {
+        res.render('signin');
+    });
+
+    api.public.get('/signout', function (req, res, next) {
+        delete req.session.user;
+        res.redirect(app.config.auth.loginPage);
+    });
 
     api.private.get('/', function (req, res, next) {
         fs.readFile('./public/views/index.html', function (err, data) {
@@ -119,18 +128,20 @@ module.exports = function () {
         });
     });
 
-    loadModules();
+    console.log('Loading module public-api...');
+    require('./public-api')();
+    loadModules('./routes/api');
 };
 
-function loadModules() {
+function loadModules(folder) {
     // Loading modules dynamically
-    var modules = fs.readdirSync('./api')
+    var modules = fs.readdirSync(folder)
         .filter(function (e) {
             return e.indexOf('.') == -1 && e.indexOf("api.") == -1;
         });
 
     modules.forEach(function (e) {
         console.log('Loading module ' + e + '...');
-        require('./' + e)();
+        require(path.join('./api', e))();
     });
 }
