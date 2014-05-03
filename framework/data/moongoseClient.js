@@ -1,13 +1,13 @@
-var mongo = require('mongoose');
+var mongoose = require('mongoose');
 
 module.exports.connect = function (cs, cb) {
-    mongo.connection.on('error', function () {
+    mongoose.connection.on('error', function () {
         cb('Error connecting DB!');
     });
 
-    mongo.connection.once('open', function () {
-        cb(null, mongo.connection);
+    mongoose.connection.once('open', function () {
+        cb(null, mongoose.connection);
     });
 
-    mongo.connect(cs);
+    mongoose.connect(cs);
 };

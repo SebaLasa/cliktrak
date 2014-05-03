@@ -19,7 +19,7 @@ Defines the entities of the application, these are objects not defined by its at
 The business logic should be placed in this module.
 
 ## services
-When an operation does not conceptually belong to any object. Following the natural contours of the problem, you can implement these operations in services
+When an operation does not conceptually belong to any object. Following the natural contours of the problem, you can implement these operations in services.
 
 ## routes
 Handles the HTTP requests.

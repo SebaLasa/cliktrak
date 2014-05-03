@@ -24,7 +24,7 @@ app.start = function () {
         // 1. Add Config
         app.config = config;
 
-        // 2. Setup mongo client
+        // 2. Setup mongoose client
         app.data.mongoClient.connectionString = config.connectionString;
 
         // 3. Connecting Model Database
