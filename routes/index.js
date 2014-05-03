@@ -142,6 +142,6 @@ function loadModules(folder) {
 
     modules.forEach(function (e) {
         console.log('Loading module ' + e + '...');
-        require(path.join('./api', e))();
+        require('./api/' + e)();
     });
 }
