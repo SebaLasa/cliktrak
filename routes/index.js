@@ -4,27 +4,9 @@ var express = require('express'),
     async = require('async'),
     _ = require('lodash');
 
-module.exports.loadPublic = function (router) {
-    router.get('/', function (req, res, next) {
-        res.render('index');
-    });
-
-    router.get('/signin', function (req, res, next) {
-        res.render('signin');
-    });
-
-    router.get('/signout', function (req, res, next) {
-        delete req.session.user;
-        res.redirect(app.config.auth.loginPage);
-    });
-
-    console.log('Loading public-api...');
-    router.use('/public-api', require('./public-api')(express.Router()));
-};
-
-module.exports.loadPrivate = function (router) {
+module.exports = function (router) {
     var ignoreList = ['.DS_Store'];
-    router.get('/back', function (req, res, next) {
+    router.get('/back', app.security.authenticate(), function (req, res, next) {
         fs.readFile('./public/views/back.html', function (err, data) {
             if (err) {
                 return next(Error.create('An error occurred trying load the dashboard', null, err));
@@ -136,5 +118,25 @@ module.exports.loadPrivate = function (router) {
         });
     });
 
-    router.use('/api', require('./api')(express.Router()));
+    router.get('/', function (req, res, next) {
+        res.render('index');
+    });
+
+    router.get('/signin', function (req, res, next) {
+        res.render('signin');
+    });
+
+    router.get('/signout', function (req, res, next) {
+        delete req.session.user;
+        res.redirect(app.config.auth.loginPage);
+    });
+
+    console.log('Loading public-api...');
+    router.use('/public-api', require('./public-api')(express.Router()));
+
+    router.use('/api',
+        require('./api')(express.Router()
+                .use(app.security.authenticate())
+                .use(require('./companyMiddleware.js')())
+        ));
 };

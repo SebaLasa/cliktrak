@@ -4,12 +4,12 @@ module.exports = function (loginPage) {
             req.user = req.session.user;
             return next();
         }
-        console.log('User not authenticated'.red);
-        // Not Authenticated
+
+        debug('User not authenticated'.red);
         if (req.xhr) {
             // If ajax.
             return res.json(403, { message: 'You don\'t have a session opened'});
         }
-        res.redirect(loginPage);
+        res.redirect(loginPage || app.config.auth.loginPage);
     };
 };

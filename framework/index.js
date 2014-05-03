@@ -49,7 +49,7 @@ var readConfig = function (cb) {
         try {
             cb(null, JSON.parse(data.toString()));
         } catch (e) {
-            cb(' Error reading config.json file: ' + e.message);
+            cb('Error reading config.json file: ' + e.message);
         }
     });
 };

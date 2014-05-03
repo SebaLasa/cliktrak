@@ -10,7 +10,6 @@ var justhtml = require('justhtml'),
     path = require('path');
 
 var errorHandler = require('./errorHandler');
-var routes = require('../../routes/');
 
 var server = module.exports;
 
@@ -33,12 +32,7 @@ server.start = function () {
     api.use(cookieParser('MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG='));
     api.use(cookieSession({ secret: 'MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG=' }));
 
-
-    routes.loadPublic(api);
-
-    api.use(app.security.authenticate(app.config.auth.loginPage));
-
-    routes.loadPrivate(api);
+    require('../../routes/')(api);
 
     // Errors
     api.use(errorHandler);

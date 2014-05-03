@@ -1,6 +1,7 @@
 module.exports = function (permission) {
     return function (req, res, next) {
         if (permission && req.user.permissions.indexOf(permission) == -1) {
+            debug('User has no permission'.red);
             if (req.xhr) {
                 // If ajax.
                 return res.json(403, { message: 'You don\'t have permission to perform this action.'});
