@@ -1,3 +1,3 @@
-require('./framework');
+require('./toolkit');
 
 app.start();
