@@ -11,7 +11,7 @@ app.controller('signinController', function ($scope, $http) {
         $http.post('/public-api/sign-in', { email: $scope.email, password: $scope.password })
             .success(function (data, status) {
                 $scope.working = false;
-                window.location = '/';
+                window.location = '/back';
             })
             .error(function (data, status) {
                 $scope.errorMessage = data.message;

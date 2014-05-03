@@ -1,23 +1,31 @@
-var api = app.api,
+var express = require('express'),
     fs = require('fs'),
     path = require('path'),
     async = require('async'),
     _ = require('lodash');
 
-module.exports = function () {
-    var ignoreList = ['.DS_Store'];
+module.exports.loadPublic = function (router) {
+    router.get('/', function (req, res, next) {
+        res.render('index');
+    });
 
-    api.public.get('/signin', function (req, res, next) {
+    router.get('/signin', function (req, res, next) {
         res.render('signin');
     });
 
-    api.public.get('/signout', function (req, res, next) {
+    router.get('/signout', function (req, res, next) {
         delete req.session.user;
         res.redirect(app.config.auth.loginPage);
     });
 
-    api.private.get('/', function (req, res, next) {
-        fs.readFile('./public/views/index.html', function (err, data) {
+    console.log('Loading public-api...');
+    router.use('/public-api', require('./public-api')(express.Router()));
+};
+
+module.exports.loadPrivate = function (router) {
+    var ignoreList = ['.DS_Store'];
+    router.get('/back', function (req, res, next) {
+        fs.readFile('./public/views/back.html', function (err, data) {
             if (err) {
                 return next(Error.create('An error occurred trying load the dashboard', null, err));
             }
@@ -128,20 +136,5 @@ module.exports = function () {
         });
     });
 
-    console.log('Loading module public-api...');
-    require('./public-api')(app.Router());
-    loadModules('./routes/api');
+    router.use('/api', require('./api')(express.Router()));
 };
-
-function loadModules(folder) {
-    // Loading modules dynamically
-    var modules = fs.readdirSync(folder)
-        .filter(function (e) {
-            return e.indexOf('.') == -1 && e.indexOf("api.") == -1;
-        });
-
-    modules.forEach(function (e) {
-        console.log('Loading module ' + e + '...');
-        require('./api/' + e)(app.api.private);
-    });
-}

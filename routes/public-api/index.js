@@ -7,7 +7,7 @@ var model = app.model,
 var passwordResetEmail = require('../../services/passwordResetEmail.js');
 
 module.exports = function (router) {
-    router.post('/public-api/sign-in', function (req, res, next) {
+    router.post('/sign-in', function (req, res, next) {
         var email = req.body.email,
             password = req.body.password;
 
@@ -34,7 +34,7 @@ module.exports = function (router) {
         });
     });
 
-    router.get('/public-api/reset-password/:id', function (req, res, next) {
+    router.get('/reset-password/:id', function (req, res, next) {
         var regId = req.params.id;
         if (!regId) {
             return res.json(400, { message: 'Invalid registration Id!'});
@@ -51,7 +51,7 @@ module.exports = function (router) {
         });
     });
 
-    router.post('/public-api/reset-password', function (req, res, next) {
+    router.post('/reset-password', function (req, res, next) {
         var regId = req.body.registrationId;
         var pass = req.body.pass;
         var pass2 = req.body.pass2;
@@ -94,7 +94,7 @@ module.exports = function (router) {
         })
     });
 
-    router.post('/public-api/reset-password/email', function (req, res, next) {
+    router.post('/reset-password/email', function (req, res, next) {
         var email = req.body.email;
 
         if (!validate.email(email)) {
@@ -128,5 +128,6 @@ module.exports = function (router) {
                 res.send(200);
             });
         });
-    })
+    });
+    return router;
 };

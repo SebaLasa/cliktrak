@@ -10,7 +10,7 @@ var justhtml = require('justhtml'),
     path = require('path');
 
 var errorHandler = require('./errorHandler');
-var routeHandler = require('./routeHandler');
+var routes = require('../../routes/');
 
 var server = module.exports;
 
@@ -25,19 +25,20 @@ server.start = function () {
     api.set('view engine', 'html');
 
     api.use(favicon());
+    api.use(express.static(path.join(__dirname, '../../bower_components')));
+    api.use(express.static(path.join(__dirname, '../../public')));
     api.use(logger('dev'));
     api.use(bodyParser.json());
     api.use(bodyParser.urlencoded());
     api.use(cookieParser('MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG='));
     api.use(cookieSession({ secret: 'MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG=' }));
-    api.use(express.static(path.join(__dirname, '../../bower_components')));
-    api.use(express.static(path.join(__dirname, '../../public')));
 
-    // App route handler (private and public api)
-    routeHandler(api);
 
-    // Load Modules
-    require('../../routes/')();
+    routes.loadPublic(api);
+
+    api.use(app.security.authenticate(app.config.auth.loginPage));
+
+    routes.loadPrivate(api);
 
     // Errors
     api.use(errorHandler);
