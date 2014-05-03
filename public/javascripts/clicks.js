@@ -1,5 +1,5 @@
 var app = angular.module('clicks', ['ngRoute', 'ui.tinymce']);
-app.config(function ($routeProvider) {
+app.config(function ($routeProvider, $httpProvider) {
     $routeProvider
         .when('/', {
             controller: 'homeController',
@@ -18,4 +18,11 @@ app.config(function ($routeProvider) {
             templateUrl: '/views/layouts/editor.html'
         })
         .otherwise({ redirectTo: '/' });
+
+    // Interceptors
+    $httpProvider.responseInterceptors.push('httpInterceptor');
+    $httpProvider.defaults.transformRequest.push(function (data, headersGetter) {
+        $('#loading').show();
+        return data;
+    });
 });

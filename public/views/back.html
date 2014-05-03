@@ -19,6 +19,59 @@
 </nav>
 <div ng-view></div>
 
+<!-- Modals -->
+<div id="errorModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Oops!</h3>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="alertModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="alert-title"></h3>
+            </div>
+            <div class="modal-body">
+                <p id="alert-body"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="askModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="ask-title">Dashboard</h3>
+            </div>
+            <div class="modal-body">
+                <p id="ask-body"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="ask-ok" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Continue</button>
+                <button id="ask-cancel" class="btn btn-inverse" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="jquery/dist/jquery.js"></script>
 <script src="bootstrap/dist/js/bootstrap.js"></script>
 <script src="angular/angular.js"></script>
