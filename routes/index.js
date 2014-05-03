@@ -129,7 +129,7 @@ module.exports = function () {
     });
 
     console.log('Loading module public-api...');
-    require('./public-api')();
+    require('./public-api')(app.Router());
     loadModules('./routes/api');
 };
 
@@ -142,6 +142,6 @@ function loadModules(folder) {
 
     modules.forEach(function (e) {
         console.log('Loading module ' + e + '...');
-        require('./api/' + e)();
+        require('./api/' + e)(app.api.private);
     });
 }

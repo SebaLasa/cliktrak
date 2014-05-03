@@ -30,6 +30,7 @@ server.start = function () {
     api.use(bodyParser.urlencoded());
     api.use(cookieParser('MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG='));
     api.use(cookieSession({ secret: 'MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG=' }));
+    api.use(express.static(path.join(__dirname, '../../bower_components')));
     api.use(express.static(path.join(__dirname, '../../public')));
 
     // App route handler (private and public api)
@@ -55,7 +56,7 @@ server.start = function () {
     if (api.get('env') === 'development') {
         api.use(function (err, req, res, next) {
             res.status(err.status || 500);
-            res.render('error', {
+            res.json({
                 message: err.message,
                 error: err
             });

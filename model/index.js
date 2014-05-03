@@ -25,6 +25,8 @@ model.Layout = mongoose.model('Layout', new Schema({
     company: { type: ObjectId, ref: 'Company', required: true },
     editor: { type: ObjectId, ref: 'User', required: true },
     name: { type: String, required: true },
+    footer: { type: String, required: true },
+    footerBackgroundColor: { type: String, required: true },
     deleted: { type: Boolean, required: true, default: false }
 }).plugin(timestamps));
 

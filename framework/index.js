@@ -33,7 +33,7 @@ app.start = function () {
                 return console.log('[Error]'.red + ' Error connecting database: ' + err.message);
             }
 
-            app.model = require('../core/model/index.js');
+            app.model = require('../model/index.js');
 
             app.server.start();
         });

@@ -1,14 +1,13 @@
-var public = app.api.public,
-    model = app.model,
+var model = app.model,
     hash = app.security.hash,
     validate = app.validation.validate,
     query = app.data.query,
     uid = require('node-uuid');
 
-var passwordResetEmail = require('./../../core/services/passwordResetEmail.js');
+var passwordResetEmail = require('../../services/passwordResetEmail.js');
 
-module.exports = function () {
-    public.post('/public-api/sign-in', function (req, res, next) {
+module.exports = function (router) {
+    router.post('/public-api/sign-in', function (req, res, next) {
         var email = req.body.email,
             password = req.body.password;
 
@@ -35,7 +34,7 @@ module.exports = function () {
         });
     });
 
-    public.get('/public-api/reset-password/:id', function (req, res, next) {
+    router.get('/public-api/reset-password/:id', function (req, res, next) {
         var regId = req.params.id;
         if (!regId) {
             return res.json(400, { message: 'Invalid registration Id!'});
@@ -52,7 +51,7 @@ module.exports = function () {
         });
     });
 
-    public.post('/public-api/reset-password', function (req, res, next) {
+    router.post('/public-api/reset-password', function (req, res, next) {
         var regId = req.body.registrationId;
         var pass = req.body.pass;
         var pass2 = req.body.pass2;
@@ -95,7 +94,7 @@ module.exports = function () {
         })
     });
 
-    public.post('/public-api/reset-password/email', function (req, res, next) {
+    router.post('/public-api/reset-password/email', function (req, res, next) {
         var email = req.body.email;
 
         if (!validate.email(email)) {

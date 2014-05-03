@@ -1,4 +1,4 @@
-var app = angular.module('clicks', ['ngRoute']);
+var app = angular.module('clicks', ['ngRoute', 'ui.tinymce']);
 app.config(function ($routeProvider) {
     $routeProvider
         .when('/', {
