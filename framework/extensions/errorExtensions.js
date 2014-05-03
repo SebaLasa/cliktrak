@@ -45,8 +45,7 @@ Error.toJson = function (err) {
     return info;
 };
 
-
-var statusCodes = {
+Error.http.code = {
     "400": "Bad Request",
     "401": "Unauthorized",
     "402": "Payment Required",

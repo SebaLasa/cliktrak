@@ -24,9 +24,14 @@ server.start = function () {
     api.set('view engine', 'html');
 
     api.use(favicon());
+
+    // javascripts and css libraries loaded using Bower.
     api.use(express.static(path.join(__dirname, '../../bower_components')));
     api.use(express.static(path.join(__dirname, '../../public')));
-    api.use(logger('dev'));
+
+    if (api.get('env') === 'development') {
+        api.use(logger('dev'));
+    }
     api.use(bodyParser.json());
     api.use(bodyParser.urlencoded());
     api.use(cookieParser('MIIL9AYJKoZIhvcNAQcCoIIL5TCCC+ECAQExADALBgkqhkiG='));
