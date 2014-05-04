@@ -40,3 +40,16 @@ model.Page = mongoose.model('Page', new Schema({
     enabled: { type: Boolean, required: true, default: true },
     deleted: { type: Boolean, required: true, default: false }
 }).plugin(timestamps));
+
+loadModelExtensions('./model', model);
+
+function loadModelExtensions(folder, model) {
+    // Loading entities dynamically
+    require('fs').readdirSync(folder)
+        .filter(function (e) {
+            return e.indexOf("index.js") == -1;
+        }).forEach(function (entity) {
+            console.log('Loading', entity, 'entity...');
+            require('./' + entity)(model);
+        });
+}
