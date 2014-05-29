@@ -1,4 +1,4 @@
-# nodejs-template
+# ClikTrak
 The ClikTrak app uses Express, AngularJS and Mongoose. The client side libraries are managed by Bower and the view engine is justhtmlm the render is processed in the client side powered by AngularJS.
 
 ## setting dev environment
