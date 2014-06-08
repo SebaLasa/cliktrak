@@ -22,6 +22,6 @@
         "node-uuid": "1.x",
         "lodash": "^2.4.1",
         "underscore.string": "2.x",
-        "async": "^0.7.x"
+        "async": "^0.9.x"
     }
 }
