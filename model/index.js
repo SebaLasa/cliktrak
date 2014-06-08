@@ -18,24 +18,25 @@ model.User = mongoose.model('users', new Schema({
     email: { type: String, required: true },
     name: { type: String, required: true },
     password: { type: String, required: true },
-    enabled: { type: Boolean, required: true, default: true }
+    enabled: { type: Boolean, required: true, default: true },
+    deleted: { type: Boolean, required: true, default: false }
 }));
 
 model.Menu = mongoose.model('menus', new Schema({
     company: { type: ObjectId, ref: 'companies', required: true },
     name: { type: String, required: true },
-    enabled: { type: Boolean, required: true, default: false }
+    enabled: { type: Boolean, required: true, default: true },
+    deleted: { type: Boolean, required: true, default: false },
+    items: [{
+        name: { type: String, required: true },
+        tooltip: { type: String },
+        page: { type: ObjectId, ref: 'pages' },
+        customPage: { type: ObjectId, ref: 'customPages' },
+        url: { type: String },
+        ordinal: { type: Number },
+        deleted: { type: Boolean, required: true, default: false }
+    }]
 }).plugin(timestamps));
-
-model.MenuItem = mongoose.model('menuItems', new Schema({
-    name: { type: String, required: true },
-    tooltip: { type: String },
-    page: { type: ObjectId, ref: 'pages' },
-    customPage: { type: ObjectId, ref: 'customPages' },
-    url: { type: String },
-    ordinal: { type: Number },
-    deleted: { type: Boolean, required: true, default: false }
-}));
 
 model.Layout = mongoose.model('layouts', new Schema({
     company: { type: ObjectId, ref: 'companies', required: true },
@@ -64,6 +65,8 @@ model.CustomPage = mongoose.model('customPages', new Schema({
     urlConfiguration: { type: ObjectId, ref: 'urlConfigurations' },
     name: { type: String, required: true },
     internalId: { type: Number, required: true },
+    dateStart: { type: Date, required: true },
+    dateEnd: { type: Date, required: true },
     deleted: { type: Boolean, required: true, default: false }
 }).plugin(timestamps));
 
