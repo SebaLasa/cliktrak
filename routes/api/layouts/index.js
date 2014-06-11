@@ -7,7 +7,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }
-            res.json(['1']);
+            res.json(layouts);
         });
     });
 
@@ -15,11 +15,11 @@ module.exports = function (router) {
         if (validate.objectId(req.params.id)) {
             return res.send(404);
         }
-        model.Layout.findById(req.params.id, function (err, layouts) {
+        model.Layout.findById(req.params.id, function (err, layout) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }
-            res.json(layouts);
+            res.json(layout);
         });
     });
 
