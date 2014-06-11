@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.Types.ObjectId;
 
 var model = module.exports;
+model.enums = require('./enums.js');
 
 model.Company = mongoose.model('companies', new Schema({
     name: { type: String, required: true },
@@ -51,6 +52,7 @@ model.Page = mongoose.model('pages', new Schema({
     company: { type: ObjectId, ref: 'companies', required: true },
     layout: { type: ObjectId, ref: 'layouts', required: true },
     urlConfiguration: { type: ObjectId, ref: 'urlConfigurations' },
+    editor: { type: ObjectId, ref: 'users', required: true },
     internalId: { type: Number, required: true },
     name: { type: String, required: true },
     title: { type: String, required: true },
@@ -62,7 +64,10 @@ model.Page = mongoose.model('pages', new Schema({
 model.CustomPage = mongoose.model('customPages', new Schema({
     company: { type: ObjectId, ref: 'companies', required: true },
     page: { type: ObjectId, ref: 'pages', required: true },
+    editor: { type: ObjectId, ref: 'users', required: true },
     urlConfiguration: { type: ObjectId, ref: 'urlConfigurations' },
+    type: { type: String, enum: model.enums.customPageTypes },
+    status: { type: String, enum: model.enums.customPageStatus },
     name: { type: String, required: true },
     internalId: { type: Number, required: true },
     dateStart: { type: Date, required: true },
@@ -79,7 +84,7 @@ model.PageImage = mongoose.model('pageImages', new Schema({
 model.TrackedClick = mongoose.model('trackedClicks', new Schema({
     ipAddress: { type: String, required: true },
     timestamp: { type: Date, required: true },
-    device: { type: String },
+    device: { type: String, enum: model.enums.devices },
     menu: { type: ObjectId, ref: 'menus' },
     page: { type: ObjectId, ref: 'pages' },
     customPage: { type: ObjectId, ref: 'customPages' },
@@ -124,13 +129,48 @@ model.UrlConfiguration = mongoose.model('urlConfigurations', new Schema({
     canAccessWithoutData: { type: Boolean, required: true, default: false }
 }));
 
+model.Campaign = mongoose.model('campaign', new Schema({
+    company: { type: ObjectId, ref: 'companies', required: true },
+    page: { type: ObjectId, ref: 'pages', required: true },
+    customPages: { type: ObjectId, ref: 'customPages', required: true },
+    editor: { type: ObjectId, ref: 'users', required: true },
+    name: { type: String, required: true },
+    internalId: { type: Number, required: true },
+    deleted: { type: Boolean, required: true, default: false },
+    status: { type: String, enum: model.enums.campaignStatus }
+}).plugin(timestamps));
+
+var emailing = model.emailing = {};
+emailing.Task = mongoose.model('emailing.tasks', new Schema({
+    message: { type: String, required: true },
+    company: { type: ObjectId, ref: 'companies', required: true },
+    page: { type: ObjectId, ref: 'pages', required: true },
+    customPages: { type: ObjectId, ref: 'customPages', required: true },
+    editor: { type: ObjectId, ref: 'users', required: true },
+    dateStart: { type: Date, required: true },
+    dateEnd: { type: Date, required: true },
+    contacts: [{ type: ObjectId, ref: 'contacts' }],
+    triggers: [{
+        days: { type: Number },
+        start: { type: Date },
+        end: { type: Date }
+    }],
+    messages: [{
+        contact: { type: ObjectId, ref: 'contacts' },
+        dateSent: { type: Date, required: true },
+        email: { type: String, required: true },
+        error: { type: Schema.Types.Mixed }
+    }],
+    error: { type: Schema.Types.Mixed }
+}).plugin(timestamps));
+
 loadModelExtensions('./model', model);
 
 function loadModelExtensions(folder, model) {
     // Loading entities dynamically
     require('fs').readdirSync(folder)
         .filter(function (file) {
-            return file.indexOf("index.js") == -1;
+            return file.indexOf('index.js') == -1 && file.indexOf('enums.js') == -1;
         }).forEach(function (entity) {
             console.log('Loading', entity, 'entity...');
             require('./' + entity)(model);
