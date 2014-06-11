@@ -92,7 +92,7 @@ model.TrackedClick = mongoose.model('trackedClicks', new Schema({
     agent: { type: String }
 }));
 
-model.CustomPageValue = mongoose.model('customPageValue', new Schema({
+model.CustomPageValue = mongoose.model('customPageValues', new Schema({
     customPage: { type: ObjectId, ref: 'customPages', required: true },
     parameter0: { type: String },
     parameter1: { type: String },
@@ -129,7 +129,22 @@ model.UrlConfiguration = mongoose.model('urlConfigurations', new Schema({
     canAccessWithoutData: { type: Boolean, required: true, default: false }
 }));
 
-model.Campaign = mongoose.model('campaign', new Schema({
+model.Contact = mongoose.model('contacts', new Schema({
+    name: { type: String, required: true },
+    surname: { type: String, required: true },
+    birthDate: { type: Date },
+    gender: { type: String, enum: model.enums.gender },
+    telephone: { type: String },
+    mobilePhone: { type: String },
+    email: { type: String },
+    address: { type: String },
+    state: { type: String },
+    city: { type: String },
+    editor: { type: ObjectId, ref: 'users' },
+    deleted: { type: Boolean, required: true, default: false }
+}).plugin(timestamps));
+
+model.Campaign = mongoose.model('campaigns', new Schema({
     company: { type: ObjectId, ref: 'companies', required: true },
     page: { type: ObjectId, ref: 'pages', required: true },
     customPages: { type: ObjectId, ref: 'customPages', required: true },
