@@ -15,7 +15,7 @@ module.exports = function (router) {
         if (validate.objectId(req.params.id)) {
             return res.send(400);
         }
-        model.Layout.findById(req.params.id, function (err, pages) {
+        model.Page.findById(req.params.id, function (err, pages) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Pages.', { }, err));
             }
@@ -43,7 +43,7 @@ module.exports = function (router) {
     });
 
     router.delete('/pages/:id', function (req, res, next) {
-        model.Layout.findByIdAndUpdate(req.params.id, req.body, function (err, layout) {
+        model.Page.findByIdAndUpdate(req.params.id, req.body, function (err, page) {
             if (err) {
                 return next(Error.create('An error occurred trying delete the Page.', { }, err));
             }
