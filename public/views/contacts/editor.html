@@ -1,0 +1,22 @@
+<a href="#/contacts" class="btn btn-default">Back</a>
+<h2>Contact</h2>
+<form ng-submit="save()">
+    <div class="input-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" ng-model="contact.name"/>
+    </div>
+    <div class="input-group">
+        <label for="surname">Surname</label>
+        <input type="text" id="surname" ng-model="contact.surname"/>
+    </div>
+    <div class="input-group">
+        <label for="email">E-mail</label>
+        <input type="text" id="email" ng-model="contact.email"/>
+    </div>
+    <div class="input-group">
+        <label for="mobilePhone">Mobile Phone</label>
+        <input type="text" id="mobilePhone" ng-model="contact.mobilePhone"/>
+    </div>
+    <br/>
+    <input type="submit" value="save" class="btn btn-primary"/>
+</form>

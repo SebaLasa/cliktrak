@@ -17,6 +17,54 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'layoutEditorController',
             templateUrl: '/views/layouts/editor.html'
         })
+        .when('/pages', {
+            controller: 'pagesController',
+            templateUrl: '/views/pages/index.html'
+        })
+        .when('/pages/new', {
+            controller: 'pageEditorController',
+            templateUrl: '/views/pages/editor.html'
+        })
+        .when('/pages/:id', {
+            controller: 'pageEditorController',
+            templateUrl: '/views/pages/editor.html'
+        })
+        .when('/customPages', {
+            controller: 'customPagesController',
+            templateUrl: '/views/customPages/index.html'
+        })
+        .when('/customPages/new', {
+            controller: 'customPageEditorController',
+            templateUrl: '/views/customPages/editor.html'
+        })
+        .when('/customPages/:id', {
+            controller: 'customPageEditorController',
+            templateUrl: '/views/customPages/editor.html'
+        })
+        .when('/campaigns', {
+            controller: 'campaignsController',
+            templateUrl: '/views/campaigns/index.html'
+        })
+        .when('/campaigns/new', {
+            controller: 'campaignEditorController',
+            templateUrl: '/views/campaigns/editor.html'
+        })
+        .when('/campaigns/:id', {
+            controller: 'campaignEditorController',
+            templateUrl: '/views/campaigns/editor.html'
+        })
+        .when('/contacts', {
+            controller: 'contactsController',
+            templateUrl: '/views/contacts/index.html'
+        })
+        .when('/contacts/new', {
+            controller: 'contactEditorController',
+            templateUrl: '/views/contacts/editor.html'
+        })
+        .when('/contacts/:id', {
+            controller: 'contactEditorController',
+            templateUrl: '/views/contacts/editor.html'
+        })
         .otherwise({ redirectTo: '/' });
 
     // Interceptors
