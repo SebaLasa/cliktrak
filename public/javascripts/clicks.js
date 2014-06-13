@@ -1,4 +1,4 @@
-var app = angular.module('clicks', ['ngRoute', 'ui.tinymce']);
+var app = angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module']);
 app.config(function ($routeProvider, $httpProvider) {
     $routeProvider
         .when('/', {

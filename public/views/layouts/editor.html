@@ -6,6 +6,10 @@
         <input type="text" id="name" ng-model="layout.name"/>
     </div>
     <div class="input-group">
+        <label for="footerBackgroundColor">Background color</label>
+        <input type="text" id="footerBackgroundColor" colorpicker="hex" colorpicker-with-input="true"  ng-model="layout.footerBackgroundColor"/>
+    </div>
+    <div class="input-group">
         <label for="footer">Footer</label>
         <textarea id="footer" ui-tinymce ng-model="layout.foorter"></textarea>
     </div>

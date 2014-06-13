@@ -1,27 +1,27 @@
 {
-    "name": "clicks",
-    "version": "0.0.1",
-    "private": true,
-    "scripts": {
-        "start": "node index.js"
-    },
-    "dependencies": {
-        "express": "^4.2.x",
-        "serve-favicon": "^2.x",
-        "morgan": "1.x",
-        "body-parser": "1.x",
-        "cookie-parser": "1.x",
-        "cookie-session": "1.x",
-        "colors": "0.x",
-        "debug": "0.x",
-        "justhtml": "0.x",
-        "nodemailer": "0.x",
-        "mongodb": "1.x",
-        "mongoose": "3.x",
-        "mongoose-timestamps": "0.0.1",
-        "node-uuid": "1.x",
-        "lodash": "^2.4.1",
-        "underscore.string": "2.x",
-        "async": "^0.9.x"
-    }
+  "name": "clicks",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.4.x",
+    "serve-favicon": "^2.0.x",
+    "morgan": "1.x",
+    "body-parser": "1.x",
+    "cookie-parser": "1.x",
+    "cookie-session": "1.x",
+    "colors": "0.x",
+    "debug": "0.x",
+    "justhtml": "0.x",
+    "nodemailer": "0.x",
+    "mongodb": "1.x",
+    "mongoose": "3.x",
+    "mongoose-timestamps": "0.0.1",
+    "node-uuid": "1.x",
+    "lodash": "^2.4.1",
+    "underscore.string": "2.x",
+    "async": "^0.9.x"
+  }
 }
