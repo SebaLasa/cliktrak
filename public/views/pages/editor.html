@@ -3,7 +3,53 @@
 <form ng-submit="save()">
     <div class="input-group">
         <label for="name">Name</label>
-        <input type="text" id="name" ng-model="layout.name"/>
+        <input type="text" id="name" ng-model="page.name"/>
+    </div>
+    <div class="input-group">
+        <label for="title">Page Title</label>
+        <input type="text" id="title" ng-model="page.title"/>
+    </div>
+    <div class="input-group">
+        <label for="layout">Layout</label>
+        <select id="layout" ng-model="layout" ng-options="layout in layouts">
+        </select>
+    </div>
+    <div class="input-group">
+        <label for="keywords">Keywords SEO</label>
+        <input type="text" id="keywords" ng-model="urlConfiguration.keywords" />
+    </div>
+    <div class="input-group">
+        <label for="isTracked">Are the clicks tracked?</label>
+        <input type="checkbox" id="isTracked" ng-model="urlConfiguration.isTracked" />
+    </div>
+    <div class="input-group">
+        <label for="subdomain">Subdomain</label>
+        <input type="text" id="subdomain" ng-model="urlConfiguration.subdomain"/> {{urlConfiguration.subdomain}}
+    </div>
+    <div class="input-group">
+        <label for="html">HTML</label>
+        <textarea id="html" ui-tinymce ng-model="page.html"></textarea>
+    </div>
+    <div class="input-group">
+        <label for="qrGenerated">Generate QR code?</label>
+        <input type="checkbox" id="qrGenerated" ng-model="urlConfiguration.qrGenerated" />
+    </div>
+    <div>
+        <label for="qrData">Value</label>
+        <input type="text" id="qrData" ng-model="urlConfiguration.qrData"/>
+    </div>
+    <div class="input-group">
+        <label for="barcodeGenerated">Generate barcode?</label>
+        <input type="checkbox" id="barcodeGenerated" ng-model="urlConfiguration.barcodeGenerated" />
+    </div>
+    <div>
+        <label for="barcodeData"></label>
+        <input type="text" id="barcodeData" ng-model="urlConfiguration.barcodeData" />
+    </div>
+    <div>
+        <label for="barcodeSize">Size</label>
+        <select id="barcodeSize" ng-model="urlConfiguration.barcodeSize" ng-options="size in sizes">
+        </select>
     </div>
     <br/>
     <input type="submit" value="save" class="btn btn-primary"/>
