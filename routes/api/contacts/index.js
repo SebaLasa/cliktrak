@@ -12,7 +12,7 @@ module.exports = function (router) {
     });
 
     router.get('/contacts/:id', function (req, res, next) {
-        if (validate.objectId(req.params.id)) {
+        if (!validate.objectId(req.params.id)) {
             return res.send(400);
         }
         model.Contact.findById(req.params.id, function (err, contact) {

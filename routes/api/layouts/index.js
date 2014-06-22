@@ -12,7 +12,7 @@ module.exports = function (router) {
     });
 
     router.get('/layouts/:id', function (req, res, next) {
-        if (validate.objectId(req.params.id)) {
+        if (!validate.objectId(req.params.id)) {
             return res.send(404);
         }
         model.Layout.findById(req.params.id, function (err, layout) {

@@ -12,7 +12,7 @@ module.exports = function (router) {
     });
 
     router.get('/pages/:id', function (req, res, next) {
-        if (validate.objectId(req.params.id)) {
+        if (!validate.objectId(req.params.id)) {
             return res.send(400);
         }
         model.Page.findById(req.params.id, function (err, pages) {

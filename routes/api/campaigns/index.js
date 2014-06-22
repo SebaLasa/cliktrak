@@ -12,7 +12,7 @@ module.exports = function (router) {
     });
 
     router.get('/campaigns/:id', function (req, res, next) {
-        if (validate.objectId(req.params.id)) {
+        if (!validate.objectId(req.params.id)) {
             return res.send(400);
         }
         model.Campaign.findById(req.params.id, function (err, campaign) {
