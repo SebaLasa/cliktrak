@@ -122,7 +122,7 @@ model.UrlConfiguration = mongoose.model('urlConfigurations', new Schema({
     qrData: { type: String },
     barcodeGenerated: { type: Boolean, required: true, default: false },
     barcodeData: { type: String },
-    barcodeSize: { type: String },
+    barcodeSize: { type: Number },
     subdomain: { type: String, required: true },
     isTracked: { type: Boolean, required: true, default: false},
     canAccessWithoutData: { type: Boolean, required: true, default: false }
