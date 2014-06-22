@@ -1,5 +1,5 @@
 <a href="#/pages" class="btn btn-default">Back</a>
-<h2>Layout</h2>
+<h2>Page</h2>
 <form ng-submit="save()">
     <div class="input-group">
         <label for="name">Name</label>
@@ -11,7 +11,7 @@
     </div>
     <div class="input-group">
         <label for="layout">Layout</label>
-        <select id="layout" ng-model="layout" ng-options="layout in layouts">
+        <select id="layout" ng-model="layout" ng-options="layout.name for layout in layouts">
         </select>
     </div>
     <div class="input-group">
@@ -48,7 +48,7 @@
     </div>
     <div>
         <label for="barcodeSize">Size</label>
-        <select id="barcodeSize" ng-model="urlConfiguration.barcodeSize" ng-options="size in sizes">
+        <select id="barcodeSize" ng-model="urlConfiguration.barcodeSize" ng-options="size.name for size in sizes">
         </select>
     </div>
     <br/>
