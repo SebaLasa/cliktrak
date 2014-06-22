@@ -34,6 +34,7 @@ module.exports = function (router) {
     });
 
     router.put('/contacts/:id', function (req, res, next) {
+        delete req.body._id;
         model.Contact.findByIdAndUpdate(req.params.id, req.body, function (err, contact) {
             if (err) {
                 return next(Error.create('An error occurred trying update the Contact.', { }, err));

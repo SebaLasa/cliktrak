@@ -3,6 +3,9 @@ app.controller('contactEditorController', function ($scope, $http, $location, $r
             $http.get('/api/contacts/' + $routeParams.id)
                 .success(function (data, status) {
                     $scope.contact = data;
+                    if ($scope.contact.birthDate && !angular.isDate($scope.contact.birthDate)){
+                        $scope.contact.birthDate = new Date($scope.contact.birthDate);
+                    }
                 }).error(function (data, status) {
                     $location.path('contacts');
                 });
