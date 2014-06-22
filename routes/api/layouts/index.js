@@ -25,6 +25,8 @@ module.exports = function (router) {
 
     router.post('/layouts', function (req, res, next) {
         var layout = new model.Layout(req.body);
+        layout.editor = req.user._id;
+        layout.company = req.company._id;
         layout.save(function (err, layout) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
@@ -34,6 +36,8 @@ module.exports = function (router) {
     });
 
     router.put('/layouts/:id', function (req, res, next) {
+        delete req.body._id;
+        req.body.editor = req.user._id;
         model.Layout.findByIdAndUpdate(req.params.id, req.body, function (err, layout) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
