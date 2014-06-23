@@ -47,9 +47,8 @@
         <input type="text" id="barcodeData" ng-model="urlConfiguration.barcodeData" />
     </div>
     <div>
-        <label for="barcodeSize">Size</label>
-        <select id="barcodeSize" ng-model="urlConfiguration.barcodeSize" ng-options="size.name for size in sizes">
-        </select>
+        <label>Size</label>
+        <barcode-size selected="urlConfiguration.barcodeSize"></barcode-size>
     </div>
     <br/>
     <input type="submit" value="save" class="btn btn-primary"/>

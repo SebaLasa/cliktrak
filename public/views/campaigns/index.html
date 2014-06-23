@@ -1,0 +1,10 @@
+<a href="#/campaigns/new" class="btn btn-primary">New</a>
+<h2>Campaigns</h2>
+<div class="row">
+    <div class="col-md-3"><h4>Name</h4></div>
+</div>
+<div ng-repeat="campaign in campaigns">
+    <div class="row">
+        <div class="col-md-3"><a href="#/campaigns/{{campaign._id}}">{{campaigns.name}}</a></div>
+    </div>
+</div>
