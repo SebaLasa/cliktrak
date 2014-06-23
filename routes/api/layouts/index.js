@@ -3,7 +3,7 @@ var model = app.model,
 
 module.exports = function (router) {
     router.get('/layouts', function (req, res, next) {
-        model.Layout.find({}, function (err, layouts) {
+        model.Layout.find({ company: req.company._id, deleted: false }, function (err, layouts) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }
@@ -47,11 +47,20 @@ module.exports = function (router) {
     });
 
     router.delete('/layouts/:id', function (req, res, next) {
-        model.Layout.findByIdAndUpdate(req.params.id, req.body, function (err, layout) {
+        model.Layout.findById(req.params.id, function (err, layout) {
             if (err) {
-                return next(Error.create('An error occurred trying get the Layouts.', { }, err));
+                return next(Error.create('An error occurred trying get the Layout.', { }, err));
             }
-            res.send(200);
+            if (!layout || !req.company._id.equals(layout.company)) {
+                return res.send(404);
+            }
+            layout.deleted = true;
+            layout.save(function(err){
+                if (err){
+                    return next(Error.create('An error occurred trying delete the Layout.', { }, err));
+                }
+                res.send(200);
+            });
         });
     });
 
