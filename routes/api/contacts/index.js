@@ -19,6 +19,9 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Contact.', { }, err));
             }
+            if (!contact || contact.deleted || !req.company._id.equals(contact.company)) {
+                return res.send(404);
+            }
             res.json(contact);
         });
     });
@@ -47,9 +50,12 @@ module.exports = function (router) {
     });
 
     router.delete('/contacts/:id', function (req, res, next) {
-        model.Contact.findByIdAndUpdate(req.params.id, req.body, function (err, contacts) {
+        model.Contact.findById(req.params.id, function (err, contact) {
             if (err) {
-                return next(Error.create('An error occurred trying delete the Contact.', { }, err));
+                return next(Error.create('An error occurred trying get the Contact.', { }, err));
+            }
+            if (!contact || contact.deleted || !req.company._id.equals(contact.company)) {
+                return res.send(404);
             }
             res.send(200);
         });
