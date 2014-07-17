@@ -1,33 +1,55 @@
 <a href="#/contacts" class="btn btn-default">Back</a>
 <h2>Contact</h2>
 <form ng-submit="save()">
-    <div class="input-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" ng-model="contact.name"/>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" ng-model="contact.name"/>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="surname">Surname</label>
+                <input type="text" id="surname" ng-model="contact.surname"/>
+            </div>
+        </div>
     </div>
-    <div class="input-group">
-        <label for="surname">Surname</label>
-        <input type="text" id="surname" ng-model="contact.surname"/>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="text" id="email" ng-model="contact.email"/>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="birthDate">Birth Date</label>
+                <input type="text" id="birthDate" ui-date ng-model="contact.birthDate"/>
+            </div>
+        </div>
     </div>
-    <div class="input-group">
-        <label for="email">E-mail</label>
-        <input type="text" id="email" ng-model="contact.email"/>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="mobilePhone">Mobile Phone</label>
+                <input type="text" id="mobilePhone" ng-model="contact.mobilePhone"/>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="telephone">Telephone</label>
+                <input type="text" id="telephone" ng-model="contact.telephone"/>
+            </div>
+        </div>
     </div>
-    <div class="input-group">
-        <label for="telephone">Telephone</label>
-        <input type="text" id="telephone" ng-model="contact.telephone"/>
-    </div>
-    <div class="input-group">
-        <label for="mobilePhone">Mobile Phone</label>
-        <input type="text" id="mobilePhone" ng-model="contact.mobilePhone"/>
-    </div>
-    <div class="input-group">
-        <label for="address">Telephone</label>
-        <input type="text" id="address" ng-model="contact.address"/>
-    </div>
-    <div class="input-group">
-        <label for="birthDate">Birth Date</label>
-        <input type="text" id="birthDate" ui-date ng-model="contact.birthDate"/>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="address">Telephone</label>
+                <input type="text" id="address" ng-model="contact.address"/>
+            </div>
+        </div>
     </div>
     <br/>
     <input type="submit" value="save" class="btn btn-primary"/>

@@ -3,8 +3,6 @@ app.controller('layoutEditorController', function ($scope, $http, $location, $ro
             $http.get('/api/layouts/' + $routeParams.id)
                 .success(function (data, status) {
                     $scope.layout = data;
-                }).error(function (data, status) {
-                    $location.path('layouts');
                 });
         }
 
