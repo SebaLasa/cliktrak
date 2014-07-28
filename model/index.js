@@ -9,6 +9,7 @@ model.enums = require('./enums.js');
 model.Company = mongoose.model('companies', new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
+    internalId: { type: Number, required: true },
     enabled: { type: Boolean, required: true, default: true },
     deleted: { type: Boolean, required: true, default: false },
     timezone: { type: Number, required: true, default: 0 }

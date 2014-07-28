@@ -2,7 +2,8 @@ var model = app.model,
     hash = app.security.hash,
     validate = app.validation.validate,
     query = app.data.query,
-    uid = require('node-uuid');
+    uid = require('node-uuid'),
+    codeConverter = require('codeConverter');
 
 var passwordResetEmail = require('../../services/passwordResetEmail.js');
 
@@ -129,5 +130,96 @@ module.exports = function (router) {
             });
         });
     });
+
+    //landing static page
+    router.get('/p/:id', function (req, res, next) {
+        if (!req.params.id) {
+            return res.json(400, { message: 'Identificador de página inválido!'});
+        }
+        var ids = req.params.id.split('.');
+        var idComp = ids[0];
+        var idPag = ids[1];
+
+        if (!idPag) {
+            return res.json(400, { message: 'Identificador de página inválido!'});
+        }
+        model.Page.findOne({ internalId: idPag, 'company.internalId': idComp }, function (err, pagina) {
+            if (err) {
+                return next(Error.create('Ocurrió un error tratando de encontrar la página.', { internalId: idPag, 'company.internalId': idComp }, err));
+            }
+            if (!pagina) {
+                return res.json(404, { message: 'No se encontro la pagina!' });
+            }
+
+            var enviar = pagina.html;
+
+            if(pagina.UrlConfiguration.qrGenerated){
+                codeConverter.toQR(pagina.urlConfiguration.qrData, function(err, dataUrl){
+                    if (err) {
+                        return next(Error.create('Ocurrió un error al convertir a código QR.', err));
+                    }
+                    enviar += dataUrl;
+                });
+            }
+
+            if(pagina.UrlConfiguration.barcodeGenerated){
+                codeConverter.toBar(pagina.urlConfiguration.barcodeData, function (err, dataUrl){
+                    if (err) {
+                        return next(Error.create('Ocurrió un error al convertir a código de barras.', err));
+                    }
+                    enviar += dataUrl;
+                });
+            }
+
+            res.send(enviar);
+        });
+
+    });
+
+    //landing custom page
+    router.get('/c/:id', function (req, res, next) {
+        if (!req.params.id) {
+            return res.json(400, { message: 'Identificador de página inválido!'});
+        }
+        var ids = req.params.id.split('.');
+        var idComp = ids[0];
+        var idPag = ids[1];
+
+        if (!idPag) {
+            return res.json(400, { message: 'Identificador de página inválido!'});
+        }
+        model.CustomPage.findOne({ internalId: idPag, 'company.internalId': idComp }, function (err, pagina) {
+            if (err) {
+                return next(Error.create('Ocurrió un error tratando de encontrar la página personalizada.', { internalId: idPag, 'company.internalId': idComp }, err));
+            }
+            if (!pagina) {
+                return res.json(404, { message: 'No se encontro la pagina personalizada!' });
+            }
+
+            var enviar = pagina.page.html;
+
+            if(pagina.UrlConfiguration.qrGenerated){
+                codeConverter.toQR(pagina.urlConfiguration.qrData, function(err, dataUrl){
+                    if (err) {
+                        return next(Error.create('Ocurrió un error al convertir a código QR.', err));
+                    }
+                    enviar += dataUrl;
+                });
+            }
+
+            if(pagina.UrlConfiguration.barcodeGenerated){
+                codeConverter.toBar(pagina.urlConfiguration.barcodeData, function (err, dataUrl){
+                    if (err) {
+                        return next(Error.create('Ocurrió un error al convertir a código de barras.', err));
+                    }
+                    enviar += dataUrl;
+                });
+            }
+
+            res.send(enviar);
+        });
+
+    });
+
     return router;
 };
