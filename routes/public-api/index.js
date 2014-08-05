@@ -143,37 +143,36 @@ module.exports = function (router) {
         if (!idPag) {
             return res.json(400, { message: 'Identificador de página inválido!'});
         }
-        model.Page.findOne({ internalId: idPag, 'company.internalId': idComp }, function (err, pagina) {
+        model.Page.findOne({ internalId: idPag, 'company.internalId': idComp }, function (err, page) {
             if (err) {
                 return next(Error.create('Ocurrió un error tratando de encontrar la página.', { internalId: idPag, 'company.internalId': idComp }, err));
             }
-            if (!pagina) {
+            if (!page) {
                 return res.json(404, { message: 'No se encontro la pagina!' });
             }
 
-            var enviar = pagina.html;
+            var landing = page.html;
 
-            if(pagina.UrlConfiguration.qrGenerated){
-                codeConverter.toQR(pagina.urlConfiguration.qrData, function(err, dataUrl){
+            if(page.UrlConfiguration.qrGenerated){
+                codeConverter.toQR(page.urlConfiguration.qrData, function(err, dataUrl){
                     if (err) {
                         return next(Error.create('Ocurrió un error al convertir a código QR.', err));
                     }
-                    enviar += dataUrl;
+                    landing += dataUrl;
+                    return res.send(landing);
                 });
             }
 
-            if(pagina.UrlConfiguration.barcodeGenerated){
-                codeConverter.toBar(pagina.urlConfiguration.barcodeData, function (err, dataUrl){
+            if(page.UrlConfiguration.barcodeGenerated){
+                codeConverter.toBar(page.urlConfiguration.barcodeData, function (err, dataUrl){
                     if (err) {
                         return next(Error.create('Ocurrió un error al convertir a código de barras.', err));
                     }
-                    enviar += dataUrl;
+                    landing += dataUrl;
+                    return res.send(landing);
                 });
             }
-
-            res.send(enviar);
         });
-
     });
 
     //landing custom page
@@ -188,37 +187,36 @@ module.exports = function (router) {
         if (!idPag) {
             return res.json(400, { message: 'Identificador de página inválido!'});
         }
-        model.CustomPage.findOne({ internalId: idPag, 'company.internalId': idComp }, function (err, pagina) {
+        model.CustomPage.findOne({ internalId: idPag, 'company.internalId': idComp }, function (err, customPage) {
             if (err) {
                 return next(Error.create('Ocurrió un error tratando de encontrar la página personalizada.', { internalId: idPag, 'company.internalId': idComp }, err));
             }
-            if (!pagina) {
+            if (!customPage) {
                 return res.json(404, { message: 'No se encontro la pagina personalizada!' });
             }
 
-            var enviar = pagina.page.html;
+            var landing = customPage.page.html;
 
-            if(pagina.UrlConfiguration.qrGenerated){
-                codeConverter.toQR(pagina.urlConfiguration.qrData, function(err, dataUrl){
+            if(customPage.UrlConfiguration.qrGenerated){
+                codeConverter.toQR(customPage.urlConfiguration.qrData, function(err, dataUrl){
                     if (err) {
                         return next(Error.create('Ocurrió un error al convertir a código QR.', err));
                     }
-                    enviar += dataUrl;
+                    landing += dataUrl;
+                    return res.send(landing);
                 });
             }
 
-            if(pagina.UrlConfiguration.barcodeGenerated){
-                codeConverter.toBar(pagina.urlConfiguration.barcodeData, function (err, dataUrl){
+            if(customPage.UrlConfiguration.barcodeGenerated){
+                codeConverter.toBar(customPage.urlConfiguration.barcodeData, function (err, dataUrl){
                     if (err) {
                         return next(Error.create('Ocurrió un error al convertir a código de barras.', err));
                     }
-                    enviar += dataUrl;
+                    landing += dataUrl;
+                    return res.send(landing);
                 });
             }
-
-            res.send(enviar);
         });
-
     });
 
     return router;
