@@ -3,7 +3,7 @@ var model = app.model,
     validate = app.validation.validate,
     query = app.data.query,
     uid = require('node-uuid'),
-    codeConverter = require('codeConverter');
+    codeConverter = require('../../services/codeConverter.js');
 
 var passwordResetEmail = require('../../services/passwordResetEmail.js');
 
@@ -161,9 +161,7 @@ module.exports = function (router) {
                     landing += dataUrl;
                     return res.send(landing);
                 });
-            }
-
-            if(page.UrlConfiguration.barcodeGenerated){
+            }else if(page.UrlConfiguration.barcodeGenerated){
                 codeConverter.toBar(page.urlConfiguration.barcodeData, function (err, dataUrl){
                     if (err) {
                         return next(Error.create('Ocurrió un error al convertir a código de barras.', err));
@@ -171,6 +169,8 @@ module.exports = function (router) {
                     landing += dataUrl;
                     return res.send(landing);
                 });
+            }else{
+                return res.send(landing);
             }
         });
     });
@@ -205,9 +205,7 @@ module.exports = function (router) {
                     landing += dataUrl;
                     return res.send(landing);
                 });
-            }
-
-            if(customPage.UrlConfiguration.barcodeGenerated){
+            }else if(customPage.UrlConfiguration.barcodeGenerated){
                 codeConverter.toBar(customPage.urlConfiguration.barcodeData, function (err, dataUrl){
                     if (err) {
                         return next(Error.create('Ocurrió un error al convertir a código de barras.', err));
@@ -215,6 +213,8 @@ module.exports = function (router) {
                     landing += dataUrl;
                     return res.send(landing);
                 });
+            }else{
+                return res.send(landing);
             }
         });
     });
