@@ -48,6 +48,23 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="isTracked">Are the clicks tracked?</label>
+                <input type="checkbox" id="isTracked" name="isTracked" ng-model="urlConfiguration.isTracked"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="page">Page</label>
+                <select id="page" name="page" ng-model="customPage.page"
+                        ng-options="page._id as page.name for page in pages"></select>
+            </div>
+        </div>
+    </div>
     <br/>
     <input type="submit" value="save" class="btn btn-primary"/>
 </form>
