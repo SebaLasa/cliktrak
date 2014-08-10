@@ -10,8 +10,7 @@
     "lodash": "~2.4.1",
     "angular-ui-tinymce": "~0.0.5",
     "angular-bootstrap-colorpicker": "~3.0.7",
-    "angular-ui-date": "~0.0.3",
-    "jquery-ui": "~1.11.0"
+    "angular-ui-date": "~0.0.3"
   },
   "ignore": [
     "node_modules",
