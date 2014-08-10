@@ -1,4 +1,7 @@
 app.controller('pageEditorController', function ($scope, $http, $location, $routeParams) {
+        $http.get('/api/layouts/').success(function (data, status) {
+            $scope.layouts = data;
+        });
         if ($routeParams.id) {
             $http.get('/api/pages/' + $routeParams.id)
                 .success(function (data, status) {
