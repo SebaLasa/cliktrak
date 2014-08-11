@@ -139,6 +139,7 @@ model.Contact = mongoose.model('contacts', new Schema({
     address: { type: String },
     state: { type: String },
     city: { type: String },
+    country: { type: String },
     editor: { type: ObjectId, ref: 'users', required: true },
     company: { type: ObjectId, ref: 'companies', require: true },
     deleted: { type: Boolean, required: true, default: false }
