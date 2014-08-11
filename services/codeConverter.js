@@ -8,7 +8,7 @@ module.exports.toQR = function (data, callback) {
     })
 };
 
-module.exports.toBar = function (data, callback) {
+module.exports.toBarcode = function (data, callback) {
     var barc = new Barc();
     var Image = Canvas.Image;
     var canvas = new Canvas(300,200);

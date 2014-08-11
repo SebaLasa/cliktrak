@@ -131,6 +131,17 @@ module.exports = function (router) {
         });
     });
 
+
+    function addBarcodeAndSend(page, next, landing, res) {
+        codeConverter.toBarcode(page.urlConfiguration.barcodeData, function (err, dataUrl) {
+            if (err) {
+                return next(Error.create('Ocurrió un error al convertir a código de barras.', err));
+            }
+            landing += dataUrl;
+            return res.send(landing);
+        });
+    }
+
     //landing static page
     router.get('/p/:id', function (req, res, next) {
         if (!req.params.id) {
@@ -159,19 +170,14 @@ module.exports = function (router) {
                         return next(Error.create('Ocurrió un error al convertir a código QR.', err));
                     }
                     landing += dataUrl;
-                    return res.send(landing);
+
+                    if(page.UrlConfiguration.barcodeGenerated){
+                        addBarcodeAndSend(page, next, landing, res);
+                    }else return res.send(landing);
                 });
             }else if(page.UrlConfiguration.barcodeGenerated){
-                codeConverter.toBar(page.urlConfiguration.barcodeData, function (err, dataUrl){
-                    if (err) {
-                        return next(Error.create('Ocurrió un error al convertir a código de barras.', err));
-                    }
-                    landing += dataUrl;
-                    return res.send(landing);
-                });
-            }else{
-                return res.send(landing);
-            }
+                addBarcodeAndSend(page, next, landing, res);
+            }else return res.send(landing);
         });
     });
 
@@ -203,19 +209,14 @@ module.exports = function (router) {
                         return next(Error.create('Ocurrió un error al convertir a código QR.', err));
                     }
                     landing += dataUrl;
-                    return res.send(landing);
+
+                    if(customPage.UrlConfiguration.barcodeGenerated){
+                        addBarcodeAndSend(customPage, next, landing, res);
+                    }else return res.send(landing);
                 });
             }else if(customPage.UrlConfiguration.barcodeGenerated){
-                codeConverter.toBar(customPage.urlConfiguration.barcodeData, function (err, dataUrl){
-                    if (err) {
-                        return next(Error.create('Ocurrió un error al convertir a código de barras.', err));
-                    }
-                    landing += dataUrl;
-                    return res.send(landing);
-                });
-            }else{
-                return res.send(landing);
-            }
+                addBarcodeAndSend(customPage, next, landing, res);
+            }else return res.send(landing);
         });
     });
 
