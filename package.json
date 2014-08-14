@@ -22,6 +22,9 @@
     "node-uuid": "1.x",
     "nodemailer": "0.x",
     "serve-favicon": "^2.0.x",
-    "underscore.string": "2.x"
+    "underscore.string": "2.x",
+    "canvas": "1.1.6",
+    "qrcode": "0.2.10",
+    "barcode-generator": "0.1.0"
   }
 }
