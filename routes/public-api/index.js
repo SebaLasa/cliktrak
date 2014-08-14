@@ -138,7 +138,7 @@ module.exports = function (router) {
                 return next(Error.create('Ocurrió un error al convertir a código de barras.', err));
             }
             landing += dataUrl;
-            return res.send(landing);
+            res.send(landing);
         });
     }
 
@@ -177,7 +177,9 @@ module.exports = function (router) {
                 });
             }else if(page.UrlConfiguration.barcodeGenerated){
                 addBarcodeAndSend(page, next, landing, res);
-            }else return res.send(landing);
+            }else{
+                res.send(landing);
+            }
         });
     });
 
@@ -216,7 +218,9 @@ module.exports = function (router) {
                 });
             }else if(customPage.UrlConfiguration.barcodeGenerated){
                 addBarcodeAndSend(customPage, next, landing, res);
-            }else return res.send(landing);
+            }else{
+                res.send(landing);
+            }
         });
     });
 
