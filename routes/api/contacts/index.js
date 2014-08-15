@@ -1,9 +1,12 @@
 var model = app.model,
     validate = app.validation.validate;
 
+var multiparty = require('multiparty');
+var csvparse = require('csv-parse');
+
 module.exports = function (router) {
     router.get('/contacts', function (req, res, next) {
-        model.Contact.find({}, function (err, contacts) {
+        model.Contact.find({deleted:false}, function (err, contacts) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Contacts.', { }, err));
             }
@@ -26,10 +29,55 @@ module.exports = function (router) {
         });
     });
 
+
+    router.post('/contacts/upload', function (req, res, next) {
+
+        //TODO: Validar si los contactos ya existe
+        var form = new multiparty.Form();
+
+        var upload;
+        form.on('error', next);
+        form.on('close', function(){
+
+            csvparse(upload.data,{columns: true},function(err,output){
+                output.forEach(function(data){
+                    var contact = new model.Contact(data);
+                    contact.editor = req.user._id;
+                    contact.company = req.company._id;
+
+                    contact.save(function (err, contact) {
+                        if (err) {
+                            return next(Error.create('An error occurred trying save the Contact.', { }, err));
+                        }
+                    });
+                });
+            });
+            res.redirect('/back#contacts');
+        });
+
+
+        // listen on part event for image file
+        form.on('part', function(part){
+            if (!part.filename) return;
+            if (part.name !== 'contacts-csv') return part.resume();
+            upload = {};
+            upload.filename = part.filename;
+            upload.data="";
+            part.on('data', function(buf){
+                upload.data += buf;
+            });
+        });
+
+
+        // parse the form
+        form.parse(req);
+    });
+
     router.post('/contacts', function (req, res, next) {
         var contact = new model.Contact(req.body);
         contact.editor = req.user._id;
         contact.company = req.company._id;
+
         contact.save(function (err, contact) {
             if (err) {
                 return next(Error.create('An error occurred trying save the Contact.', { }, err));
@@ -57,7 +105,13 @@ module.exports = function (router) {
             if (!contact || contact.deleted || !req.company._id.equals(contact.company)) {
                 return res.send(404);
             }
-            res.send(200);
+            contact.deleted=true;
+            contact.save(function (err) {
+                if (err)
+                    return next(Error.create('An error occurred trying delete the Contact.', { }, err));
+                res.send(200);
+            });
+
         });
     });
 
