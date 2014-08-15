@@ -9,6 +9,7 @@ model.enums = require('./enums.js');
 model.Company = mongoose.model('companies', new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
+    internalId: { type: Number, required: true },
     enabled: { type: Boolean, required: true, default: true },
     deleted: { type: Boolean, required: true, default: false },
     timezone: { type: Number, required: true, default: 0 }
@@ -139,6 +140,7 @@ model.Contact = mongoose.model('contacts', new Schema({
     address: { type: String },
     state: { type: String },
     city: { type: String },
+    country: { type: String },
     editor: { type: ObjectId, ref: 'users', required: true },
     company: { type: ObjectId, ref: 'companies', require: true },
     deleted: { type: Boolean, required: true, default: false }
