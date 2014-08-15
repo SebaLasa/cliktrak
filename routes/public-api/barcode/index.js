@@ -11,8 +11,7 @@ module.exports = function (router) {
                return next(Error.create('An error occurred trying to create the barcode.', { }, err));
            }
 
-           res.writeHead(200, {'Content-Type': 'image/png'});
-           res.end(img);
+           res.send(img);
         });
     });
 
@@ -23,8 +22,7 @@ module.exports = function (router) {
                 return next(Error.create('An error occurred trying to create the barcode.', { }, err));
             }
 
-            res.writeHead(200, {'Content-Type': 'image/png'});
-            res.end(img);
+            res.send(img);
         });
     });
 

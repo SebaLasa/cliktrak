@@ -19,7 +19,8 @@ module.exports.toQR = function (data, callback) {
         })
     .on('end', function () {
         data = Buffer.concat(bufs);
-        callback(null, data);
+        var imgBase64 = data.toString('base64');
+        callback(null, '<img src="data:image/png;base64,' + imgBase64 + '" />');
     })
     .on("error",function (err){
         callback(err,null);
@@ -36,6 +37,11 @@ module.exports.toQR = function (data, callback) {
  */
 module.exports.toBarcode = function (data, callback) {
     var barc = new Barc();
+
     //create a 300x200 px barcode image
-    callback(null,barc.code2of5(data, 300, 200));
+    var img = barc.code2of5(data, 300, 200);
+
+    var imgBase64 = new Buffer(img, 'binary').toString('base64');
+
+    callback(null,'<img src="data:image/png;base64,' + imgBase64 + '" />');
 };
