@@ -6,7 +6,7 @@ var csvparse = require('csv-parse');
 
 module.exports = function (router) {
     router.get('/contacts', function (req, res, next) {
-        model.Contact.find({deleted:"false"}, function (err, contacts) {
+        model.Contact.find({deleted:false}, function (err, contacts) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Contacts.', { }, err));
             }
@@ -44,7 +44,6 @@ module.exports = function (router) {
                     var contact = new model.Contact(data);
                     contact.editor = req.user._id;
                     contact.company = req.company._id;
-                    contact.deleted = false;
 
                     contact.save(function (err, contact) {
                         if (err) {
@@ -53,7 +52,7 @@ module.exports = function (router) {
                     });
                 });
             });
-            res.redirect("/back#contacts");
+            res.redirect('/back#contacts');
         });
 
 
@@ -78,7 +77,6 @@ module.exports = function (router) {
         var contact = new model.Contact(req.body);
         contact.editor = req.user._id;
         contact.company = req.company._id;
-        contact.deleted = false;
 
         contact.save(function (err, contact) {
             if (err) {
@@ -108,9 +106,12 @@ module.exports = function (router) {
                 return res.send(404);
             }
             contact.deleted=true;
-            contact.save()
+            contact.save(function (err) {
+                if (err)
+                    return next(Error.create('An error occurred trying delete the Contact.', { }, err));
+                res.send(200);
+            });
 
-            res.send(200);
         });
     });
 
