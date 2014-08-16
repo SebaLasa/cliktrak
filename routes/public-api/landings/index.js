@@ -2,7 +2,6 @@ var model = app.model,
     hash = app.security.hash,
     validate = app.validation.validate,
     query = app.data.query,
-    uid = require('node-uuid'),
     codeConverter = require('../../services/codeConverter.js');
 
 module.exports = function (router) {
@@ -77,7 +76,6 @@ module.exports = function (router) {
             if (!customPage) {
                 return res.json(404, { message: 'No se encontro la pagina personalizada!' });
             }
-
             var landing = customPage.page.html;
 
             if (customPage.UrlConfiguration.qrGenerated) {
@@ -94,7 +92,6 @@ module.exports = function (router) {
                 addBarcodeAndSend(customPage, next, landing, res);
             } else {
                 res.send(landing);
-
             }
         });
     });
