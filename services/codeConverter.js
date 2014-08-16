@@ -1,25 +1,47 @@
-var qrcode = require('qrcode');
-var Barc = require('barcode-generator');
-var Canvas = require('canvas');
+var qrimage = require('qr-image');
+var Barc = require('barc');
+
+/**
+ * data : String to convert to qr
+ * callback: function (err,data)
+ * data is a Buffer containing the image as png
+ * @param data
+ * @param callback
+ */
 
 module.exports.toQR = function (data, callback) {
-    qrcode.toDataURL(data, function (err, dataUrl) {
-        callback(err, '<img src="' + dataUrl + '" />');
+    var chunks = 0
+    var bufs = []
+    var qr = qrimage.image(data, { type: 'png' })
+
+    .on('data', function(chunk){
+            bufs[chunks++]=chunk;
+        })
+    .on('end', function () {
+        data = Buffer.concat(bufs);
+        var imgBase64 = data.toString('base64');
+        callback(null, '<img src="data:image/png;base64,' + imgBase64 + '" />');
     })
+    .on("error",function (err){
+        callback(err,null);
+    });
+
 };
 
+/**
+ * data : String to convert to qr
+ * callback (err,data)
+ * data is a Buffer containing the image as png
+ * @param data
+ * @param callback
+ */
 module.exports.toBarcode = function (data, callback) {
     var barc = new Barc();
-    var Image = Canvas.Image;
-    var canvas = new Canvas(300,200);
-    var ctx = canvas.getContext('2d');
 
     //create a 300x200 px barcode image
-    var img = new Image;
-    img.src = barc.code2of5(data, 300, 200);
-    ctx.drawImage(img, 0, 0);
+    var img = barc.code2of5(data, 300, 200);
 
-    canvas.toDataURL(function (err, dataUrl) {
-        callback(err, '<img src="' + dataUrl + '" />');
-    })
+    var imgBase64 = new Buffer(img, 'binary').toString('base64');
+
+    callback(null,'<img src="data:image/png;base64,' + imgBase64 + '" />');
 };

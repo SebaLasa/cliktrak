@@ -2,6 +2,7 @@ var express = require('express'),
     fs = require('fs'),
     path = require('path'),
     async = require('async'),
+    codeConverter = require('../services/codeConverter.js'),
     _ = require('lodash');
 
 module.exports = function (router) {
@@ -131,12 +132,16 @@ module.exports = function (router) {
         res.redirect(app.config.auth.loginPage);
     });
 
-    console.log('Loading public-api...');
-    router.use('/public-api', require('./public-api')(express.Router()));
+    console.log('Loading api...');
 
     router.use('/api',
         require('./api')(express.Router()
                 .use(app.security.authenticate())
                 .use(require('./companyMiddleware.js')())
         ));
+
+    console.log('Loading public-api...');
+
+    router.use('/public-api',
+        require('./public-api')(express.Router()));
 };
