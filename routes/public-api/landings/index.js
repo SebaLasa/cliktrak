@@ -29,7 +29,7 @@ module.exports = function (router) {
             return res.json(400, { message: 'Invalid page and company id!'});
         }
 
-        model.Company.findOne({internalId: idComp}, function(err, comp) {
+        model.Company.findOne({internalId: idComp}, function (err, comp) {
             if (err) {
                 return next(Error.create('An error occurred trying to find the company.', {companyId: idComp}, err));
             }
@@ -38,34 +38,34 @@ module.exports = function (router) {
             }
 
             model.Page.findOne({internalId: idPag, company: comp._id})
-            .populate(['urlConfiguration', 'company'])
-            .exec(function (err, page) {
-                if (err) {
-                    return next(Error.create('An error occurred trying to find the page.', {pageId: idPag}, err));
-                }
-                if (!page) {
-                    return res.json(404, { message: 'Page not found!' });
-                }
+                .populate('urlConfiguration', 'company')
+                .exec(function (err, page) {
+                    if (err) {
+                        return next(Error.create('An error occurred trying to find the page.', {pageId: idPag}, err));
+                    }
+                    if (!page) {
+                        return res.json(404, { message: 'Page not found!' });
+                    }
 
-                var landing = page.html;
-
-                if (page.urlConfiguration.qrGenerated) {
-                    codeConverter.toQR(page.urlConfiguration.qrData, function (err, dataUrl) {
-                        if (err) {
-                            return next(Error.create('An error occurred generating the QR code.', err));
-                        }
-                        landing += dataUrl;
-
-                        if (page.urlConfiguration.barcodeGenerated) {
-                            addBarcodeAndSend(page, next, landing, res);
-                        } else return res.send(landing);
-                    });
-                } else if (page.urlConfiguration.barcodeGenerated) {
-                    addBarcodeAndSend(page, next, landing, res);
-                } else {
-                    res.send(landing);
-                }
-            });
+                    var landing = page.html;
+                    if (page.urlConfiguration.qrGenerated) {
+                        codeConverter.toQR(page.urlConfiguration.qrData, function (err, dataUrl) {
+                            if (err) {
+                                return next(Error.create('An error occurred generating the QR code.', err));
+                            }
+                            landing += dataUrl;
+                            if (page.urlConfiguration.barcodeGenerated) {
+                                addBarcodeAndSend(page, next, landing, res);
+                            } else {
+                                res.send(landing);
+                            }
+                        });
+                    } else if (page.urlConfiguration.barcodeGenerated) {
+                        addBarcodeAndSend(page, next, landing, res);
+                    } else {
+                        res.send(landing);
+                    }
+                });
         });
     });
 
@@ -81,8 +81,7 @@ module.exports = function (router) {
         if (!idPag) {
             return res.json(400, { message: 'Invalid page and company id!'});
         }
-
-        model.Company.findOne({internalId: idComp}, function(err, comp) {
+        model.Company.findOne({internalId: idComp}, function (err, comp) {
             if (err) {
                 return next(Error.create('An error occurred trying to find the company.', {companyId: idComp}, err));
             }
@@ -91,32 +90,33 @@ module.exports = function (router) {
             }
 
             model.CustomPage.findOne({internalId: idPag, company: comp._id})
-            .populate(['urlConfiguration', 'company', 'page'])
-            .exec(function (err, customPage) {
-                if (err) {
-                    return next(Error.create('An error occurred trying to find the custom page.', {internalId: idPag}, err));
-                }
-                if (!customPage) {
-                    return res.json(404, { message: 'Custom page not found!' });
-                }
-                var landing = customPage.page.html;
-
-                if (customPage.urlConfiguration.qrGenerated) {
-                    codeConverter.toQR(customPage.urlConfiguration.qrData, function (err, dataUrl) {
-                        if (err) {
-                            return next(Error.create('An error occurred generating the QR code.', err));
-                        }
-                        landing += dataUrl;
-                        if (customPage.urlConfiguration.barcodeGenerated) {
-                            addBarcodeAndSend(customPage, next, landing, res);
-                        } else return res.send(landing);
-                    });
-                } else if (customPage.urlConfiguration.barcodeGenerated) {
-                    addBarcodeAndSend(customPage, next, landing, res);
-                } else {
-                    res.send(landing);
-                }
-            });
+                .populate('urlConfiguration', 'company', 'page')
+                .exec(function (err, customPage) {
+                    if (err) {
+                        return next(Error.create('An error occurred trying to find the custom page.', {internalId: idPag}, err));
+                    }
+                    if (!customPage) {
+                        return res.json(404, { message: 'Custom page not found!' });
+                    }
+                    var landing = customPage.page.html;
+                    if (customPage.urlConfiguration.qrGenerated) {
+                        codeConverter.toQR(customPage.urlConfiguration.qrData, function (err, dataUrl) {
+                            if (err) {
+                                return next(Error.create('An error occurred generating the QR code.', err));
+                            }
+                            landing += dataUrl;
+                            if (customPage.urlConfiguration.barcodeGenerated) {
+                                addBarcodeAndSend(customPage, next, landing, res);
+                            } else {
+                                res.send(landing)
+                            }
+                        });
+                    } else if (customPage.urlConfiguration.barcodeGenerated) {
+                        addBarcodeAndSend(customPage, next, landing, res);
+                    } else {
+                        res.send(landing);
+                    }
+                });
         });
     });
 
