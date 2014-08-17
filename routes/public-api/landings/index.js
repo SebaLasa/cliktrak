@@ -2,14 +2,14 @@ var model = app.model,
     hash = app.security.hash,
     validate = app.validation.validate,
     query = app.data.query,
-    codeConverter = require('../../services/codeConverter.js');
+    codeConverter = require('../../../services/codeConverter.js');
 
 module.exports = function (router) {
 
     function addBarcodeAndSend(page, next, landing, res) {
         codeConverter.toBarcode(page.urlConfiguration.barcodeData, function (err, dataUrl) {
             if (err) {
-                return next(Error.create('Ocurrió un error al convertir a código de barras.', err));
+                return next(Error.create('An error occurred generating the barcode.', err));
             }
             landing += dataUrl;
             res.send(landing);
@@ -19,80 +19,104 @@ module.exports = function (router) {
     //landing static page
     router.get('/p/:id', function (req, res, next) {
         if (!req.params.id) {
-            return res.json(400, { message: 'Identificador de página inválido!'});
+            return res.json(400, { message: 'Invalid page and company id!'});
         }
         var ids = req.params.id.split('.');
         var idComp = ids[0];
         var idPag = ids[1];
 
         if (!idPag) {
-            return res.json(400, { message: 'Identificador de página inválido!'});
+            return res.json(400, { message: 'Invalid page and company id!'});
         }
-        model.Page.findOne({ internalId: idPag, 'company.internalId': idComp }, function (err, page) {
+
+        model.Company.findOne({internalId: idComp}, function(err, comp) {
             if (err) {
-                return next(Error.create('Ocurrió un error tratando de encontrar la página.', { internalId: idPag, 'company.internalId': idComp }, err));
+                return next(Error.create('An error occurred trying to find the company.', {companyId: idComp}, err));
             }
-            if (!page) {
-                return res.json(404, { message: 'No se encontro la pagina!' });
+            if (!comp) {
+                return res.json(404, { message: 'Company not found!' });
             }
 
-            var landing = page.html;
+            model.Page.findOne({internalId: idPag, company: comp._id})
+            .populate(['urlConfiguration', 'company'])
+            .exec(function (err, page) {
+                if (err) {
+                    return next(Error.create('An error occurred trying to find the page.', {pageId: idPag}, err));
+                }
+                if (!page) {
+                    return res.json(404, { message: 'Page not found!' });
+                }
 
-            if (page.UrlConfiguration.qrGenerated) {
-                codeConverter.toQR(page.urlConfiguration.qrData, function (err, dataUrl) {
-                    if (err) {
-                        return next(Error.create('Ocurrió un error al convertir a código QR.', err));
-                    }
-                    landing += dataUrl;
+                var landing = page.html;
 
-                    if (page.UrlConfiguration.barcodeGenerated) {
-                        addBarcodeAndSend(page, next, landing, res);
-                    } else return res.send(landing);
-                });
-            } else if (page.UrlConfiguration.barcodeGenerated) {
-                addBarcodeAndSend(page, next, landing, res);
-            } else {
-                res.send(landing);
-            }
+                if (page.urlConfiguration.qrGenerated) {
+                    codeConverter.toQR(page.urlConfiguration.qrData, function (err, dataUrl) {
+                        if (err) {
+                            return next(Error.create('An error occurred generating the QR code.', err));
+                        }
+                        landing += dataUrl;
+
+                        if (page.urlConfiguration.barcodeGenerated) {
+                            addBarcodeAndSend(page, next, landing, res);
+                        } else return res.send(landing);
+                    });
+                } else if (page.urlConfiguration.barcodeGenerated) {
+                    addBarcodeAndSend(page, next, landing, res);
+                } else {
+                    res.send(landing);
+                }
+            });
         });
     });
 
     //landing custom page
     router.get('/c/:id', function (req, res, next) {
         if (!req.params.id) {
-            return res.json(400, { message: 'Identificador de página inválido!'});
+            return res.json(400, { message: 'Invalid page and company id!'});
         }
         var ids = req.params.id.split('.');
         var idComp = ids[0];
         var idPag = ids[1];
 
         if (!idPag) {
-            return res.json(400, { message: 'Identificador de página inválido!'});
+            return res.json(400, { message: 'Invalid page and company id!'});
         }
-        model.CustomPage.findOne({ internalId: idPag, 'company.internalId': idComp }, function (err, customPage) {
-            if (err) {
-                return next(Error.create('Ocurrió un error tratando de encontrar la página personalizada.', { internalId: idPag, 'company.internalId': idComp }, err));
-            }
-            if (!customPage) {
-                return res.json(404, { message: 'No se encontro la pagina personalizada!' });
-            }
-            var landing = customPage.page.html;
 
-            if (customPage.UrlConfiguration.qrGenerated) {
-                codeConverter.toQR(customPage.urlConfiguration.qrData, function (err, dataUrl) {
-                    if (err) {
-                        return next(Error.create('Ocurrió un error al convertir a código QR.', err));
-                    }
-                    landing += dataUrl;
-                    if (customPage.UrlConfiguration.barcodeGenerated) {
-                        addBarcodeAndSend(customPage, next, landing, res);
-                    } else return res.send(landing);
-                });
-            } else if (customPage.UrlConfiguration.barcodeGenerated) {
-                addBarcodeAndSend(customPage, next, landing, res);
-            } else {
-                res.send(landing);
+        model.Company.findOne({internalId: idComp}, function(err, comp) {
+            if (err) {
+                return next(Error.create('An error occurred trying to find the company.', {companyId: idComp}, err));
             }
+            if (!comp) {
+                return res.json(404, { message: 'Company not found!' });
+            }
+
+            model.CustomPage.findOne({internalId: idPag, company: comp._id})
+            .populate(['urlConfiguration', 'company', 'page'])
+            .exec(function (err, customPage) {
+                if (err) {
+                    return next(Error.create('An error occurred trying to find the custom page.', {internalId: idPag}, err));
+                }
+                if (!customPage) {
+                    return res.json(404, { message: 'Custom page not found!' });
+                }
+                var landing = customPage.page.html;
+
+                if (customPage.urlConfiguration.qrGenerated) {
+                    codeConverter.toQR(customPage.urlConfiguration.qrData, function (err, dataUrl) {
+                        if (err) {
+                            return next(Error.create('An error occurred generating the QR code.', err));
+                        }
+                        landing += dataUrl;
+                        if (customPage.urlConfiguration.barcodeGenerated) {
+                            addBarcodeAndSend(customPage, next, landing, res);
+                        } else return res.send(landing);
+                    });
+                } else if (customPage.urlConfiguration.barcodeGenerated) {
+                    addBarcodeAndSend(customPage, next, landing, res);
+                } else {
+                    res.send(landing);
+                }
+            });
         });
     });
 
