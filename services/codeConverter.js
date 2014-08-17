@@ -1,5 +1,6 @@
 var qrimage = require('qr-image');
-var Barc = require('barc');
+//no puedo usar este modulo en windows.
+//var Barc = require('barc');
 
 /**
  * data : String to convert to qr
