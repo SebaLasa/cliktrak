@@ -10,22 +10,19 @@ var Barc = require('barc');
  */
 
 module.exports.toQR = function (data, callback) {
-    var chunks = 0
-    var bufs = []
-    var qr = qrimage.image(data, { type: 'png' })
-
-    .on('data', function(chunk){
-            bufs[chunks++]=chunk;
+    var chunks = 0;
+    var buffer = [];
+    qrimage.image(data, { type: 'png' })
+        .on('data', function (chunk) {
+            buffer[chunks++] = chunk;
         })
-    .on('end', function () {
-        data = Buffer.concat(bufs);
-        var imgBase64 = data.toString('base64');
-        callback(null, '<img src="data:image/png;base64,' + imgBase64 + '" />');
-    })
-    .on("error",function (err){
-        callback(err,null);
-    });
-
+        .on('end', function () {
+            var imgBase64 = Buffer.concat(buffer).toString('base64');
+            callback(null, '<img src="data:image/png;base64,' + imgBase64 + '" />');
+        })
+        .on('error', function (err) {
+            callback(err, null);
+        });
 };
 
 /**
@@ -40,8 +37,6 @@ module.exports.toBarcode = function (data, callback) {
 
     //create a 300x200 px barcode image
     var img = barc.code2of5(data, 300, 200);
-
     var imgBase64 = new Buffer(img, 'binary').toString('base64');
-
-    callback(null,'<img src="data:image/png;base64,' + imgBase64 + '" />');
+    callback(null, '<img src="data:image/png;base64,' + imgBase64 + '" />');
 };
