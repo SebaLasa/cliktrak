@@ -38,7 +38,7 @@ module.exports = function (router) {
             }
 
             model.Page.findOne({internalId: idPag, company: comp._id})
-                .populate('urlConfiguration', 'company')
+                .populate(['urlConfiguration', 'company'])
                 .exec(function (err, page) {
                     if (err) {
                         return next(Error.create('An error occurred trying to find the page.', {pageId: idPag}, err));
@@ -90,7 +90,7 @@ module.exports = function (router) {
             }
 
             model.CustomPage.findOne({internalId: idPag, company: comp._id})
-                .populate('urlConfiguration', 'company', 'page')
+                .populate(['urlConfiguration', 'company', 'page'])
                 .exec(function (err, customPage) {
                     if (err) {
                         return next(Error.create('An error occurred trying to find the custom page.', {internalId: idPag}, err));
