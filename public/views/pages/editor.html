@@ -26,7 +26,6 @@
             <label for="forCustomPages">For custom pages</label>
             <input type="checkbox" id="forCustomPages" name="forCustomPages" ng-model="page.forCustomPages">
         </div>
-
     </div>
     <div class="row" ng-show="!page.forCustomPages">
         <div class="col-md-6">
@@ -45,9 +44,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <label for="html">HTML</label>
             <textarea id="html" ui-tinymce ng-model="page.html"></textarea>
+        </div>
+        <div class="col-md-4">
+            <a ng-click="addBarcode()" class="btn btn-primary glyphicon glyphicon-barcode">+Barcode</a>
+            <a ng-click="addQrCode()" class="btn btn-primary glyphicon glyphicon-qrcode">+QR Code</a>
         </div>
     </div>
     <div class="row" ng-show="!page.forCustomPages">

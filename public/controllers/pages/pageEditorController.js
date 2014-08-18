@@ -11,6 +11,12 @@ app.controller('pageEditorController', function ($scope, $http, $location, $rout
                 });
         }
 
+        $scope.addBarcode = function () {
+            $scope.page.html += '<static-barcode></static-barcode>';
+        };
+        $scope.addQrCode = function () {
+            $scope.page.html += '<static-qrcode></static-qrcode>';
+        };
         $scope.save = function () {
             if ($routeParams.id) {
                 return $http.put('/api/pages/' + $routeParams.id, $scope.page)
@@ -22,6 +28,6 @@ app.controller('pageEditorController', function ($scope, $http, $location, $rout
                 .success(function (data, status) {
                     $location.path('pages');
                 });
-        }
+        };
     }
 );
