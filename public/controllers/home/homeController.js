@@ -1,3 +1,3 @@
-app.controller('homeController', function ($scope) {
+angular.module('clicks').controller('homeController', function ($scope) {
 
 });
