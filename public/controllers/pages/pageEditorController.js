@@ -1,4 +1,4 @@
-app.controller('pageEditorController', function ($scope, $http, $location, $routeParams) {
+angular.module('clicks').controller('pageEditorController', function ($scope, $http, $location, $routeParams) {
         $http.get('/api/layouts/').success(function (data, status) {
             $scope.layouts = data;
         });
@@ -29,5 +29,4 @@ app.controller('pageEditorController', function ($scope, $http, $location, $rout
                     $location.path('pages');
                 });
         };
-    }
-);
+    });
