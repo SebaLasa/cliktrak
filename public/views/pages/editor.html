@@ -62,7 +62,8 @@
     <div class="row" ng-show="!page.forCustomPages && urlConfiguration.qrData">
         <div class="col-md-6">
             <label for="qrData">Value</label>
-            <input type="text" id="qrData" ng-model="urlConfiguration.qrData"/>
+            <input type="text" id="qrData" ng-model="urlConfiguration.qrData"
+                   ng-required="urlConfiguration.qrGenerated"/>
         </div>
     </div>
     <div class="row" ng-show="!page.forCustomPages">
@@ -74,7 +75,8 @@
     <div class="row" ng-show="!page.forCustomPages && urlConfiguration.barcodeGenerated">
         <div class="col-md-6">
             <label for="barcodeData">Value</label>
-            <input type="text" id="barcodeData" ng-model="urlConfiguration.barcodeData"/>
+            <input type="text" id="barcodeData" ng-model="urlConfiguration.barcodeData"
+                   ng-required="urlConfiguration.barcodeGenerated"/>
         </div>
         <div class="col-md-6">
             <label>Size</label>
