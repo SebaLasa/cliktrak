@@ -5,13 +5,13 @@
         <div class="col-md-6">
             <div class="input-group">
                 <label for="name">Name</label>
-                <input type="text" id="name" ng-model="page.name"/>
+                <input type="text" id="name" name="name" ng-model="page.name" required/>
             </div>
         </div>
         <div class="col-md-6">
             <div class="input-group">
                 <label for="title">Page Title</label>
-                <input type="text" id="title" ng-model="page.title"/>
+                <input type="text" id="title" name="title" ng-model="page.title" required/>
             </div>
         </div>
     </div>
@@ -30,52 +30,78 @@
     <div class="row" ng-show="!page.forCustomPages">
         <div class="col-md-6">
             <label for="keywords">Keywords SEO</label>
-            <input type="text" id="keywords" ng-model="urlConfiguration.keywords"/>
+            <input type="text" id="keywords" name="keywords" ng-model="urlConfiguration.keywords"/>
         </div>
     </div>
     <div class="row" ng-show="!page.forCustomPages">
         <div class="col-md-6">
             <label for="isTracked">Are the clicks tracked?</label>
-            <input type="checkbox" id="isTracked" ng-model="urlConfiguration.isTracked"/>
+            <input type="checkbox" id="isTracked" name="isTracked" ng-model="urlConfiguration.isTracked"/>
         </div>
         <div class="col-md-6">
             <label for="subdomain">Subdomain</label>
-            <input type="text" id="subdomain" ng-model="urlConfiguration.subdomain"/> {{urlConfiguration.subdomain}}
+            <input type="text" id="subdomain" name="subdomain" ng-model="urlConfiguration.subdomain" required/>
+            {{urlConfiguration.subdomain}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-8">
             <label for="html">HTML</label>
-            <textarea id="html" ui-tinymce ng-model="page.html"></textarea>
+            <textarea id="html" name="html" ui-tinymce ng-model="page.html"></textarea>
         </div>
         <div class="col-md-4">
-            <a ng-click="addBarcode()" class="btn btn-primary glyphicon glyphicon-barcode">+Barcode</a>
-            <a ng-click="addQrCode()" class="btn btn-primary glyphicon glyphicon-qrcode">+QR Code</a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-barcode"></span> Barcode
+                </div>
+                <div class="panel-body">
+                    <a ng-click="addBarcode()" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-plus"></span>Static
+                    </a>
+                    <a ng-click="addDynamicBarcode()" ng-show="page.forCustomPages" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-plus"></span>Dynamic
+                    </a>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-qrcode"></span> QR Code
+                </div>
+                <div class="panel-body">
+                    <a ng-click="addQrCode()" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-plus"></span>Static
+                    </a>
+                    <a ng-click="addDynamicQrCode()" ng-show="page.forCustomPages" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-plus"></span>Dynamic
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row" ng-show="!page.forCustomPages">
         <div class="col-md-6">
             <label for="qrGenerated">Generate QR code?</label>
-            <input type="checkbox" id="qrGenerated" ng-model="urlConfiguration.qrGenerated"/>
+            <input type="checkbox" id="qrGenerated" name="qrGenerated" ng-model="urlConfiguration.qrGenerated"/>
         </div>
     </div>
     <div class="row" ng-show="!page.forCustomPages && urlConfiguration.qrData">
         <div class="col-md-6">
             <label for="qrData">Value</label>
-            <input type="text" id="qrData" ng-model="urlConfiguration.qrData"
+            <input type="text" id="qrData" name="qrData" ng-model="urlConfiguration.qrData"
                    ng-required="urlConfiguration.qrGenerated"/>
         </div>
     </div>
     <div class="row" ng-show="!page.forCustomPages">
         <div class="col-md-6">
             <label for="barcodeGenerated">Generate barcode?</label>
-            <input type="checkbox" id="barcodeGenerated" ng-model="urlConfiguration.barcodeGenerated"/>
+            <input type="checkbox" id="barcodeGenerated" name="barcodeGenerated"
+                   ng-model="urlConfiguration.barcodeGenerated"/>
         </div>
     </div>
     <div class="row" ng-show="!page.forCustomPages && urlConfiguration.barcodeGenerated">
         <div class="col-md-6">
             <label for="barcodeData">Value</label>
-            <input type="text" id="barcodeData" ng-model="urlConfiguration.barcodeData"
+            <input type="text" id="barcodeData" name="barcodeData" ng-model="urlConfiguration.barcodeData"
                    ng-required="urlConfiguration.barcodeGenerated"/>
         </div>
         <div class="col-md-6">
