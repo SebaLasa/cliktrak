@@ -21,7 +21,7 @@
     "mongoose-timestamps": "0.0.1",
     "morgan": "^1.1.1",
     "multiparty": "^3.3.2",
-    "node-bwipjs-ng": "0.0.2",
+    "node-bwipjs-ng": "0.0.3",
     "node-uuid": "1.x",
     "nodemailer": "0.x",
     "serve-favicon": "^2.0.x",
