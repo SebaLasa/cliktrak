@@ -1,5 +1,4 @@
-var qrimage = require('qr-image');
-var Barc = require('barc');
+var bwipjs = require('node-bwipjs-ng');
 
 /**
  * data : String to convert to qr
@@ -10,7 +9,7 @@ var Barc = require('barc');
  */
 
 module.exports.toQR = function (data, callback) {
-    var chunks = 0
+    /*var chunks = 0
     var bufs = []
     var qr = qrimage.image(data, { type: 'png' })
 
@@ -23,6 +22,11 @@ module.exports.toQR = function (data, callback) {
     })
     .on("error",function (err){
         callback(err,null);
+    });*/
+    var img = bwipjs.createQR(data, function(png){
+        var imgBase64 = new Buffer(png, 'binary').toString('base64');
+
+        callback(null,'<img src="data:image/png;base64,' + imgBase64 + '" />');
     });
 
 };
@@ -35,7 +39,9 @@ module.exports.toQR = function (data, callback) {
  * @param callback
  */
 module.exports.toBarcode = function (data, callback) {
-    var barc = new Barc();
-    //create a 300x200 px barcode image
-    callback(null,barc.code2of5(data, 300, 200));
+    var img = bwipjs.createBarcode(data, function(png){
+        var imgBase64 = new Buffer(png, 'binary').toString('base64');
+
+        callback(null,'<img src="data:image/png;base64,' + imgBase64 + '" />');
+    });
 };
