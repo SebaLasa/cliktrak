@@ -18,7 +18,8 @@ module.exports.toQR = function (data, callback) {
         })
     .on('end', function () {
         data = Buffer.concat(bufs);
-        callback(null, data);
+        var imgBase64 = data.toString('base64');
+        callback(null, '<img src="data:image/png;base64,' + imgBase64 + '" />');
     })
     .on("error",function (err){
         callback(err,null);
