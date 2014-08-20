@@ -45,5 +45,13 @@ module.exports = function (router) {
         });
     });
 
+    router.get('/reports/page/:id/download', function () {
+        res.send(400);
+    });
+
+    router.get('/reports/customPage/:id/download', function () {
+        res.send(400);
+    });
+
     return router;
 };
