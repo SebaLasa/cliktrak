@@ -1,5 +1,4 @@
-app.controller('signinController', function ($scope, $http) {
-
+angular.module('signin').controller('signinController', function ($scope, $http) {
     $scope.signin = function () {
         $scope.working = true;
         $scope.errorMessage = '';

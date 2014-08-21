@@ -1,4 +1,4 @@
-app.directive("barcodeSize", function () {
+angular.module('clicks').directive("barcodeSize", function () {
     return {
         restrict: 'E',
         replace: true,

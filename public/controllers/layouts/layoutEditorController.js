@@ -1,22 +1,21 @@
-app.controller('layoutEditorController', function ($scope, $http, $location, $routeParams) {
-        if ($routeParams.id) {
-            $http.get('/api/layouts/' + $routeParams.id)
-                .success(function (data, status) {
-                    $scope.layout = data;
-                });
-        }
+angular.module('clicks').controller('layoutEditorController', function ($scope, $http, $location, $routeParams) {
+    if ($routeParams.id) {
+        $http.get('/api/layouts/' + $routeParams.id)
+            .success(function (data, status) {
+                $scope.layout = data;
+            });
+    }
 
-        $scope.save = function () {
-            if ($routeParams.id) {
-                return $http.put('/api/layouts/' + $routeParams.id, $scope.layout)
-                    .success(function (data, status) {
-                        $location.path('layouts');
-                    });
-            }
-            $http.post('/api/layouts/', $scope.layout)
+    $scope.save = function () {
+        if ($routeParams.id) {
+            return $http.put('/api/layouts/' + $routeParams.id, $scope.layout)
                 .success(function (data, status) {
                     $location.path('layouts');
                 });
         }
+        $http.post('/api/layouts/', $scope.layout)
+            .success(function (data, status) {
+                $location.path('layouts');
+            });
     }
-);
+});

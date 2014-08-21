@@ -1,47 +1,50 @@
-var qrimage = require('qr-image');
-var Barc = require('barc');
+var bwipjs = require('node-bwipjs-ng');
 
-/**
- * data : String to convert to qr
- * callback: function (err,data)
- * data is a Buffer containing the image as png
- * @param data
- * @param callback
- */
+function generateBarcode(data, cb){
+    var img = bwipjs.createBarcode(data, function(png){
+        var imgBase64 = new Buffer(png, 'binary').toString('base64');
 
-module.exports.toQR = function (data, callback) {
-    var chunks = 0
-    var bufs = []
-    var qr = qrimage.image(data, { type: 'png' })
-
-    .on('data', function(chunk){
-            bufs[chunks++]=chunk;
-        })
-    .on('end', function () {
-        data = Buffer.concat(bufs);
-        var imgBase64 = data.toString('base64');
-        callback(null, '<img src="data:image/png;base64,' + imgBase64 + '" />');
-    })
-    .on("error",function (err){
-        callback(err,null);
+        cb(null,'<img src="data:image/png;base64,' + imgBase64 + '" />');
     });
-
-};
+}
 
 /**
- * data : String to convert to qr
+ * text : String to convert to qr
+ * opts : scale, rotate params
  * callback (err,data)
  * data is a Buffer containing the image as png
  * @param data
  * @param callback
  */
-module.exports.toBarcode = function (data, callback) {
-    var barc = new Barc();
 
-    //create a 300x200 px barcode image
-    var img = barc.code2of5(data, 300, 200);
+module.exports.toQR = function (text, opts, callback) {
 
-    var imgBase64 = new Buffer(img, 'binary').toString('base64');
+    var data = {
+        text: text,
+        type : 'qrcode',
+        scale : opts.scale || 2,
+        rotate : opts.rotate || 'N'
+    }
 
-    callback(null,'<img src="data:image/png;base64,' + imgBase64 + '" />');
+    generateBarcode(data, callback);
+
+};
+
+/**
+ * text : String to convert to qr
+ * opts : scale, rotate params
+ * callback (err,data)
+ * data is a Buffer containing the image as png
+ * @param data
+ * @param callback
+ */
+module.exports.toBarcode = function (text, opts, callback) {
+    var data = {
+        text: text,
+        type : 'interleaved2of5',
+        scale : opts.scale || 2,
+        rotate : opts.rotate || 'N'
+    }
+
+    generateBarcode(data, callback);
 };
