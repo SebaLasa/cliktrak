@@ -46,7 +46,7 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 templateUrl: '/views/customPages/editor.html'
             })
             .when('/reports/:pageType/:id', {
-                controller: 'reportController',
+                controller: 'reportsController',
                 templateUrl: '/views/reports/index.html'
             })
             .when('/campaigns', {
