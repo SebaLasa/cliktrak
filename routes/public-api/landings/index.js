@@ -5,9 +5,9 @@ var model = app.model,
     codeConverter = require('../../../services/codeConverter.js');
 
 module.exports = function (router) {
-
+    router.use(require('../../trackingMiddleware.js')())
     function addBarcodeAndSend(page, next, landing, res) {
-        codeConverter.toBarcode(page.urlConfiguration.barcodeData, function (err, dataUrl) {
+        codeConverter.toBarcode(page.urlConfiguration.barcodeData,{}, function (err, dataUrl) {
             if (err) {
                 return next(Error.create('An error occurred generating the barcode.', err));
             }
@@ -47,9 +47,14 @@ module.exports = function (router) {
                         return res.json(404, { message: 'Page not found!' });
                     }
 
+
+                    req.trackedClick.page = page;
+                    req.trackedClick.save();
+
+
                     var landing = page.html;
                     if (page.urlConfiguration.qrGenerated) {
-                        codeConverter.toQR(page.urlConfiguration.qrData, function (err, dataUrl) {
+                        codeConverter.toQR(page.urlConfiguration.qrData,{}, function (err, dataUrl) {
                             if (err) {
                                 return next(Error.create('An error occurred generating the QR code.', err));
                             }
@@ -98,9 +103,16 @@ module.exports = function (router) {
                     if (!customPage) {
                         return res.json(404, { message: 'Custom page not found!' });
                     }
+
+                    req.trackedClick.customPage = customPage;
+                    req.trackedClick.save(function(err){
+                        if (err)
+                            console.log(err);
+                    });
+
                     var landing = customPage.page.html;
                     if (customPage.urlConfiguration.qrGenerated) {
-                        codeConverter.toQR(customPage.urlConfiguration.qrData, function (err, dataUrl) {
+                        codeConverter.toQR(customPage.urlConfiguration.qrData,{}, function (err, dataUrl) {
                             if (err) {
                                 return next(Error.create('An error occurred generating the QR code.', err));
                             }
