@@ -1,12 +1,52 @@
 <a href="#/customPages/new" class="btn btn-primary">New</a>
 <h2>Custom Pages</h2>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <h4>Name</h4>
+    </div>
+    <div class="col-md-2">
+        <h4>Type</h4>
+    </div>
+    <div class="col-md-2">
+        <h4>Date Start</h4>
+    </div>
+    <div class="col-md-2">
+        <h4>Date End</h4>
+    </div>
+    <div class="col-md-2">
+        <h4>Last Modification</h4>
     </div>
 </div>
 <div ng-repeat="customPage in customPages">
-    <div class="col-md-3">
-        <a href="#/customPages/{{customPage._id}}">{{customPage.name}}</a>
+    <div class="col-md-2">
+        <a>{{customPage.name}}</a>
     </div>
-</div>
+
+    <div class="col-md-2">
+        <a>{{customPage.type}}</a>
+    </div>
+
+    <div class="col-md-2">
+        <a>{{customPage.dateStart}}</a>
+    </div>
+
+    <div class="col-md-2">
+        <a>{{customPage.dateEnd}}</a>
+    </div>
+
+    <div class="col-md-2">
+        <a>{{customPage.updated_at}}</a>
+    </div>
+    <div class="col-md-2">
+    <td>
+       <a href="#/customPages/delete/{{customPage._id}}" class="btn btn-primary" role="button">
+       <span class="glyphicon glyphicon-remove"></span>
+       </a>
+    </td>
+    <td>
+        <a href="#/customPages/{{customPage._id}}" class="btn btn-primary" role="button">
+        <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+    </td>
+    </div>
+ </div>

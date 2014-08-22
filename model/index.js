@@ -66,11 +66,11 @@ model.CustomPage = mongoose.model('customPages', new Schema({
     company: { type: ObjectId, ref: 'companies', required: true },
     page: { type: ObjectId, ref: 'pages', required: true },
     editor: { type: ObjectId, ref: 'users', required: true },
-    urlConfiguration: { type: ObjectId, ref: 'urlConfigurations' },
+    urlConfiguration: { type: ObjectId, ref: 'urlConfigurations'},
     type: { type: String, enum: model.enums.customPageTypes },
     status: { type: String, enum: model.enums.customPageStatus },
     name: { type: String, required: true },
-    internalId: { type: Number, required: true },
+    //internalId: { type: Number, required: true },
     dateStart: { type: Date, required: true },
     dateEnd: { type: Date, required: true },
     deleted: { type: Boolean, required: true, default: false }
