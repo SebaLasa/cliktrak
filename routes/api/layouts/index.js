@@ -13,7 +13,7 @@ module.exports = function (router) {
 
     router.get('/layouts/:id', function (req, res, next) {
         if (!validate.objectId(req.params.id)) {
-            return res.send(400);
+            return res.status(400).end();
         }
         model.Layout.findById(req.params.id).populate('editor').exec(function (err, layout) {
             if (err) {
@@ -30,10 +30,9 @@ module.exports = function (router) {
         var layout = new model.Layout(req.body);
         layout.editor = req.user._id;
         layout.company = req.company._id;
-        layout.lastmodification = new Date();
         layout.save(function (err, layout) {
             if (err) {
-                return next(Error.create('An error occurred trying get the Layouts.', { }, err));
+                return next(Error.create('An error occurred trying save the Layout.', { }, err));
             }
             res.status(201).end();
         });
@@ -42,10 +41,9 @@ module.exports = function (router) {
     router.put('/layouts/:id', function (req, res, next) {
         delete req.body._id;
         req.body.editor = req.user._id;
-        req.body.lastmodification = new Date();
         model.Layout.findByIdAndUpdate(req.params.id, req.body, function (err, layout) {
             if (err) {
-                return next(Error.create('An error occurred trying get the Layouts.', { }, err));
+                return next(Error.create('An error occurred trying get the Layout.', { }, err));
             }
             res.status(200).end();
         });
