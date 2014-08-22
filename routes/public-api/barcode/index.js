@@ -4,9 +4,9 @@
 var CodeConverter = require("../../../services/codeConverter")
 
 module.exports = function (router) {
-    router.get('/barcode/:string', function (req, res, next) {
+    router.get('/barcode/:sizing/:string', function (req, res, next) {
         var data= req.params.string;
-        CodeConverter.toBarcode(data,function(err,img){
+        CodeConverter.toBarcode(data,{scale:req.params.sizing},function(err,img){
            if(err){
                return next(Error.create('An error occurred trying to create the barcode.', { }, err));
            }
@@ -15,9 +15,9 @@ module.exports = function (router) {
         });
     });
 
-    router.get('/qr/:string', function (req, res, next) {
+    router.get('/qr/:sizing/:string', function (req, res, next) {
         var data= req.params.string;
-        CodeConverter.toQR(data,function(err,img){
+        CodeConverter.toQR(data,{scale:req.params.sizing},function(err,img){
             if(err){
                 return next(Error.create('An error occurred trying to create the barcode.', { }, err));
             }

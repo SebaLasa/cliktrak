@@ -1,47 +1,41 @@
-var qrimage = require('qr-image');
-var Barc = require('barc');
+var bwipjs = require('node-bwipjs-ng');
+
+function generateBarcode(data, cb) {
+    var img = bwipjs.createBarcode(data, function (png) {
+        var imgBase64 = new Buffer(png, 'binary').toString('base64');
+
+        cb(null, '<img src="data:image/png;base64,' + imgBase64 + '" />');
+    });
+}
 
 /**
- * data : String to convert to qr
- * callback: function (err,data)
- * data is a Buffer containing the image as png
- * @param data
- * @param callback
+ * Convert a string to a QR
+ * @param text String to convert to QR
+ * @param options scale, rotate params
+ * @param callback (err, data) data is a Buffer containing the image as png
  */
-
-module.exports.toQR = function (data, callback) {
-    var chunks = 0
-    var bufs = []
-    var qr = qrimage.image(data, { type: 'png' })
-
-    .on('data', function(chunk){
-            bufs[chunks++]=chunk;
-        })
-    .on('end', function () {
-        data = Buffer.concat(bufs);
-        var imgBase64 = data.toString('base64');
-        callback(null, '<img src="data:image/png;base64,' + imgBase64 + '" />');
-    })
-    .on("error",function (err){
-        callback(err,null);
-    });
-
+module.exports.toQR = function (text, options, callback) {
+    options |= {};
+    generateBarcode({
+        text: text,
+        type: 'qrcode',
+        scale: options.scale || 2,
+        rotate: options.rotate || 'N'
+    }, callback);
 };
 
 /**
- * data : String to convert to qr
- * callback (err,data)
- * data is a Buffer containing the image as png
- * @param data
- * @param callback
+ * Convert a string to a barcode
+ * @param text String to convert to barcode
+ * @param options scale, rotate params
+ * @param callback (err,data) data is a Buffer containing the image as png
  */
-module.exports.toBarcode = function (data, callback) {
-    var barc = new Barc();
-
-    //create a 300x200 px barcode image
-    var img = barc.code2of5(data, 300, 200);
-
-    var imgBase64 = new Buffer(img, 'binary').toString('base64');
-
-    callback(null,'<img src="data:image/png;base64,' + imgBase64 + '" />');
+module.exports.toBarcode = function (text, options, callback) {
+    options |= {};
+    generateBarcode({
+        text: text,
+        type: 'interleaved2of5',
+        scale: options.scale || 2,
+        rotate: options.rotate || 'N'
+    }, callback);
 };

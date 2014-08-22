@@ -16,14 +16,14 @@ module.exports = function (router) {
 
     router.get('/contacts/:id', function (req, res, next) {
         if (!validate.objectId(req.params.id)) {
-            return res.send(400);
+            return res.status(400).end();
         }
         model.Contact.findById(req.params.id, function (err, contact) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Contact.', { }, err));
             }
             if (!contact || contact.deleted || !req.company._id.equals(contact.company)) {
-                return res.send(404);
+                return res.status(404).end();
             }
             res.json(contact);
         });
@@ -68,7 +68,6 @@ module.exports = function (router) {
             });
         });
 
-
         // parse the form
         form.parse(req);
     });
@@ -82,7 +81,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying save the Contact.', { }, err));
             }
-            res.send(201);
+            res.status(201).end();
         });
     });
 
@@ -93,7 +92,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying update the Contact.', { }, err));
             }
-            res.send(200);
+            res.status(200).end();
         });
     });
 
@@ -103,13 +102,13 @@ module.exports = function (router) {
                 return next(Error.create('An error occurred trying get the Contact.', { }, err));
             }
             if (!contact || contact.deleted || !req.company._id.equals(contact.company)) {
-                return res.send(404);
+                return res.status(404).end();
             }
             contact.deleted=true;
             contact.save(function (err) {
                 if (err)
                     return next(Error.create('An error occurred trying delete the Contact.', { }, err));
-                res.send(200);
+                res.status(200).end();
             });
 
         });

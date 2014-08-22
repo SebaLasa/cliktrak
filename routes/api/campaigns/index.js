@@ -13,7 +13,7 @@ module.exports = function (router) {
 
     router.get('/campaigns/:id', function (req, res, next) {
         if (!validate.objectId(req.params.id)) {
-            return res.send(400);
+            return res.status(400).end();
         }
         model.Campaign.findById(req.params.id, function (err, campaign) {
             if (err) {
@@ -29,7 +29,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying save the Campaign.', { }, err));
             }
-            res.send(201);
+            res.status(201).end();
         });
     });
 
@@ -38,7 +38,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying update the Campaign.', { }, err));
             }
-            res.send(200);
+            res.status(200).end();
         });
     });
 
@@ -47,7 +47,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying delete the Campaign.', { }, err));
             }
-            res.send(200);
+            res.status(200).end();
         });
     });
 
