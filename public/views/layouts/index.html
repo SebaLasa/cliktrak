@@ -1,34 +1,38 @@
-<a href="#/layouts/new" class="btn btn-primary">New</a>
-<h2>Layouts</h2>
-<div class="row">
-    <div class="col-md-3">
-        <h4>Name</h4>
-    </div>
-    <div class="col-md-3">
-        <h4>Modified</h4>
-    </div>
-    <div class="col-md-3">
-        <h4>Editor</h4>
-    </div>
-</div>
-<div ng-repeat="layout in layouts">
+<div class="container">
+    <a href="#/layouts/new" class="btn btn-primary">New</a>
+
+    <h2>Layouts</h2>
+
     <div class="row">
         <div class="col-md-3">
-            {{layout.name}}
+            <h4>Name</h4>
         </div>
         <div class="col-md-3">
-            {{layout.updated_at | dateTime}}
+            <h4>Modified</h4>
         </div>
         <div class="col-md-3">
-            {{layout.editor.name}}
+            <h4>Editor</h4>
         </div>
-        <div class="col-md-3 btn-group">
-            <a href="#/layouts/{{layout._id}}" class="btn btn-sm btn-primary" title="Edit page">
-                <span class="glyphicon glyphicon-pencil"></span>
-            </a>
-            <a href="#/layouts/delete/{{layout._id}}" class="btn btn-sm btn-danger" title="Delete layout">
-                <span class="glyphicon glyphicon-remove"></span>
-            </a>
+    </div>
+    <div ng-repeat="layout in layouts">
+        <div class="row">
+            <div class="col-md-3">
+                {{layout.name}}
+            </div>
+            <div class="col-md-3">
+                {{layout.updated_at | dateTime}}
+            </div>
+            <div class="col-md-3">
+                {{layout.editor.name}}
+            </div>
+            <div class="col-md-3 btn-group">
+                <a href="#/layouts/{{layout._id}}" class="btn btn-sm btn-primary" title="Edit page">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <a href="#/layouts/delete/{{layout._id}}" class="btn btn-sm btn-danger" title="Delete layout">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+            </div>
         </div>
     </div>
 </div>

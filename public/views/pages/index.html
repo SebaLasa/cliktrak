@@ -1,36 +1,40 @@
-<a href="#/pages/new" class="btn btn-primary">New</a>
-<h2>Pages</h2>
-<div class="row">
-    <div class="col-md-3"><h4>Name</h4></div>
-    <div class="col-md-2"><h4>States</h4></div>
-    <div class="col-md-2"><h4>Modified</h4></div>
-    <div class="col-md-2"><h4>Editor</h4></div>
-</div>
-<div ng-repeat="page in pages">
+<div class="container">
+    <a href="#/pages/new" class="btn btn-primary">New</a>
+
+    <h2>Pages</h2>
+
     <div class="row">
-        <div class="col-md-3">{{page.name}}</div>
-        <div class="col-md-2"></div>
-        <div class="col-md-2">
-            {{page.updated_at | dateTime }}
-        </div>
-        <div class="col-md-2">
-            {{page.editor.name}}
-        </div>
-        <div class="col-md-2 btn-group">
-            <a href="#/pages/{{page._id}}" class="btn btn-sm btn-primary" title="Edit page">
-                <span class="glyphicon glyphicon-pencil"></span>
-            </a>
-            <button ng-click="enable(page, false)" ng-show="page.enabled" class="btn btn-sm btn-success"
-                    title="The page is enabled. Click for Disable.">
-                <span class="glyphicon glyphicon-ok-circle"></span>
-            </button>
-            <button ng-click="enable(page, true)" ng-hide="page.enabled" class="btn btn-sm btn-warning"
-                    title="The page is disabled. Click for Enable.">
-                <span class="glyphicon glyphicon-remove-circle"></span>
-            </button>
-            <a href="#/pages/delete/{{page._id}}" class="btn btn-sm btn-danger" title="Delete page">
-                <span class="glyphicon glyphicon-remove"></span>
-            </a>
+        <div class="col-md-3"><h4>Name</h4></div>
+        <div class="col-md-2"><h4>States</h4></div>
+        <div class="col-md-2"><h4>Modified</h4></div>
+        <div class="col-md-2"><h4>Editor</h4></div>
+    </div>
+    <div ng-repeat="page in pages">
+        <div class="row">
+            <div class="col-md-3">{{page.name}}</div>
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+                {{page.updated_at | dateTime }}
+            </div>
+            <div class="col-md-2">
+                {{page.editor.name}}
+            </div>
+            <div class="col-md-2 btn-group">
+                <a href="#/pages/{{page._id}}" class="btn btn-sm btn-primary" title="Edit page">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <button ng-click="enable(page, false)" ng-show="page.enabled" class="btn btn-sm btn-success"
+                        title="The page is enabled. Click for Disable.">
+                    <span class="glyphicon glyphicon-ok-circle"></span>
+                </button>
+                <button ng-click="enable(page, true)" ng-hide="page.enabled" class="btn btn-sm btn-warning"
+                        title="The page is disabled. Click for Enable.">
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                </button>
+                <a href="#/pages/delete/{{page._id}}" class="btn btn-sm btn-danger" title="Delete page">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+            </div>
         </div>
     </div>
 </div>
