@@ -143,5 +143,7 @@ module.exports = function (router) {
     console.log('Loading public-api...');
 
     router.use('/public-api',
-        require('./public-api')(express.Router()));
+        require('./public-api')(express.Router()
+        .use(require('./trackingMiddleware.js')())
+     ));
 };
