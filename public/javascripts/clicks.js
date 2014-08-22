@@ -17,6 +17,10 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 controller: 'layoutEditorController',
                 templateUrl: '/views/layouts/editor.html'
             })
+            .when('/layouts/delete/:id', {
+                controller: 'layoutsDeleteCtrl',
+                templateUrl: '/views/layouts/delete.html'
+            })
             .when('/pages', {
                 controller: 'pagesController',
                 templateUrl: '/views/pages/index.html'

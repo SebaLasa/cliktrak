@@ -3,7 +3,7 @@ var model = app.model,
 
 module.exports = function (router) {
     router.get('/layouts', function (req, res, next) {
-        model.Layout.find({ company: req.company._id, deleted: false }, function (err, layouts) {
+        model.Layout.find({ company: req.company._id, deleted: false }).populate('editor').exec(function (err, layouts) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }
@@ -15,12 +15,12 @@ module.exports = function (router) {
         if (!validate.objectId(req.params.id)) {
             return res.send(400);
         }
-        model.Layout.findById(req.params.id, function (err, layout) {
+        model.Layout.findById(req.params.id).populate('editor').exec(function (err, layout) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }
             if (!layout || layout.deleted || !req.company._id.equals(layout.company)) {
-                return res.send(404);
+                return res.status(404).end();
             }
             res.json(layout);
         });
@@ -30,22 +30,24 @@ module.exports = function (router) {
         var layout = new model.Layout(req.body);
         layout.editor = req.user._id;
         layout.company = req.company._id;
+        layout.lastmodification = new Date();
         layout.save(function (err, layout) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }
-            res.send(201);
+            res.status(201).end();
         });
     });
 
     router.put('/layouts/:id', function (req, res, next) {
         delete req.body._id;
         req.body.editor = req.user._id;
+        req.body.lastmodification = new Date();
         model.Layout.findByIdAndUpdate(req.params.id, req.body, function (err, layout) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }
-            res.send(200);
+            res.status(200).end();
         });
     });
 
@@ -55,14 +57,14 @@ module.exports = function (router) {
                 return next(Error.create('An error occurred trying get the Layout.', { }, err));
             }
             if (!layout || layout.deleted || !req.company._id.equals(layout.company)) {
-                return res.send(404);
+                return res.status(404).end();
             }
             layout.deleted = true;
             layout.save(function (err) {
                 if (err) {
                     return next(Error.create('An error occurred trying delete the Layout.', { }, err));
                 }
-                res.send(200);
+                res.status(200).end();
             });
         });
     });
