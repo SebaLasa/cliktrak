@@ -31,7 +31,6 @@ module.exports = function () {
     }
 
     return function (req, res, next) {
-        // TODO: Should this request be tracked?
         var agent = req.headers['user-agent'];
         var click = new model.TrackedClick();
         click.ipAddress = req.ip;
@@ -39,7 +38,6 @@ module.exports = function () {
         click.device = getDevice(agent);
         click.agent = agent;
         req.trackedClick = click;
-        // TODO: Populate menu, page, custom page
         next();
 
     }
