@@ -17,9 +17,9 @@
             {{page.editor.name}}
         </div>
         <div class="col-md-2 btn-group">
-            <button href="#/pages/{{page._id}}" class="btn btn-sm btn-primary" title="Edit page">
+            <a href="#/pages/{{page._id}}" class="btn btn-sm btn-primary" title="Edit page">
                 <span class="glyphicon glyphicon-pencil"></span>
-            </button>
+            </a>
             <button ng-click="enable(page, false)" ng-show="page.enabled" class="btn btn-sm btn-success"
                     title="The page is enabled. Click for Disable.">
                 <span class="glyphicon glyphicon-ok-circle"></span>
@@ -28,9 +28,9 @@
                     title="The page is disabled. Click for Enable.">
                 <span class="glyphicon glyphicon-remove-circle"></span>
             </button>
-            <button ng-click="deletePage(page._id)" class="btn btn-sm btn-danger" title="Delete page">
+            <a href="#/pages/delete/{{page._id}}" class="btn btn-sm btn-danger" title="Delete page">
                 <span class="glyphicon glyphicon-remove"></span>
-            </button>
+            </a>
         </div>
     </div>
 </div>

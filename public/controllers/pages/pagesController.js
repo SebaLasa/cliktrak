@@ -12,8 +12,8 @@ angular.module('clicks').controller('pagesController', function ($scope, $http) 
                 loadPages();
             });
     };
-    $scope.enable = function(page, newState){
-        page.enabled = newState;
+    $scope.enable = function(page, enabled){
+        page.enabled = enabled;
         $http.put('/api/pages/' + page._id, page)
             .success(function (data, status) {
                 loadPages();

@@ -5,28 +5,30 @@
         <h4>Name</h4>
     </div>
     <div class="col-md-3">
-        <h4>Editor</h4>
+        <h4>Modified</h4>
     </div>
     <div class="col-md-3">
-        <h4>Last Modification</h4>
-    </div>
-     <div class="col-md-3">
-        <h4>Delete</h4>
+        <h4>Editor</h4>
     </div>
 </div>
 <div ng-repeat="layout in layouts">
     <div class="row">
         <div class="col-md-3">
-            <a href="#/layouts/{{layout._id}}">{{layout.name}}</a>
-        </div>
-         <div class="col-md-3">
-            <a href="#/layouts/{{layout._id}}">{{layout.editor.name}}</a>
+            {{layout.name}}
         </div>
         <div class="col-md-3">
-            <a href="#/layouts/{{layout._id}}">{{layout.lastmodification}}</a>
+            {{layout.updated_at}}
         </div>
         <div class="col-md-3">
-            <a href="#/layouts/delete/{{layout._id}}" class="btn btn-primary">Delete</a>
+            {{layout.editor.name}}
+        </div>
+        <div class="col-md-3 btn-group">
+            <a href="#/layouts/{{layout._id}}" class="btn btn-sm btn-primary" title="Edit page">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+            <a href="#/layouts/delete/{{layout._id}}" class="btn btn-sm btn-danger" title="Delete layout">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
         </div>
     </div>
 </div>
