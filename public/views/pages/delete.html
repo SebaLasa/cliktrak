@@ -1,18 +1,18 @@
 <div class="container">
-    <a href="#/layouts" class="btn btn-default">back</a>
+    <a href="#/pages" class="btn btn-default">back</a>
 
-    <h1>Deleting {{layout.name}}</h1>
+    <h1>Deleting {{page.name}}</h1>
 
     <h3>Are you sure that you want to delete this layout?</h3>
 
     <p>
         <b>Modified</b>
-        <span>{{layout.updated_at | dateTime}}</span>
+        <span>{{page.updated_at | dateTime}}</span>
     </p>
 
     <p>
         <b>Editor</b>
-        <span>{{layout.editor.name}}</span>
+        <span>{{page.editor.name}}</span>
     </p>
 
     <form ng-submit="delete()">

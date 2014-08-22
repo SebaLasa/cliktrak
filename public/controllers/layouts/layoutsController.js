@@ -3,4 +3,10 @@ angular.module('clicks').controller('layoutsController', function ($scope, $http
         .success(function (data, status) {
             $scope.layouts = data;
         });
+    $scope.deletePage = function (id) {
+        $http.delete('/api/layouts/' + id)
+            .success(function (data, status) {
+
+            });
+    };
 });
