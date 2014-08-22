@@ -1,0 +1,28 @@
+<div class="container">
+    <h1>Layous</h1>
+    
+    <h2>Are you sure?</h2>
+    
+    <h3>Delete</h3>
+
+    <div>
+        <b>Name</b>
+        <span>{{layout.name}}</span>
+    </div>
+    <div>
+        <b>Editor</b>
+        <span>{{layout.editor.name}}</span>
+    </div>
+    <div>
+        <b>Footer Back Ground Color</b>
+        <span>{{layout.footerBackgroundColor}}</span>
+    </div>
+    <div>
+        <b>Footer</b>
+        <span>{{layout.footer}}</span>
+    </div>
+    <form ng-submit="delete()">
+        <input type="submit" class="button" value="delete"/>
+    </form>
+    <a href="#/layouts">back</a>
+</div>
