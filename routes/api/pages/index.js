@@ -3,7 +3,7 @@ var model = app.model,
 
 module.exports = function (router) {
     router.get('/pages', function (req, res, next) {
-        model.Page.find({}, function (err, pages) {
+        model.Page.find({ deleted: false }).populate('editor').exec(function (err, pages) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Pages.', { }, err));
             }
