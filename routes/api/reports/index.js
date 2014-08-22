@@ -16,12 +16,11 @@ module.exports = function (router) {
             return { day: day, count: x.length };
         }).value();
 
-        var devices = _(clicks).groupBy('agent').map(function (x, agent) {
-            return { agent: agent, count: x.length};
+        var devices = _(clicks).groupBy('device').map(function (x, agent) {
+            return { device : agent, count: x.length};
         }).value();
-
         return {
-            clicksCount: clicks.lenght,
+            clicksCount: clicks.length,
             clicksPerDay: clicksPerDay,
             devices: devices
         };
