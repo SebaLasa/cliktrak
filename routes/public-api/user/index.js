@@ -50,7 +50,7 @@ module.exports = function (router) {
             if (!user) {
                 return res.json(404, { message: 'Link id was not found!' });
             }
-            res.send(200);
+            res.status(200).end();
         });
     });
 
@@ -92,7 +92,7 @@ module.exports = function (router) {
 
                 delete user.pass;
                 req.session.user = user;
-                res.send(200);
+                res.status(200).end();
             });
         })
     });
@@ -128,10 +128,10 @@ module.exports = function (router) {
                     name: user.name
                 });
 
-                res.send(200);
+                res.status(200).end();
             });
         });
     });
-    return router;
 
-}
+    return router;
+};
