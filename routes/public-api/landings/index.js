@@ -19,14 +19,14 @@ module.exports = function (router) {
     //landing static page
     router.get('/p/:id', function (req, res, next) {
         if (!req.params.id) {
-            return res.json(400, { message: 'Invalid page and company id!'});
+            return res.json(400, { message: 'Invalid code, try again by clicking on the link that has been sent.'});
         }
         var ids = req.params.id.split('.');
         var idComp = ids[0];
         var idPag = ids[1];
 
         if (!idPag) {
-            return res.json(400, { message: 'Invalid page and company id!'});
+            return res.json(400, { message: 'Invalid code, try again by clicking on the link that has been sent.'});
         }
 
         model.Company.findOne({internalId: idComp}, function (err, comp) {
@@ -77,7 +77,7 @@ module.exports = function (router) {
     //landing custom page
     router.get('/c/:id', function (req, res, next) {
         if (!req.params.id) {
-            return res.json(400, { message: 'Invalid page and company id!'});
+            return res.json(400, { message: 'Invalid code, try again by clicking on the link that has been sent.'});
         }
         var ids = req.params.id.split('.');
         var idComp = ids[0];
