@@ -20,7 +20,7 @@ module.exports = function (router) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }
             if (!layout || layout.deleted || !req.company._id.equals(layout.company)) {
-                return res.send(404);
+                return res.status(404).end();
             }
             res.json(layout);
         });
@@ -35,7 +35,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }
-            res.send(201);
+            res.status(201).end();
         });
     });
 
@@ -47,7 +47,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }
-            res.send(200);
+            res.status(200).end();
         });
     });
 
@@ -57,14 +57,14 @@ module.exports = function (router) {
                 return next(Error.create('An error occurred trying get the Layout.', { }, err));
             }
             if (!layout || layout.deleted || !req.company._id.equals(layout.company)) {
-                return res.send(404);
+                return res.status(404).end();
             }
             layout.deleted = true;
             layout.save(function (err) {
                 if (err) {
                     return next(Error.create('An error occurred trying delete the Layout.', { }, err));
                 }
-                res.send(200);
+                res.status(200).end();
             });
         });
     });

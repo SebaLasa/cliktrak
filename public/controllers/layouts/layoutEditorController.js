@@ -1,6 +1,4 @@
-app.controller('layoutEditorController', function ($scope, $http, $location, $routeParams) {
-
-
+angular.module('clicks').controller('layoutEditorController', function ($scope, $http, $location, $routeParams) {
         if ($routeParams.id) {
             $http.get('/api/layouts/' + $routeParams.id)
                 .success(function (data, status) {

@@ -46,8 +46,7 @@ model.Layout = mongoose.model('layouts', new Schema({
     name: { type: String, required: true },
     footer: { type: String, required: true },
     footerBackgroundColor: { type: String, required: true },
-    deleted: { type: Boolean, required: true, default: false },
-    lastmodification:{ type: Date, required: true }
+    deleted: { type: Boolean, required: true, default: false }
 }).plugin(timestamps));
 
 model.Page = mongoose.model('pages', new Schema({
