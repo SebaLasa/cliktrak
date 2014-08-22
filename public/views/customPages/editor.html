@@ -1,9 +1,69 @@
 <a href="#/customPages" class="btn btn-default">Back</a>
 <h2>Custom Page</h2>
 <form ng-submit="save()">
-    <div class="input-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" ng-model="customPage.name"/>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" ng-model="customPage.name"/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="dateStart">Starts</label>
+                <input type="text" id="dateStart" name="dateStart" ng-model="customPage.dateStart" ui-date/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select id="type" name="type" ng-model="customPage.type">
+                    <option value="withLoad">With load</option>
+                    <option value="withoutLoad">Without load</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="dateEnd">Due date</label>
+                <input type="text" id="dateEnd" name="dateEnd" ng-model="customPage.dateEnd" ui-date/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="keywords">Keywords SEO</label>
+                <input type="text" id="keywords" name="keywords" ng-model="urlConfigurations.keywords">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="subdomain">Subdomain</label>
+                <input type="text" id="subdomain" name="subdomain" ng-model="urlConfigurations.subdomain">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="isTracked">Are the clicks tracked?</label>
+                <input type="checkbox" id="isTracked" name="isTracked" ng-model="urlConfiguration.isTracked"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="page">Page</label>
+                <select id="page" name="page" ng-model="customPage.page"
+                        ng-options="page._id as page.name for page in pages"></select>
+            </div>
+        </div>
     </div>
     <br/>
     <input type="submit" value="save" class="btn btn-primary"/>

@@ -1,6 +1,24 @@
 angular.module('clicks').controller('pagesController', function ($scope, $http) {
-    $http.get('/api/pages/')
-        .success(function (data, status) {
-            $scope.pages = data;
-        });
+    function loadPages(){
+        $http.get('/api/pages/')
+            .success(function (data, status) {
+                $scope.pages = data;
+            });
+    }
+
+    $scope.deletePage = function (id) {
+        $http.delete('/api/pages/' + id)
+            .success(function (data, status) {
+                loadPages();
+            });
+    };
+    $scope.enable = function(page, newState){
+        page.enabled = newState;
+        $http.put('/api/pages/' + page._id, page)
+            .success(function (data, status) {
+                loadPages();
+            });
+    };
+
+    loadPages();
 });

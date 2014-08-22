@@ -29,7 +29,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying save the Custom Page.', { }, err));
             }
-            res.send(201);
+            res.status(201).end();
         });
     });
 
@@ -47,7 +47,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying delete the Custom Page.', { }, err));
             }
-            res.send(200);
+            res.status(200).end();
         });
     });
 
