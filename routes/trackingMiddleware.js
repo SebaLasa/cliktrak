@@ -7,7 +7,6 @@ var model = app.model;
 module.exports = function () {
     function getDevice(agent) {
         agent = agent.toLowerCase();
-        console.log(agent);
         if (agent.indexOf("blackberry") > -1)
             return "blackberry";
         if (agent.indexOf("ipad") > -1)
@@ -33,14 +32,15 @@ module.exports = function () {
 
     return function (req, res, next) {
         // TODO: Should this request be tracked?
+        var agent = req.headers['user-agent'];
         var click = new model.TrackedClick();
         click.ipAddress = req.ip;
         click.timestamp = new Date();
-        click.device = getDevice(req.headers['user-agent']);
+        click.device = getDevice(agent);
         click.agent = agent;
+        req.trackedClick = click;
         // TODO: Populate menu, page, custom page
-        click.save(function (err) {
-            next();
-        });
+        next();
+
     }
 };
