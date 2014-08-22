@@ -6,23 +6,46 @@ angular.module('clicks').controller('reportsController', function ($scope, $http
             $scope.report = data;
 
             $scope.daysData = {
-                "series" : ["clicks"],
-                "data" : _.map($scope.report.clicksPerDay,function(dayData){
-                    return {x:dayData["day"],y: dayData["count"]}
+                series : ["clicks"],
+                data : _.map($scope.report.clicksPerDay,function(dayData){
+                    return {x:dayData["day"],y: [dayData["count"]]}
+                })
+            }
+
+            $scope.deviceData = {
+                series : ["devices"],
+                data : _.map($scope.report.devices,function(deviceData){
+                    return {
+                        x: deviceData["device"],
+                        y: [deviceData["count"]]
+                    }
                 })
             }
         });
-    var config = {
-        title: 'Tu Vieja',
+
+    $scope.daysChartType = 'bar';
+    $scope.daysConfig = {
+        title: '',
         tooltips: true,
         labels: false,
         legend: {
             display: true,
             //could be 'left, right'
+            position: 'right'
+        },
+        innerRadius: 0,
+        lineLegend: "lineEnd"
+    };
+
+    $scope.deviceChartType = 'pie';
+    $scope.deviceConfig = {
+        title: '',
+        tooltips: false,
+        labels: true,
+        legend: {
+            display: true,
+            //could be 'left, right'
             position: 'left'
         }
-    }
-
-    $scope.daysConfig = config;
-    $scope.daysChartType = 'bar';
+    };
 });
