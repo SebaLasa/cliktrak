@@ -13,16 +13,8 @@
     </div>
 </div>
 <h3>Clicks in the last 30 days</h3>
-<div ng-repeat="clicks in report.clicksPerDay">
-    <div class="row">
-        <div class="col-md-3">
-            {{clicks.day}}
-        </div>
-        <div>
-            {{clicks.count}}
-        </div>
-    </div>
-</div>
+<div ac-chart="daysChartType" ac-data="daysData" ac-config="daysConfig"></div>
+<span>{{daysData}}</span>
 <h3>Clicks per device</h3>
 <div ng-repeat="device in report.devices">
     <div class="row">
