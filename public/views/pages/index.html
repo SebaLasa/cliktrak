@@ -2,37 +2,29 @@
 <h2>Pages</h2>
 <div class="row">
     <div class="col-md-3"><h4>Name</h4></div>
+    <div class="col-md-3"><h4>Edit</h4></div>
+    <div class="col-md-3"><h4>Enabled?</h4></div>
+    <div class="col-md-3"><h4>Delete</h4></div>
 </div>
-<table class="table table-striped table-bordered table-condensed table-hover">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Edit</th>
-        <th>Enabled?</th>
-        <th>Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="page in pages">
-        <td>{{page.name}}</td>
-        <td>
+<div ng-repeat="page in pages">
+    <div class="row">
+        <div class="col-md-3">
             <a href="#/pages/{{page._id}}" class="btn btn-primary" role="button">
                 <span class="glyphicon glyphicon-pencil"></span>
             </a>
-        </td>
-        <td>
+        </div>
+        <div class="col-md-3">
             <button class="btn btn-success" ng-show="page.enabled" ng-click="enable(page, false)">
                 <span class="glyphicon glyphicon-ok-circle"></span>
             </button>
             <button class="btn btn-warning" ng-hide="page.enabled" ng-click="enable(page, true)">
                 <span class="glyphicon glyphicon-remove-circle"></span>
             </button>
-        </td>
-        <td>
+        </div>
+        <div class="col-md-3">
             <button class="btn btn-danger"  ng-click="deletePage(page._id)">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
-        </td>
-    </tr>
-    </tbody>
-</table>
+        </div>
+    </div>
+</div>
