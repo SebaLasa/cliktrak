@@ -1,14 +1,12 @@
-angular.module('clicks').controller('layoutEditorController', function ($scope, $http, $location, $routeParams) {
-        if ($routeParams.id) {
-            $http.get('/api/layouts/' + $routeParams.id)
+angular.module('clicks').controller('layoutsDeleteCtrl', function ($scope, $http, $location, $routeParams) {
+        $http.get('/api/layouts/' + $routeParams.id)
                 .success(function (data, status) {
                     $scope.layout = data;
                 });
-        }
-
-        $scope.save = function () {
+        
+       $scope.delete = function () {
             if ($routeParams.id) {
-                return $http.put('/api/layouts/' + $routeParams.id, $scope.layout)
+                return $http.delete('/api/layouts/' + $routeParams.id, $scope.layout)
                     .success(function (data, status) {
                         $location.path('layouts');
                     });
@@ -18,5 +16,4 @@ angular.module('clicks').controller('layoutEditorController', function ($scope, 
                     $location.path('layouts');
                 });
         }
-    }
-);
+})
