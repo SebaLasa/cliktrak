@@ -8,5 +8,8 @@
 <div ng-repeat="customPage in customPages">
     <div class="col-md-3">
         <a href="#/customPages/{{customPage._id}}">{{customPage.name}}</a>
+        <a href="#/reports/customPage/{{customPage._id}}" class="btn btn-sm btn-primary" title="Statistics">
+            <span class="glyphicon glyphicon-signal"></span>
+        </a>
     </div>
 </div>

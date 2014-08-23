@@ -37,7 +37,7 @@ module.exports = function (router) {
     });
 
     router.get('/reports/customPage/:id', function (req, res, next) {
-        model.TrackedClick.find({ page: req.params.id }, function (err, clicks) {
+        model.TrackedClick.find({ customPage: req.params.id }, function (err, clicks) {
             if (err) {
                 return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
             }
@@ -54,7 +54,6 @@ module.exports = function (router) {
             }
             var header= ['IP','timestamp','device','page','reference value','agent'];
             var dataArray = _.map(clicks,function(click){
-                //console.log(clicks);
                 return [
                     click.ipAddress,
                     click.timestamp,
@@ -79,7 +78,7 @@ module.exports = function (router) {
     });
 
     router.get('/reports/customPage/:id/download', function (req, res, next) {
-        model.TrackedClick.find({ page: req.params.id })
+        model.TrackedClick.find({ customPage: req.params.id })
             .populate(['customPage'])
             .exec(function (err, clicks) {
                 if (err) {
@@ -87,7 +86,6 @@ module.exports = function (router) {
                 }
                 var header= ['IP','timestamp','device','customPage','reference value','agent'];
                 var dataArray = _.map(clicks,function(click){
-                    //console.log(clicks);
                     return [
                         click.ipAddress,
                         click.timestamp,
