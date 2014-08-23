@@ -3,7 +3,7 @@ var model = app.model,
 
 module.exports = function (router) {
     router.get('/pages', function (req, res, next) {
-        model.Page.find({ deleted: false }).populate('editor').exec(function (err, pages) {
+        model.Page.find({ /*deleted: false*/ }).populate('editor').exec(function (err, pages) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Pages.', { }, err));
             }
@@ -15,7 +15,7 @@ module.exports = function (router) {
         if (!validate.objectId(req.params.id)) {
             return res.status(400).end();
         }
-        model.Page.findById(req.params.id).populate('editor').exec(function (err, pages) {
+        model.Page.find({_id: req.params.id, deleted: false, companyId: req.company._id}).populate('editor').exec(function (err, pages) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Pages.', { }, err));
             }
@@ -43,11 +43,20 @@ module.exports = function (router) {
     });
 
     router.delete('/pages/:id', function (req, res, next) {
-        model.Page.findByIdAndUpdate(req.params.id, req.body, function (err, page) {
+        model.Page.findById(req.params.id, req.body, function (err, page) {
             if (err) {
                 return next(Error.create('An error occurred trying delete the Page.', { }, err));
             }
-            res.status(200).end();
+            if (!page || page.deleted || !req.company._id.equals(page.company)) {
+                return res.status(404).end();
+            }
+            page.deleted = true;
+            page.save(function (err) {
+                if (err) {
+                    return next(Error.create('An error occurred trying delete the Page.', { }, err));
+                }
+                res.status(200).end();
+            });
         });
     });
 
