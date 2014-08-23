@@ -65,7 +65,6 @@ module.exports = function (router) {
             });
             dataArray.unshift(header);
 
-            //console.log(dataArray);
             stringify(dataArray,function(err,data){
                if (err){
                    return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
@@ -97,7 +96,6 @@ module.exports = function (router) {
                 });
                 dataArray.unshift(header);
 
-                //console.log(dataArray);
                 stringify(dataArray,function(err,data){
                     if (err){
                         return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
