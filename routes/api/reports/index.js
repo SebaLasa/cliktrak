@@ -1,5 +1,6 @@
 var model = app.model,
     validate = app.validation.validate,
+    stringify = require('csv-stringify'),
     _ = require('lodash');
 
 module.exports = function (router) {
@@ -36,20 +37,78 @@ module.exports = function (router) {
     });
 
     router.get('/reports/customPage/:id', function (req, res, next) {
-        model.TrackedClick.find({ customPage: req.params.id }, function (err, clicks) {
+        model.TrackedClick.find({ page: req.params.id }, function (err, clicks) {
             if (err) {
-                return next(Error.create('An error occurred trying get the custom page\'s report.', { id: req.params.id }, err));
+                return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
             }
             res.json(getReport(clicks));
         });
     });
 
-    router.get('/reports/page/:id/download', function () {
-        res.send(400)
+    router.get('/reports/page/:id/download', function (req, res, next) {
+        model.TrackedClick.find({ page: req.params.id })
+        .populate(['page'])
+        .exec(function (err, clicks) {
+            if (err) {
+                return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
+            }
+            var header= ['IP','timestamp','device','page','reference value','agent'];
+            var dataArray = _.map(clicks,function(click){
+                //console.log(clicks);
+                return [
+                    click.ipAddress,
+                    click.timestamp,
+                    click.device,
+                    click.page.name,
+                    click.valueReference,
+                    click.agent
+                ];
+            });
+            dataArray.unshift(header);
+
+            //console.log(dataArray);
+            stringify(dataArray,function(err,data){
+               if (err){
+                   return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
+               }
+                res.set('Content-Type', 'text/csv');
+                res.setHeader('Content-disposition', 'attachment; filename=page.csv');
+                res.send(data);
+            });
+        });
     });
 
-    router.get('/reports/customPage/:id/download', function () {
-        res.send(400);
+    router.get('/reports/customPage/:id/download', function (req, res, next) {
+        model.TrackedClick.find({ page: req.params.id })
+            .populate(['customPage'])
+            .exec(function (err, clicks) {
+                if (err) {
+                    return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
+                }
+                var header= ['IP','timestamp','device','customPage','reference value','agent'];
+                var dataArray = _.map(clicks,function(click){
+                    //console.log(clicks);
+                    return [
+                        click.ipAddress,
+                        click.timestamp,
+                        click.device,
+                        click.customPage.name,
+                        click.valueReference,
+                        click.agent
+                    ];
+                });
+                dataArray.unshift(header);
+
+                //console.log(dataArray);
+                stringify(dataArray,function(err,data){
+                    if (err){
+                        return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
+                    }
+                    res.set('Content-Type', 'text/csv');
+                    res.setHeader('Content-disposition', 'attachment; filename=page.csv');
+                    res.send(data);
+                });
+            });
     });
 
     return router;
