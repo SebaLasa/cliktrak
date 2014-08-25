@@ -18,7 +18,7 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 templateUrl: '/views/layouts/editor.html'
             })
             .when('/layouts/delete/:id', {
-                controller: 'layoutsDeleteCtrl',
+                controller: 'layoutsDeleteController',
                 templateUrl: '/views/layouts/delete.html'
             })
             .when('/pages', {
@@ -46,7 +46,7 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 templateUrl: '/views/customPages/editor.html'
             })
             .when('/customPages/delete/:id', {
-                controller: 'customPagesDeleteCtrl',
+                controller: 'customPagesDeleteController',
                 templateUrl: '/views/customPages/delete.html'
             })
             .when('/campaigns', {

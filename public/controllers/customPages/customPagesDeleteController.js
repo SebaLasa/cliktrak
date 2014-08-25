@@ -1,4 +1,4 @@
-angular.module('clicks').controller('customPagesDeleteCtrl', function ($scope, $http, $location, $routeParams) {
+angular.module('clicks').controller('customPagesDeleteController', function ($scope, $http, $location, $routeParams) {
         $http.get('/api/customPages/' + $routeParams.id)
                 .success(function (data, status) {
                     $scope.customPage = data;

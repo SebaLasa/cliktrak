@@ -70,7 +70,7 @@ model.CustomPage = mongoose.model('customPages', new Schema({
     type: { type: String, enum: model.enums.customPageTypes },
     status: { type: String, enum: model.enums.customPageStatus },
     name: { type: String, required: true },
-    //internalId: { type: Number, required: true },
+    internalId: { type: Number, required: true },
     dateStart: { type: Date, required: true },
     dateEnd: { type: Date, required: true },
     deleted: { type: Boolean, required: true, default: false }
