@@ -1,0 +1,28 @@
+<div class="container">
+    <h1>Custom Pages</h1>
+    
+    <h2>Are you sure?</h2>
+    
+    <h3>Delete</h3>
+
+    <div>
+        <b>Name</b>
+        <span>{{customPage.name}}</span>
+    </div>
+    <div>
+        <b>Type</b>
+        <span>{{customPage.type}}</span>
+    </div>
+    <div>
+        <b>Date Started</b>
+        <span>{{customPage.dateStart}}</span>
+    </div>
+    <div>
+        <b>Date End</b>
+        <span>{{customPage.dateEnd}}</span>
+    </div>
+    <form ng-submit="delete()">
+        <input type="submit" class="button" value="delete"/>
+    </form>
+    <a href="#/customPages">back</a>
+</div>
