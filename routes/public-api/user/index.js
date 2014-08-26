@@ -15,7 +15,7 @@ module.exports = function (router) {
             password = req.body.password;
 
         if (!email || !password) {
-            return res.json(400, { message: 'Missing user or password!'});
+            return res.status(400).json({ message: 'Missing user or password!'});
         }
 
         var q = { email: email.toLowerCase(), enabled: true };
@@ -28,7 +28,7 @@ module.exports = function (router) {
                 return next(Error.create('An error occurred trying to authenticate the user.', { email: email, pass: password }, err));
             }
             if (!user) {
-                return res.json(403, { message: 'Invalid user or password!' });
+                return res.status(403).json({ message: 'Invalid user or password!' });
             }
             user = user.toObject();
             delete user.pass;
@@ -40,7 +40,7 @@ module.exports = function (router) {
     router.get('/reset-password/:id', function (req, res, next) {
         var regId = req.params.id;
         if (!regId) {
-            return res.json(400, { message: 'Invalid registration Id!'});
+            return res.status(400).json({ message: 'Invalid registration Id!'});
         }
 
         model.User.findOne({ registrationId: regId, disabled: false }, function (err, user) {
@@ -48,7 +48,7 @@ module.exports = function (router) {
                 return next(Error.create('An error occurred trying to find the user.', { registrationId: regId }, err));
             }
             if (!user) {
-                return res.json(404, { message: 'Link id was not found!' });
+                return res.status(404).json({ message: 'Link id was not found!' });
             }
             res.status(200).end();
         });
@@ -60,18 +60,18 @@ module.exports = function (router) {
         var pass2 = req.body.pass2;
 
         if (!pass || !pass2) {
-            return res.json(400, { message: 'Please fill both passwords!'});
+            return res.status(400).json({ message: 'Please fill both passwords!'});
         }
         if (pass != pass2) {
-            return res.json(400, { message: 'Passwords doesn\'t match!' });
+            return res.status(400).json({ message: 'Passwords doesn\'t match!' });
         }
 
         var validationMessage = validate.password(pass);
         if (validationMessage) {
-            return res.json(400, { message: validationMessage });
+            return res.status(400).json({ message: validationMessage });
         }
         if (!regId) {
-            return res.json(400, { message: 'Invalid registration Id!'});
+            return res.status(400).json({ message: 'Invalid registration Id!'});
         }
 
         model.User.findOne({ registrationId: regId, disabled: false }, function (err, user) {
@@ -79,7 +79,7 @@ module.exports = function (router) {
                 return next(Error.create('An error occurred trying to find the user.', { registrationId: regId }, err));
             }
             if (!user) {
-                return res.json(404, { message: 'Link id was not found!' });
+                return res.status(404).json({ message: 'Link id was not found!' });
             }
 
             user.pass = hash(pass);
@@ -101,7 +101,7 @@ module.exports = function (router) {
         var email = req.body.email;
 
         if (!validate.email(email)) {
-            return res.json(400, { message: 'Invalid email address.' });
+            return res.status(400).json({ message: 'Invalid email address.' });
         }
 
         model.User.findOne({ email: query.caseInsensitive(email), disabled: false }, function (err, user) {
@@ -110,7 +110,7 @@ module.exports = function (router) {
             }
 
             if (!user) {
-                return res.json(400, { message: 'Email address was not found!' });
+                return res.status(400).json({ message: 'Email address was not found!' });
             }
 
             user.registrationId = uid.v4();
