@@ -16,4 +16,4 @@ angular.module('clicks').controller('customPagesDeleteController', function ($sc
                     $location.path('customPages');
                 });
         }
-})
+});

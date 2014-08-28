@@ -149,7 +149,7 @@ model.Contact = mongoose.model('contacts', new Schema({
 model.Campaign = mongoose.model('campaigns', new Schema({
     company: { type: ObjectId, ref: 'companies', required: true },
     page: { type: ObjectId, ref: 'pages', required: true },
-    customPages: { type: ObjectId, ref: 'customPages', required: true },
+    customPage: { type: ObjectId, ref: 'customPages', required: true },
     editor: { type: ObjectId, ref: 'users', required: true },
     name: { type: String, required: true },
     internalId: { type: Number, required: true },
