@@ -8,7 +8,7 @@ angular.module('clicks').controller('reportsController', function ($scope, $http
             $scope.daysData = {
                 series : ["clicks"],
                 data : _.map($scope.report.clicksPerDay,function(dayData){
-                    return {x:dayData["day"],y: [dayData["count"]]}
+                    return {x:dayData.day,y: [dayData.count]}
                 })
             }
 
@@ -16,8 +16,8 @@ angular.module('clicks').controller('reportsController', function ($scope, $http
                 series : ["devices"],
                 data : _.map($scope.report.devices,function(deviceData){
                     return {
-                        x: deviceData["device"],
-                        y: [deviceData["count"]]
+                        x: deviceData.device,
+                        y: [deviceData.count]
                     }
                 })
             }
