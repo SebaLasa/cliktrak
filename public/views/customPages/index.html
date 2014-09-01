@@ -19,34 +19,36 @@
 </div>
 <div ng-repeat="customPage in customPages">
     <div class="col-md-2">
-        <a>{{customPage.name}}</a>
+        {{customPage.name}}
     </div>
 
     <div class="col-md-2">
-        <a>{{customPage.type}}</a>
+        {{customPage.type}}
     </div>
 
     <div class="col-md-2">
-        <a>{{customPage.dateStart}}</a>
+        {{customPage.dateStart | dateTime}}
     </div>
 
     <div class="col-md-2">
-        <a>{{customPage.dateEnd}}</a>
+        {{customPage.dateEnd | dateTime}}
     </div>
 
     <div class="col-md-2">
-        <a>{{customPage.updated_at}}</a>
+        {{customPage.updated_at | dateTime}}
     </div>
-    <div class="col-md-2">
-    <td>
-       <a href="#/customPages/delete/{{customPage._id}}" class="btn btn-primary" role="button">
-       <span class="glyphicon glyphicon-remove"></span>
-       </a>
-    </td>
-    <td>
-        <a href="#/customPages/{{customPage._id}}" class="btn btn-primary" role="button">
-        <span class="glyphicon glyphicon-pencil"></span>
+    <div class="col-md-2 btn-group">
+        <a href="#/customPages/{{customPage._id}}" role="button" class="btn btn-sm btn-primary"
+           title="Edit custom page">
+            <span class="glyphicon glyphicon-pencil"></span>
         </a>
-    </td>
+        <a href="#/customPages/delete/{{customPage._id}}" role="button" class="btn btn-sm btn-danger"
+           title="Delete custom page">
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+        <a href="#/reports/customPage/{{customPage._id}}" role="button" title="Statistics"
+           class="btn btn-sm btn-success">
+            <span class="glyphicon glyphicon-signal"></span>
+        </a>
     </div>
- </div>
+</div>
