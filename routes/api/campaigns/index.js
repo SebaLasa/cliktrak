@@ -25,6 +25,8 @@ module.exports = function (router) {
 
     router.post('/campaigns', function (req, res, next) {
         var campaign = new model.Campaign(req.body);
+        campaign.company = req.company._id;
+        campaign.editor = req.user._id;
         campaign.save(function (err, campaign) {
             if (err) {
                 return next(Error.create('An error occurred trying save the Campaign.', { }, err));

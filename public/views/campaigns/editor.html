@@ -1,5 +1,6 @@
 <div class="container">
     <a href="#/campaigns" class="btn btn-primary">Back</a>
+
     <form ng-submit="save()">
         <div class="form-group">
             <label for="name">Name</label>
@@ -10,9 +11,7 @@
             <input type="text" id="subject" name="subject" ng-model="email.subject"/>
         </div>
         <div class="form-group">
-            <textarea ng-model="email.content" ui-tinymce>
-
-            </textarea>
+            <textarea ng-model="email.content" ui-tinymce></textarea>
         </div>
         <div class="form-group">
             <label for="start">Start date</label>
@@ -24,36 +23,36 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <input type="checkbox" id="monday" name="monday"/>
+                <input type="checkbox" id="monday" name="monday" ng-model="days.monday"/>
                 <label for="monday">Monday</label>
             </div>
             <div class="col-md-3">
-                <input type="checkbox" id="tuesday" name="tuesday"/>
+                <input type="checkbox" id="tuesday" name="tuesday" ng-model="days.tuesday"/>
                 <label for="tuesday">Tuesday</label>
             </div>
             <div class="col-md-3">
-                <input type="checkbox" id="wednesday" name="wednesday"/>
+                <input type="checkbox" id="wednesday" name="wednesday" ng-model="days.wednesday"/>
                 <label for="wednesday">Wednesday</label>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <input type="checkbox" id="thursday" name="thursday"/>
+                <input type="checkbox" id="thursday" name="thursday" ng-model="days.thursday"/>
                 <label for="thursday">Thursday</label>
             </div>
             <div class="col-md-3">
-                <input type="checkbox" id="friday" name="friday"/>
+                <input type="checkbox" id="friday" name="friday" ng-model="days.friday"/>
                 <label for="friday">Friday</label>
             </div>
             <div class="col-md-3">
-                <input type="checkbox" id="saturday" name="saturday"/>
+                <input type="checkbox" id="saturday" name="saturday" ng-model="days.saturday"/>
                 <label for="saturday">Saturday</label>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
+                <input type="checkbox" id="sunday" name="sunday" ng-model="days.sunday"/>
                 <label for="sunday">Sunday</label>
-                <input type="checkbox" id="sunday" name="sunday"/>
             </div>
         </div>
         <div class="form-group">
