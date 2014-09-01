@@ -9,7 +9,7 @@ module.exports = function (error, req, res, next) {
     if (status != 500) {
         var info = error.data || {};
         info.message = msg;
-        return res.json(status, info);
+        return res.status(status).json(info);
     }
 
     if (app.config.mode == 'dev') {
@@ -21,6 +21,6 @@ module.exports = function (error, req, res, next) {
         if (traceId) {
             info.traceId = traceId;
         }
-        res.json(status, info);
+        res.status(status).json(info);
     });
 };

@@ -1,5 +1,5 @@
 angular.module('clicks').controller('campaignEditorController', function ($scope, $http, $location, $routeParams) {
-    $scope.days={};
+    $scope.days = {};
     if ($routeParams.id) {
         $http.get('/api/campaigns/' + $routeParams.id)
             .success(function (data, status) {
@@ -8,6 +8,13 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
                 $location.path('campaigns');
             });
     }
+
+    $http.get('/api/pages').success(function (data, status) {
+        $scope.pages = data;
+    });
+    $http.get('/api/customPages').success(function (data, status) {
+        $scope.customPages = data;
+    });
 
     function getDays() {
         var days = 0;
@@ -60,6 +67,8 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
     }
 
     $scope.save = function () {
+        $scope.triggers.days = getDays();
+        $scope.campaign.triggers = [$scope.trigger];
         if ($routeParams.id) {
             return $http.put('/api/campaigns/' + $routeParams.id, $scope.campaign)
                 .success(function (data, status) {

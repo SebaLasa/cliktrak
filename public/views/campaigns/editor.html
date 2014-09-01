@@ -2,24 +2,54 @@
     <a href="#/campaigns" class="btn btn-primary">Back</a>
 
     <form ng-submit="save()">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" ng-model="campaign.name"/>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" ng-model="campaign.name"/>
+            </div>
         </div>
+        <h3>Page Selection</h3>
+
+        <div class="form-group">
+            <label>
+                <input type="radio" name="pageType" ng-model="pageType" ng-value="'page'" ng-click="page=null"/>
+                Pages
+            </label>
+            <label>
+                <input type="radio" name="pageType" ng-model="pageType" ng-value="'customPage'" ng-click="page=null"/>
+                Custom pages
+            </label>
+        </div>
+        <div ng-show="pageType == 'page'" ng-repeat="page in pages" class="row" ng-click="$parent.page = page">
+            <div class="col-md-1">
+                <input type="radio" name="page{{page._id}}" ng-model="$parent.page" ng-value="page"/>
+            </div>
+            <div class="col-md-3">{{page.name}}</div>
+        </div>
+        <div ng-show="pageType == 'customPage'" ng-repeat="customPage in customPages" class="row"
+             ng-click="$parent.page = customPage">
+            <div class="col-md-1">
+                <input type="radio" name="customPage" ng-model="$parent.page" ng-value="customPage"/>
+            </div>
+            <div class="col-md-3">{{customPage.name}}</div>
+        </div>
+        <hr>
         <div class="form-group">
             <label for="subject">Subject</label>
             <input type="text" id="subject" name="subject" ng-model="email.subject"/>
         </div>
         <div class="form-group">
-            <textarea ng-model="email.content" ui-tinymce></textarea>
+            <textarea ng-model="campaign.message" ui-tinymce></textarea>
         </div>
-        <div class="form-group">
-            <label for="start">Start date</label>
-            <input type="text" id="start" name="start" ui-date/>
-        </div>
-        <div class="form-group">
-            <label for="end">End date</label>
-            <input type="text" id="end" name="end" ui-date/>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="start">Start date</label>
+                <input type="text" id="start" name="start" ng-model="dateStart" ui-date/>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="end">End date</label>
+                <input type="text" id="end" name="end" ng-model="dateEnd" ui-date/>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-3">
@@ -59,7 +89,9 @@
             <label for="startTime">Start time</label>
             <input type="text" id="startTime" name="startTime"/>
         </div>
+        <hr>
         <h3>Contact selection</h3>
+        <hr>
         <input type="submit" value="Schedule" class="btn btn-primary"/>
     </form>
 </div>
