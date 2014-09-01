@@ -1,4 +1,4 @@
-angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.date'])
+angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.date', 'angularCharts'])
     .config(function ($routeProvider, $httpProvider) {
         $routeProvider
             .when('/', {
@@ -48,6 +48,10 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
             .when('/customPages/delete/:id', {
                 controller: 'customPagesDeleteController',
                 templateUrl: '/views/customPages/delete.html'
+            })
+            .when('/reports/:pageType/:id', {
+                controller: 'reportsController',
+                templateUrl: '/views/reports/index.html'
             })
             .when('/campaigns', {
                 controller: 'campaignsController',

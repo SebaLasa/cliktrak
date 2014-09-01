@@ -1,0 +1,25 @@
+<style>
+    .daysReport, .deviceReport {
+        height: 200px;
+        width: 200px;
+    }
+</style>
+
+<a href="#{{backLink}}" class="btn btn-default">Back</a>
+<h2>Report</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <h4>Clicks</h4>
+    </div>
+    <div class="col-md-3">
+        <h4>{{report.clicksCount}}</h4>
+    </div>
+    <div class="col-md-3">
+        <a href="{{downloadLink}}/" class="btn btn-primary btn-lg">Download Clicks</a>
+    </div>
+</div>
+<h3>Clicks in the last 30 days</h3>
+<div ac-chart="daysChartType" ac-data="daysData" ac-config="daysConfig" class="daysReport"></div>
+<h3>Clicks per device</h3>
+<div ac-chart="deviceChartType" ac-data="deviceData" ac-config="deviceConfig" class="deviceReport"></div>
