@@ -1,4 +1,4 @@
-angular.module('clicks').controller('customPageEditorController', function ($scope, $http, $location, $routeParams) {
+angular.module('clicks').controller('campaignEditorController', function ($scope, $http, $location, $routeParams) {
     if ($routeParams.id) {
         $http.get('/api/campaigns/' + $routeParams.id)
             .success(function (data, status) {
