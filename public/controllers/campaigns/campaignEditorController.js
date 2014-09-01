@@ -15,6 +15,9 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
     $http.get('/api/customPages').success(function (data, status) {
         $scope.customPages = data;
     });
+    $http.get('/api/contacts').success(function (data, status) {
+        $scope.contacts = data;
+    });
 
     function getDays() {
         var days = 0;

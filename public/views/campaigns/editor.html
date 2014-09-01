@@ -9,14 +9,13 @@
             </div>
         </div>
         <h3>Page Selection</h3>
-
         <div class="form-group">
             <label>
-                <input type="radio" name="pageType" ng-model="pageType" ng-value="'page'" ng-click="page=null"/>
+                <input type="radio" name="pageType" ng-model="pageType" ng-value="'page'" ng-click="page = null"/>
                 Pages
             </label>
             <label>
-                <input type="radio" name="pageType" ng-model="pageType" ng-value="'customPage'" ng-click="page=null"/>
+                <input type="radio" name="pageType" ng-model="pageType" ng-value="'customPage'" ng-click="page = null"/>
                 Custom pages
             </label>
         </div>
@@ -95,6 +94,14 @@
         </div>
         <hr>
         <h3>Contact selection</h3>
+        <div class="row">
+            <div class="col-md-2"><h4>Name</h4></div>
+            <div class="col-md-2"><h4>Surname</h4></div>
+        </div>
+        <div ng-repeat="contact in contacts" class="row">
+            <div class="col-md-2">{{contact.name}}</div>
+            <div class="col-md-2">{{contact.surname}}</div>
+        </div>
         <hr>
         <input type="submit" value="Schedule" class="btn btn-primary"/>
     </form>
