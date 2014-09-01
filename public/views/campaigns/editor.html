@@ -20,6 +20,10 @@
                 Custom pages
             </label>
         </div>
+        <div ng-show="pageType" class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-3"><h4>Name</h4></div>
+        </div>
         <div ng-show="pageType == 'page'" ng-repeat="page in pages" class="row" ng-click="$parent.page = page">
             <div class="col-md-1">
                 <input type="radio" name="page{{page._id}}" ng-model="$parent.page" ng-value="page"/>
