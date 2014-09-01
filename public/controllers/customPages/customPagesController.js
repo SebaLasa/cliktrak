@@ -3,4 +3,5 @@ angular.module('clicks').controller('customPagesController', function ($scope, $
         .success(function (data, status) {
             $scope.customPages = data;
         });
+      
 });
