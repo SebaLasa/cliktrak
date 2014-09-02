@@ -42,16 +42,16 @@
             <input type="text" id="subject" name="subject" ng-model="email.subject"/>
         </div>
         <div class="form-group">
-            <textarea ng-model="campaign.message" ui-tinymce></textarea>
+            <textarea ng-model="email.message" ui-tinymce></textarea>
         </div>
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="start">Start date</label>
-                <input type="text" id="start" name="start" ng-model="dateStart" ui-date/>
+                <input type="text" id="start" name="start" ng-model="email.dateStart" ui-date/>
             </div>
             <div class="form-group col-md-6">
                 <label for="end">End date</label>
-                <input type="text" id="end" name="end" ng-model="dateEnd" ui-date/>
+                <input type="text" id="end" name="end" ng-model="email.dateEnd" ui-date/>
             </div>
         </div>
         <div class="row">
