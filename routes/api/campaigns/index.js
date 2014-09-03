@@ -3,7 +3,7 @@ var model = app.model,
 
 module.exports = function (router) {
     router.get('/campaigns', function (req, res, next) {
-        model.Campaign.find({}, function (err, campaigns) {
+        model.Campaign.find({deleted:false}).populate('editor').exec(function (err, campaigns) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Campaign.', { }, err));
             }
@@ -24,14 +24,25 @@ module.exports = function (router) {
     });
 
     router.post('/campaigns', function (req, res, next) {
-        var campaign = new model.Campaign(req.body);
+        var campaign = new model.Campaign(req.body.campaign);
         campaign.company = req.company._id;
         campaign.editor = req.user._id;
+        campaign.internalId = 0;
         campaign.save(function (err, campaign) {
             if (err) {
                 return next(Error.create('An error occurred trying save the Campaign.', { }, err));
             }
-            res.status(201).end();
+            var email = new model.emailing.Task(req.body.email);
+            email.company = campaign.company;
+            email.editor = campaign.editor;
+            email.page = campaign.page;
+            email.customPage = campaign.customPage;
+            email.save(function (err, email) {
+                if (err) {
+                    return next(Error.create('An error occurred trying save the Email Task.', { }, err));
+                }
+                res.status(201).end();
+            });
         });
     });
 

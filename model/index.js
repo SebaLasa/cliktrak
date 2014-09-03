@@ -150,8 +150,8 @@ model.Contact = mongoose.model('contacts', new Schema({
 
 model.Campaign = mongoose.model('campaigns', new Schema({
     company: { type: ObjectId, ref: 'companies', required: true },
-    page: { type: ObjectId, ref: 'pages', required: true },
-    customPage: { type: ObjectId, ref: 'customPages', required: true },
+    page: { type: ObjectId, ref: 'pages' },
+    customPage: { type: ObjectId, ref: 'customPages' },
     editor: { type: ObjectId, ref: 'users', required: true },
     name: { type: String, required: true },
     internalId: { type: Number, required: true },
@@ -164,8 +164,8 @@ emailing.Task = mongoose.model('emailing.tasks', new Schema({
     subject: {type: String, required: true},
     message: { type: String, required: true },
     company: { type: ObjectId, ref: 'companies', required: true },
-    page: { type: ObjectId, ref: 'pages', required: true },
-    customPages: { type: ObjectId, ref: 'customPages', required: true },
+    page: { type: ObjectId, ref: 'pages' },
+    customPages: { type: ObjectId, ref: 'customPages' },
     editor: { type: ObjectId, ref: 'users', required: true },
     dateStart: { type: Date, required: true },
     dateEnd: { type: Date, required: true },
