@@ -34,6 +34,7 @@ module.exports = function (router) {
             }
             var email = new model.emailing.Task(req.body.email);
             email.company = campaign.company;
+            email.campaign = campaign._id;
             email.editor = campaign.editor;
             email.page = campaign.page;
             email.customPage = campaign.customPage;

@@ -164,6 +164,7 @@ emailing.Task = mongoose.model('emailing.tasks', new Schema({
     subject: {type: String, required: true},
     message: { type: String, required: true },
     company: { type: ObjectId, ref: 'companies', required: true },
+    campaign: { type: ObjectId, ref: 'campaigns', required: true },
     page: { type: ObjectId, ref: 'pages' },
     customPages: { type: ObjectId, ref: 'customPages' },
     editor: { type: ObjectId, ref: 'users', required: true },
