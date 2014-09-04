@@ -4,38 +4,40 @@
     <div class="col-md-2">
         <h4>Name</h4>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1">
         <h4>Type</h4>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1">
         <h4>Date Start</h4>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1">
         <h4>Date End</h4>
     </div>
     <div class="col-md-2">
-        <h4>Last Modification</h4>
+        <h4>Modified</h4>
+    </div>
+    <div class="col-md-2">
+        <h4>Editor</h4>
     </div>
 </div>
 <div ng-repeat="customPage in customPages">
     <div class="col-md-2">
         {{customPage.name}}
     </div>
-
-    <div class="col-md-2">
+    <div class="col-md-1">
         {{customPage.type}}
     </div>
-
-    <div class="col-md-2">
-        {{customPage.dateStart | dateTime}}
+    <div class="col-md-1">
+        {{customPage.dateStart | dateFormat}}
     </div>
-
-    <div class="col-md-2">
-        {{customPage.dateEnd | dateTime}}
+    <div class="col-md-1">
+        {{customPage.dateEnd | dateFormat}}
     </div>
-
     <div class="col-md-2">
-        {{customPage.updated_at | dateTime}}
+        {{customPage.updated_at | dateTimeFormat}}
+    </div>
+    <div class="col-md-2">
+        {{customPage.editor.name}}
     </div>
     <div class="col-md-2 btn-group">
         <a href="#/customPages/{{customPage._id}}" role="button" class="btn btn-sm btn-primary"

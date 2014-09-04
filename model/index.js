@@ -29,15 +29,17 @@ model.Menu = mongoose.model('menus', new Schema({
     name: { type: String, required: true },
     enabled: { type: Boolean, required: true, default: true },
     deleted: { type: Boolean, required: true, default: false },
-    items: [{
-        name: { type: String, required: true },
-        tooltip: { type: String },
-        page: { type: ObjectId, ref: 'pages' },
-        customPage: { type: ObjectId, ref: 'customPages' },
-        url: { type: String },
-        ordinal: { type: Number },
-        deleted: { type: Boolean, required: true, default: false }
-    }]
+    items: [
+        {
+            name: { type: String, required: true },
+            tooltip: { type: String },
+            page: { type: ObjectId, ref: 'pages' },
+            customPage: { type: ObjectId, ref: 'customPages' },
+            url: { type: String },
+            ordinal: { type: Number },
+            deleted: { type: Boolean, required: true, default: false }
+        }
+    ]
 }).plugin(timestamps));
 
 model.Layout = mongoose.model('layouts', new Schema({
@@ -148,8 +150,8 @@ model.Contact = mongoose.model('contacts', new Schema({
 
 model.Campaign = mongoose.model('campaigns', new Schema({
     company: { type: ObjectId, ref: 'companies', required: true },
-    page: { type: ObjectId, ref: 'pages', required: true },
-    customPages: { type: ObjectId, ref: 'customPages', required: true },
+    page: { type: ObjectId, ref: 'pages' },
+    customPage: { type: ObjectId, ref: 'customPages' },
     editor: { type: ObjectId, ref: 'users', required: true },
     name: { type: String, required: true },
     internalId: { type: Number, required: true },
@@ -159,25 +161,33 @@ model.Campaign = mongoose.model('campaigns', new Schema({
 
 var emailing = model.emailing = {};
 emailing.Task = mongoose.model('emailing.tasks', new Schema({
+    subject: {type: String, required: true},
     message: { type: String, required: true },
     company: { type: ObjectId, ref: 'companies', required: true },
-    page: { type: ObjectId, ref: 'pages', required: true },
-    customPages: { type: ObjectId, ref: 'customPages', required: true },
+    campaign: { type: ObjectId, ref: 'campaigns', required: true },
+    page: { type: ObjectId, ref: 'pages' },
+    customPages: { type: ObjectId, ref: 'customPages' },
     editor: { type: ObjectId, ref: 'users', required: true },
     dateStart: { type: Date, required: true },
     dateEnd: { type: Date, required: true },
-    contacts: [{ type: ObjectId, ref: 'contacts' }],
-    triggers: [{
-        days: { type: Number },
-        start: { type: Date },
-        end: { type: Date }
-    }],
-    messages: [{
-        contact: { type: ObjectId, ref: 'contacts' },
-        dateSent: { type: Date, required: true },
-        email: { type: String, required: true },
-        error: { type: Schema.Types.Mixed }
-    }],
+    contacts: [
+        { type: ObjectId, ref: 'contacts' }
+    ],
+    triggers: [
+        {
+            days: { type: Number },
+            start: { type: Date },
+            end: { type: Date }
+        }
+    ],
+    messages: [
+        {
+            contact: { type: ObjectId, ref: 'contacts' },
+            dateSent: { type: Date, required: true },
+            email: { type: String, required: true },
+            error: { type: Schema.Types.Mixed }
+        }
+    ],
     error: { type: Schema.Types.Mixed }
 }).plugin(timestamps));
 

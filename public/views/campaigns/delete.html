@@ -1,0 +1,24 @@
+<div class="container">
+    <h1>Campaign</h1>
+    
+    <h2>Are you sure?</h2>
+    
+    <h3>Delete</h3>
+
+    <div>
+        <b>Name</b>
+        <span>{{campaign.name}}</span>
+    </div>
+    <div>
+        <b>Start date</b>
+        <span>{{campaign.dateStart}}</span>
+    </div>
+    <div>
+        <b>End date</b>
+        <span>{{campaign.dateEnd}}</span>
+    </div>
+    <form ng-submit="delete()">
+        <input type="submit" class="button" value="delete"/>
+    </form>
+    <a href="#/campaigns">back</a>
+</div>

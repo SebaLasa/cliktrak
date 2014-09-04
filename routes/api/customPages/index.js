@@ -4,7 +4,7 @@ var model = app.model,
 module.exports = function (router) {
     router.get('/customPages', function (req, res, next) {
         model.CustomPage.find({ company: req.company._id, deleted: false }).populate('editor').exec(function (err, customPages) {
-                        if (err) {
+            if (err) {
                 return next(Error.create('An error occurred trying get the Custom Pages.', { }, err));
             }
             console.log(customPages);
@@ -48,7 +48,7 @@ module.exports = function (router) {
         });
     });
 
- router.delete('/customPages/:id', function (req, res, next) {
+    router.delete('/customPages/:id', function (req, res, next) {
         model.CustomPage.findById(req.params.id, function (err, customPage) {
             if (err) {
                 return next(Error.create('An error occurred trying get the custom Page.', { }, err));
