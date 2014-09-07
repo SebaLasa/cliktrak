@@ -2,6 +2,10 @@ var model = app.model,
     validate = app.validation.validate;
 
 module.exports = function (router) {
+    router.get('/run',function(req,res,next){
+       require('../../../services/emailingTask').run();
+        res.status(200).send();
+    });
     router.get('/campaigns', function (req, res, next) {
         model.Campaign.find({deleted:false}).populate('editor').exec(function (err, campaigns) {
             if (err) {
