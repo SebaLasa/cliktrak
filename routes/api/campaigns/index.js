@@ -42,6 +42,7 @@ module.exports = function (router) {
             email.editor = campaign.editor;
             email.page = campaign.page;
             email.customPage = campaign.customPage;
+            // TODO AN contact list for emailing.
             email.save(function (err, email) {
                 if (err) {
                     return next(Error.create('An error occurred trying save the Email Task.', { }, err));
