@@ -10,6 +10,7 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
             });
     }
 
+    // TODO AN make this in one ajax call.
     $http.get('/api/pages').success(function (data, status) {
         $scope.pages = data;
     });
@@ -71,14 +72,14 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
     }
 
     $scope.save = function () {
-        if (!$scope.page) {
+        if (!$scope.pageType || !$scope.page) {
             return alert('Please, select a page for the campaign.');
         }
         $scope.campaign[$scope.pageType] = $scope.page._id;
-        $scope.campaign.contacts = _($scope.contacts).filter(function (contact) {
+        $scope.email.contacts = _($scope.contacts).filter(function (contact) {
             return contact.selected;
-        }).pluck('_id').values();
-        if (!$scope.campaign.contacts.length){
+        }).pluck('_id').value();
+        if (!$scope.email.contacts.length) {
             return alert('Plase, select a contact for the campaign.');
         }
         $scope.email.triggers = [

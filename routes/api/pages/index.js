@@ -25,6 +25,10 @@ module.exports = function (router) {
 
     router.post('/pages', function (req, res, next) {
         var page = new model.Page(req.body);
+        // TODO AN set the real internalId
+        page.internalId = 0;
+        page.editor = req.user._id;
+        page.company = req.company._id;
         page.save(function (err, page) {
             if (err) {
                 return next(Error.create('An error occurred trying save the Page.', { }, err));
