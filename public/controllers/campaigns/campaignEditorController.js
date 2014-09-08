@@ -1,5 +1,5 @@
 angular.module('clicks').controller('campaignEditorController', function ($scope, $http, $location, $routeParams) {
-    $scope.campaign={};
+    $scope.campaign = {};
     $scope.days = {};
     if ($routeParams.id) {
         $http.get('/api/campaigns/' + $routeParams.id)
@@ -71,10 +71,16 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
     }
 
     $scope.save = function () {
-        if (!$scope.pageType) {
+        if (!$scope.page) {
             return alert('Please, select a page for the campaign.');
         }
         $scope.campaign[$scope.pageType] = $scope.page._id;
+        $scope.campaign.contacts = _($scope.contacts).filter(function (contact) {
+            return contact.selected;
+        }).pluck('_id').values();
+        if (!$scope.campaign.contacts.length){
+            return alert('Plase, select a contact for the campaign.');
+        }
         $scope.email.triggers = [
             { days: getDays() }
         ];
