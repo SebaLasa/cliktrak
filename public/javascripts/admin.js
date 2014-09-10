@@ -9,15 +9,15 @@ angular.module('admin', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.date
                 controller: 'companyController',
                 templateUrl: '/views/admin/companies/index.html'
             })
-            .when('/companies/new', {
+            .when('/company/new', {
                 controller: 'companyEditorController',
                 templateUrl: '/views/admin/companies/editor.html'
             })
-            .when('/companies/:id', {
+            .when('/company/:id', {
                 controller: 'companyEditorController',
                 templateUrl: '/views/admin/companies/editor.html'
             })
-            .when('/companies/delete/:id', {
+            .when('/company/delete/:id', {
                 controller: 'companyDeleteController',
                 templateUrl:'/views/admin/companies/delete.html'
             })

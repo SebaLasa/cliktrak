@@ -1,23 +1,17 @@
 <div class="container">
-    <a href="#/layouts" class="btn btn-default">Back</a>
+    <a href="#/companies" class="btn btn-default">Back</a>
 
-    <h2>Layout</h2>
+    <h2>Company</h2>
 
     <form ng-submit="save()">
         <div class="input-group">
             <label for="name">Name</label>
-            <input type="text" id="name" ng-model="layout.name"/>
+            <input type="text" id="name" ng-model="company.name"/>
         </div>
         <div class="input-group">
-            <label for="footerBackgroundColor">Background color</label>
-            <input type="text" id="footerBackgroundColor" colorpicker="hex" colorpicker-with-input="true"
-                   ng-model="layout.footerBackgroundColor"/>
+            <label for="email">email</label>
+            <input type="email" id="email" ng-model="company.email"/>
         </div>
-        <div class="input-group">
-            <label for="footer">Footer</label>
-            <textarea id="footer" ui-tinymce ng-model="layout.footer"></textarea>
-        </div>
-        <br/>
         <input type="submit" value="save" class="btn btn-primary"/>
     </form>
 </div>
