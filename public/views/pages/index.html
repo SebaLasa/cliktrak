@@ -12,7 +12,27 @@
     <div ng-repeat="page in pages">
         <div class="row">
             <div class="col-md-3">{{page.name}}</div>
-            <div class="col-md-2"></div>
+            <div class="col-md-2">
+                <h4>
+                <span class="label label-info" ng-hide="page.forCustomPages">
+                    <span class="glyphicon glyphicon-file" title="Sólo puede ser usada como página estática."></span>
+                </span>
+                <span class="label label-info" ng-show="page.forCustomPages">
+                    <span class="glyphicon glyphicon-hand-up" title="Sólo puede ser usada en páginas dinámicas."></span>
+                </span>
+                <span class="label label-success" ng-show="page.urlConfiguration.isTracked">
+                    <span class="glyphicon glyphicon-hand-up" title="Seguimiento de clicks activado."></span>
+                </span>
+                <span class="label label-danger" ng-hide="page.urlConfiguration.isTracked">
+                    <span class="glyphicon glyphicon-hand-up" title="Seguimiento de clicks desactivado."></span>
+                </span>
+                <span class="label label-info" ng-show="page.urlConfiguration.barcodeGenerated">
+                    <span class="glyphicon glyphicon-barcode" title="Tiene código de barras."></span>
+                </span><span class="label label-info" ng-show="page.urlConfiguration.qrGenerated">
+                    <span class="glyphicon glyphicon-qrcode" title="Tiene código QR."></span>
+                </span>
+                </h4>
+            </div>
             <div class="col-md-2">
                 {{page.updated_at | dateTimeFormat}}
             </div>
