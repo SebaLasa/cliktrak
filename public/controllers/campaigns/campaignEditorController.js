@@ -104,4 +104,8 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
             contact.selected = $scope.allContacts;
         });
     };
+
+    $scope.addFieldToMessage = function (field) {
+        $scope.email.message += '##' + field + '##';
+    }
 });
