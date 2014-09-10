@@ -183,7 +183,7 @@ emailing.Task = mongoose.model('emailing.tasks', new Schema({
     messages: [
         {
             contact: { type: ObjectId, ref: 'contacts' },
-            dateSent: { type: Date, required: true },
+            dateSent: { type: Date },
             email: { type: String, required: true },
             error: { type: Schema.Types.Mixed }
         }

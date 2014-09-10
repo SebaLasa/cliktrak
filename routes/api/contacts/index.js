@@ -6,7 +6,7 @@ var csvparse = require('csv-parse');
 
 module.exports = function (router) {
     router.get('/contacts', function (req, res, next) {
-        model.Contact.find({deleted:false}, function (err, contacts) {
+        model.Contact.find({ deleted: false }, function (err, contacts) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Contacts.', { }, err));
             }
@@ -29,7 +29,6 @@ module.exports = function (router) {
         });
     });
 
-
     router.post('/contacts/upload', function (req, res, next) {
 
         //TODO: Validar si los contactos ya existe
@@ -37,10 +36,10 @@ module.exports = function (router) {
 
         var upload;
         form.on('error', next);
-        form.on('close', function(){
+        form.on('close', function () {
 
-            csvparse(upload.data,{columns: true},function(err,output){
-                output.forEach(function(data){
+            csvparse(upload.data, {columns: true}, function (err, output) {
+                output.forEach(function (data) {
                     var contact = new model.Contact(data);
                     contact.editor = req.user._id;
                     contact.company = req.company._id;
@@ -57,13 +56,13 @@ module.exports = function (router) {
 
 
         // listen on part event for image file
-        form.on('part', function(part){
+        form.on('part', function (part) {
             if (!part.filename) return;
             if (part.name !== 'contacts-csv') return part.resume();
             upload = {};
             upload.filename = part.filename;
-            upload.data="";
-            part.on('data', function(buf){
+            upload.data = "";
+            part.on('data', function (buf) {
                 upload.data += buf;
             });
         });
@@ -104,7 +103,7 @@ module.exports = function (router) {
             if (!contact || contact.deleted || !req.company._id.equals(contact.company)) {
                 return res.status(404).end();
             }
-            contact.deleted=true;
+            contact.deleted = true;
             contact.save(function (err) {
                 if (err)
                     return next(Error.create('An error occurred trying delete the Contact.', { }, err));

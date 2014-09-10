@@ -7,7 +7,6 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Custom Pages.', { }, err));
             }
-            console.log(customPages);
             res.json(customPages);
         });
     });

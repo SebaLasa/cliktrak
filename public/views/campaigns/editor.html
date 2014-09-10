@@ -95,10 +95,12 @@
         <hr>
         <h3>Contact selection</h3>
         <div class="row">
+            <div class="col-md-1"></div>
             <div class="col-md-2"><h4>Name</h4></div>
             <div class="col-md-2"><h4>Surname</h4></div>
         </div>
-        <div ng-repeat="contact in contacts" class="row">
+        <div ng-repeat="contact in contacts" ng-click="contact.selected = !contact.selected" class="row">
+            <div class="col-md-1"><input type="checkbox" ng-model="contact.selected" /></div>
             <div class="col-md-2">{{contact.name}}</div>
             <div class="col-md-2">{{contact.surname}}</div>
         </div>

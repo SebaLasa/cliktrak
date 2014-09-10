@@ -2,8 +2,12 @@ var model = app.model,
     validate = app.validation.validate;
 
 module.exports = function (router) {
+    router.get('/run', function (req, res, next) {
+        require('../../../services/emailingTask').run();
+        res.status(200).send();
+    });
     router.get('/campaigns', function (req, res, next) {
-        model.Campaign.find({deleted:false}).populate('editor').exec(function (err, campaigns) {
+        model.Campaign.find({deleted: false}).populate('editor').exec(function (err, campaigns) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Campaign.', { }, err));
             }
@@ -27,6 +31,7 @@ module.exports = function (router) {
         var campaign = new model.Campaign(req.body.campaign);
         campaign.company = req.company._id;
         campaign.editor = req.user._id;
+        // TODO AN set the real internalId
         campaign.internalId = 0;
         campaign.save(function (err, campaign) {
             if (err) {
