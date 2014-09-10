@@ -1,6 +1,3 @@
-/**
- * Created by nico on 8/15/14.
- */
 var passwordResetEmail = require('../../../services/passwordResetEmail.js');
 var model = app.model,
     hash = app.security.hash,
