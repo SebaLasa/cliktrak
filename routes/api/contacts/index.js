@@ -6,7 +6,7 @@ var csvparse = require('csv-parse');
 
 module.exports = function (router) {
     router.get('/contacts', function (req, res, next) {
-        model.Contact.find({ deleted: false }, function (err, contacts) {
+        model.Contact.find({ company: req.company._id, deleted: false}, function (err, contacts) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Contacts.', { }, err));
             }

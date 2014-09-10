@@ -7,7 +7,7 @@ module.exports = function (router) {
         res.status(200).send();
     });
     router.get('/campaigns', function (req, res, next) {
-        model.Campaign.find({deleted: false}).populate('editor').exec(function (err, campaigns) {
+        model.Campaign.find({company: req.company._id, deleted: false}).populate('editor').exec(function (err, campaigns) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Campaign.', { }, err));
             }
@@ -31,25 +31,27 @@ module.exports = function (router) {
         var campaign = new model.Campaign(req.body.campaign);
         campaign.company = req.company._id;
         campaign.editor = req.user._id;
-        // TODO AN set the real internalId
-        campaign.internalId = 0;
-        campaign.save(function (err, campaign) {
-            if (err) {
-                return next(Error.create('An error occurred trying save the Campaign.', { }, err));
-            }
-            var email = new model.emailing.Task(req.body.email);
-            email.company = campaign.company;
-            email.campaign = campaign._id;
-            email.editor = campaign.editor;
-            email.page = campaign.page;
-            email.customPage = campaign.customPage;
-            email.save(function (err, email) {
+        model.Campaign.find().sort('-internalId').limit(1).findOne(function (err, maxCamp){
+            campaign.internalId = maxCamp.internalId +1;
+            campaign.save(function (err, campaign) {
                 if (err) {
-                    return next(Error.create('An error occurred trying save the Email Task.', { }, err));
+                    return next(Error.create('An error occurred trying save the Campaign.', { }, err));
                 }
-                res.status(201).end();
+                var email = new model.emailing.Task(req.body.email);
+                email.company = campaign.company;
+                email.campaign = campaign._id;
+                email.editor = campaign.editor;
+                email.page = campaign.page;
+                email.customPage = campaign.customPage;
+                email.save(function (err, email) {
+                    if (err) {
+                        return next(Error.create('An error occurred trying save the Email Task.', { }, err));
+                    }
+                    res.status(201).end();
+                });
             });
         });
+
     });
 
     router.put('/campaigns/:id', function (req, res, next) {

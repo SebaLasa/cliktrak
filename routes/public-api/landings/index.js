@@ -53,23 +53,27 @@ module.exports = function (router) {
 
 
                     var landing = page.html;
-                    if (page.urlConfiguration.qrGenerated) {
-                        codeConverter.toQR(page.urlConfiguration.qrData,{}, function (err, dataUrl) {
-                            if (err) {
-                                return next(Error.create('An error occurred generating the QR code.', err));
-                            }
-                            landing += dataUrl;
-                            if (page.urlConfiguration.barcodeGenerated) {
-                                addBarcodeAndSend(page, next, landing, res);
-                            } else {
-                                res.send(landing);
-                            }
-                        });
-                    } else if (page.urlConfiguration.barcodeGenerated) {
-                        addBarcodeAndSend(page, next, landing, res);
-                    } else {
-                        res.send(landing);
+                    if (page.urlConfiguration){
+                        if (page.urlConfiguration.qrGenerated) {
+                            codeConverter.toQR(page.urlConfiguration.qrData,{}, function (err, dataUrl) {
+                                if (err) {
+                                    return next(Error.create('An error occurred generating the QR code.', err));
+                                }
+                                landing += dataUrl;
+                                if (page.urlConfiguration.barcodeGenerated) {
+                                    addBarcodeAndSend(page, next, landing, res);
+                                } else {
+                                    res.send(landing);
+                                }
+                            });
+                        } else if (page.urlConfiguration.barcodeGenerated) {
+                            addBarcodeAndSend(page, next, landing, res);
+                        } else {
+                            res.send(landing);
+                        }
                     }
+                    res.send(landing);
+
                 });
         });
     });

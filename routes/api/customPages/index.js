@@ -26,13 +26,16 @@ module.exports = function (router) {
 
     router.post('/customPages', function (req, res, next) {
         var customPage = new model.CustomPage(req.body);
-        customPage.editor = req.user._id;
-        customPage.company = req.company._id;
-        customPage.save(function (err, customPage) {
-            if (err) {
-                return next(Error.create('An error occurred trying save the Custom Page.', { }, err));
-            }
-            res.status(201).end();
+        model.CustomPage.find({company: req.company._id}).sort('-internalId').limit(1).findOne(function (err, maxCPage) {
+            customPage.internalId = maxCPage.internalId + 1;
+            customPage.editor = req.user._id;
+            customPage.company = req.company._id;
+            customPage.save(function (err, customPage) {
+                if (err) {
+                    return next(Error.create('An error occurred trying save the Custom Page.', { }, err));
+                }
+                res.status(201).end();
+            });
         });
     });
 

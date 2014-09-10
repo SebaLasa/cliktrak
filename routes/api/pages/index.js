@@ -3,7 +3,7 @@ var model = app.model,
 
 module.exports = function (router) {
     router.get('/pages', function (req, res, next) {
-        model.Page.find({ /*deleted: false*/ }).populate('editor').exec(function (err, pages) {
+        model.Page.find({company: req.company._id, deleted: false}).populate('editor').exec(function (err, pages) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Pages.', { }, err));
             }
@@ -15,7 +15,7 @@ module.exports = function (router) {
         if (!validate.objectId(req.params.id)) {
             return res.status(400).end();
         }
-        model.Page.find({_id: req.params.id, deleted: false, companyId: req.company._id}).populate('editor').exec(function (err, pages) {
+        model.Page.find({_id: req.params.id, deleted: false, company: req.company._id}).populate('editor').exec(function (err, pages) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Pages.', { }, err));
             }
@@ -25,15 +25,16 @@ module.exports = function (router) {
 
     router.post('/pages', function (req, res, next) {
         var page = new model.Page(req.body);
-        // TODO AN set the real internalId
-        page.internalId = 0;
-        page.editor = req.user._id;
-        page.company = req.company._id;
-        page.save(function (err, page) {
-            if (err) {
-                return next(Error.create('An error occurred trying save the Page.', { }, err));
-            }
-            res.status(201).end();
+        model.Page.find({company: req.company._id}).sort('-internalId').limit(1).findOne(function (err, maxPage) {
+            page.internalId = maxPage.internalId + 1;
+            page.editor = req.user._id;
+            page.company = req.company._id;
+            page.save(function (err, page) {
+                if (err) {
+                    return next(Error.create('An error occurred trying save the Page.', { }, err));
+                }
+                res.status(201).end();
+            });
         });
     });
 
