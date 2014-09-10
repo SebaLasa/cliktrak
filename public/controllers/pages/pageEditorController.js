@@ -3,12 +3,12 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.$watch(function () {
             return $($scope.page.html).find('.staticBarcode').length;
         }, function (newValue) {
-            $scope.urlConfiguration.barcodeGenerated = !!newValue;
+            $scope.page.urlConfiguration.barcodeGenerated = !!newValue;
         });
         $scope.$watch(function () {
             return $($scope.page.html).find('.staticQr').length;
         }, function (newValue) {
-            $scope.urlConfiguration.qrGenerated = !!newValue;
+            $scope.page.urlConfiguration.qrGenerated = !!newValue;
         });
         $scope.$watch(function () {
             return $($scope.page.html).find('.dynamicQr').length;
@@ -45,6 +45,7 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
     if ($routeParams.id) {
         $http.get('/api/pages/' + $routeParams.id)
             .success(function (data, status) {
+                if (!data.urlConfiguration) data.urlConfiguration = {};
                 $scope.page = data;
                 registerWatchers();
             }).error(function (data, status) {
