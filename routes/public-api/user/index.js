@@ -1,6 +1,3 @@
-/**
- * Created by nico on 8/15/14.
- */
 var passwordResetEmail = require('../../../services/passwordResetEmail.js');
 var model = app.model,
     hash = app.security.hash,
@@ -33,7 +30,7 @@ module.exports = function (router) {
             user = user.toObject();
             delete user.pass;
             req.session.user = user;
-            res.status(200).end();
+            res.status(200).json({admin:user.admin});
         });
     });
 

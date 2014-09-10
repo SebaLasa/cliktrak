@@ -1,4 +1,4 @@
-angular.module('clicks').factory('httpInterceptor', function ($q, $window) {
+angular.module('click-interceptor',[]).factory('httpInterceptor', function ($q, $window) {
     return function (promise) {
         return promise.then(function (response) {
             $('#loading').hide();
