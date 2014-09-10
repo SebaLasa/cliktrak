@@ -1,17 +1,30 @@
 angular.module('clicks').controller('pageEditorController', function ($scope, $http, $location, $routeParams) {
-    $http.get('/api/layouts/').success(function (data, status) {
-        $scope.layouts = data;
-    });
-    $scope.$watch(function () {
-        return $($scope.page.html).find('.staticBarcode').length;
-    }, function (newValue) {
-        $scope.urlConfiguration.barcodeGenerated = !!newValue;
-    });
-    $scope.$watch(function () {
-        return $($scope.page.html).find('.staticQr').length;
-    }, function (newValue) {
-        $scope.urlConfiguration.qrGenerated = !!newValue;
-    });
+    function registerWatchers() {
+        $scope.$watch(function () {
+            return $($scope.page.html).find('.staticBarcode').length;
+        }, function (newValue) {
+            $scope.urlConfiguration.barcodeGenerated = !!newValue;
+        });
+        $scope.$watch(function () {
+            return $($scope.page.html).find('.staticQr').length;
+        }, function (newValue) {
+            $scope.urlConfiguration.qrGenerated = !!newValue;
+        });
+        $scope.$watch(function () {
+            return $($scope.page.html).find('.dynamicQr').length;
+        }, function (newValue, oldValue) {
+            if (oldValue > newValue) {
+                arrangeDynamicCodes('dynamicQr', 'qr');
+            }
+        });
+        $scope.$watch(function () {
+            return $($scope.page.html).find('.dynamicBarcode').length;
+        }, function (newValue, oldValue) {
+            if (oldValue > newValue) {
+                arrangeDynamicCodes('dynamicBarcode', 'bc');
+            }
+        });
+    }
 
     function arrangeDynamicCodes(cssClass, img) {
         var html = $('<div>' + $scope.page.html + '</div>');
@@ -25,33 +38,23 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         }
         $scope.page.html = html.html();
     }
-    $scope.$watch(function () {
-        return $($scope.page.html).find('.dynamicQr').length;
-    }, function (newValue, oldValue) {
-        if (oldValue > newValue) {
-            arrangeDynamicCodes('dynamicQr', 'qr');
-        }
-    });
-    $scope.$watch(function () {
-        return $($scope.page.html).find('.dynamicBarcode').length;
-    }, function (newValue, oldValue) {
-        if (oldValue > newValue) {
-            arrangeDynamicCodes('dynamicBarcode', 'bc');
-        }
-    });
 
+    $http.get('/api/layouts/').success(function (data, status) {
+        $scope.layouts = data;
+    });
     if ($routeParams.id) {
         $http.get('/api/pages/' + $routeParams.id)
             .success(function (data, status) {
                 $scope.page = data;
+                registerWatchers();
             }).error(function (data, status) {
                 $location.path('pages');
             });
     } else {
         $scope.page = { };
         $scope.urlConfiguration = {};
+        registerWatchers();
     }
-
     $scope.addBarcode = function () {
         if ($($scope.page.html).find('.staticBarcode').length) {
             return alert('A static Barcode has already added.');
