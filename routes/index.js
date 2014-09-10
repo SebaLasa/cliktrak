@@ -7,7 +7,7 @@ var express = require('express'),
 
 module.exports = function (router) {
     var ignoreList = ['.DS_Store'];
-    router.get('/back', app.security.authenticate("back"), function (req, res, next) {
+    router.get('/back', app.security.authenticate('back'), function (req, res, next) {
         fs.readFile('./public/views/back.html', function (err, data) {
             if (err) {
                 return next(Error.create('An error occurred trying load the dashboard', null, err));
@@ -120,7 +120,7 @@ module.exports = function (router) {
     });
 
 
-    router.get('/admin', app.security.authenticate("admin"), function (req, res, next) {
+    router.get('/admin', app.security.authenticate('admin'), function (req, res, next) {
         fs.readFile('./public/views/admin.html', function (err, data) {
             if (err) {
                 return next(Error.create('An error occurred trying load the dashboard', null, err));

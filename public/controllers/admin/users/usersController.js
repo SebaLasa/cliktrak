@@ -3,7 +3,7 @@ angular.module('admin').controller('usersController', function ($scope, $http) {
         .success(function (data, status) {
             $scope.users = data;
         });
-    $scope.deletePage = function (id) {
+    $scope.deleteUser = function (id) {
         $http.delete('/api/users/' + id)
             .success(function (data, status) {
 

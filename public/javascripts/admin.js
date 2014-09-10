@@ -6,18 +6,18 @@ angular.module('admin', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.date
                 templateUrl: '/views/admin/home.html'
             })
             .when('/companies', {
-                controller: 'companyController',
+                controller: 'companiesController',
                 templateUrl: '/views/admin/companies/index.html'
             })
-            .when('/company/new', {
+            .when('/companies/new', {
                 controller: 'companyEditorController',
                 templateUrl: '/views/admin/companies/editor.html'
             })
-            .when('/company/:id', {
+            .when('/companies/:id', {
                 controller: 'companyEditorController',
                 templateUrl: '/views/admin/companies/editor.html'
             })
-            .when('/company/delete/:id', {
+            .when('/companies/delete/:id', {
                 controller: 'companyDeleteController',
                 templateUrl:'/views/admin/companies/delete.html'
             })
