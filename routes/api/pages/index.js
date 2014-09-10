@@ -26,7 +26,11 @@ module.exports = function (router) {
     router.post('/pages', function (req, res, next) {
         var page = new model.Page(req.body);
         model.Page.find({company: req.company._id}).sort('-internalId').limit(1).findOne(function (err, maxPage) {
-            page.internalId = maxPage.internalId + 1;
+            if (err){
+                page.internalId = 0;
+            }else{
+                page.internalId = maxPage.internalId + 1;
+            }
             page.editor = req.user._id;
             page.company = req.company._id;
             page.save(function (err, page) {

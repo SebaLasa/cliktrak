@@ -27,7 +27,11 @@ module.exports = function (router) {
     router.post('/customPages', function (req, res, next) {
         var customPage = new model.CustomPage(req.body);
         model.CustomPage.find({company: req.company._id}).sort('-internalId').limit(1).findOne(function (err, maxCPage) {
-            customPage.internalId = maxCPage.internalId + 1;
+            if (err){
+                customPage.internalId = 0;
+            }else{
+                customPage.internalId = maxCPage.internalId + 1;
+            }
             customPage.editor = req.user._id;
             customPage.company = req.company._id;
             customPage.save(function (err, customPage) {

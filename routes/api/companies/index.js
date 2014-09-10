@@ -27,7 +27,11 @@ module.exports = function (router) {
     router.post('/companies', function (req, res, next) {
         var company = new model.Company(req.body);
         model.Company.find().sort('-internalId').limit(1).findOne(function (err, maxComp){
-            company.internalId = maxComp.internalId +1;
+            if (err){
+                company.internalId = 0;
+            }else{
+                company.internalId = maxComp.internalId +1;
+            }
             company.save(function (err, company) {
                 if (err) {
                     return next(Error.create('An error occurred trying save the company.', { }, err));

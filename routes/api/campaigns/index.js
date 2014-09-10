@@ -32,7 +32,11 @@ module.exports = function (router) {
         campaign.company = req.company._id;
         campaign.editor = req.user._id;
         model.Campaign.find().sort('-internalId').limit(1).findOne(function (err, maxCamp){
-            campaign.internalId = maxCamp.internalId +1;
+            if (err){
+                campaign.internalId = 0;
+            }else{
+                campaign.internalId = maxCamp.internalId +1;
+            }
             campaign.save(function (err, campaign) {
                 if (err) {
                     return next(Error.create('An error occurred trying save the Campaign.', { }, err));
