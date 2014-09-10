@@ -1,4 +1,4 @@
-angular.module('admin', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.date', 'angularCharts'])
+angular.module('admin', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.date', 'angularCharts','click-interceptor'])
     .config(function ($routeProvider, $httpProvider) {
         $routeProvider
             .when('/', {
