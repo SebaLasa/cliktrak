@@ -8,5 +8,8 @@ angular.module('signin', ['ngRoute']).config(function ($routeProvider) {
             controller: 'setPasswordController',
             templateUrl: '/views/login/set-password.html'
         })
-        .otherwise({ redirectTo: '/' });
+        .when('/admin', {
+            redirectTo: '/admin'
+        })
+        .otherwise({redirectTo: '/'  });
 });

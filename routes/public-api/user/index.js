@@ -33,7 +33,7 @@ module.exports = function (router) {
             user = user.toObject();
             delete user.pass;
             req.session.user = user;
-            res.status(200).end();
+            res.json({admin:user.admin});
         });
     });
 

@@ -21,7 +21,8 @@ model.User = mongoose.model('users', new Schema({
     name: { type: String, required: true },
     password: { type: String, required: true },
     enabled: { type: Boolean, required: true, default: true },
-    deleted: { type: Boolean, required: true, default: false }
+    deleted: { type: Boolean, required: true, default: false },
+    admin:{ type: Boolean, default: false }
 }));
 
 model.Menu = mongoose.model('menus', new Schema({
