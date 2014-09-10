@@ -8,22 +8,16 @@
             <h4>Name</h4>
         </div>
         <div class="col-md-3">
-            <h4>Modified</h4>
-        </div>
-        <div class="col-md-3">
-            <h4>Editor</h4>
+            <h4>Email</h4>
         </div>
     </div>
     <div ng-repeat="company in companies">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 {{company.name}}
             </div>
             <div class="col-md-3">
-                {{company.updated_at | dateTimeFormat}}
-            </div>
-            <div class="col-md-3">
-                {{company.editor.name}}
+                {{company.email}}
             </div>
             <div class="col-md-3 btn-group">
                 <a href="#/company/{{company._id}}" class="btn btn-sm btn-primary" title="Edit page">
