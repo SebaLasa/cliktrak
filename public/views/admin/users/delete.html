@@ -1,0 +1,21 @@
+<div class="container">
+    <a href="#/companies" class="btn btn-default">back</a>
+
+    <h1>Deleting {{user.name}}</h1>
+
+    <h3>Are you sure that you want to delete this user?</h3>
+
+    <p>
+        <b>Name</b>
+        <span>{{user.name}}</span>
+    </p>
+
+    <p>
+        <b>mail</b>
+        <span>{{user.email}}</span>
+    </p>
+
+    <form ng-submit="delete()">
+        <input type="submit" value="Delete" class="btn btn-danger"/>
+    </form>
+</div>
