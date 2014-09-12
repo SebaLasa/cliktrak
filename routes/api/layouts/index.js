@@ -15,11 +15,11 @@ module.exports = function (router) {
         if (!validate.objectId(req.params.id)) {
             return res.status(400).end();
         }
-        model.Layout.findById(req.params.id).populate('editor').exec(function (err, layout) {
+        model.Layout.findOne({_id: req.params.id, deleted: false, company: req.company._id}).populate('editor').exec(function (err, layout) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }
-            if (!layout || layout.deleted || !req.company._id.equals(layout.company)) {
+            if (!layout) {
                 return res.status(404).end();
             }
             res.json(layout);
@@ -50,11 +50,11 @@ module.exports = function (router) {
     });
 
     router.delete('/layouts/:id', function (req, res, next) {
-        model.Layout.findById(req.params.id, function (err, layout) {
+        model.Layout.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, layout) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layout.', { }, err));
             }
-            if (!layout || layout.deleted || !req.company._id.equals(layout.company)) {
+            if (!layout) {
                 return res.status(404).end();
             }
             layout.deleted = true;

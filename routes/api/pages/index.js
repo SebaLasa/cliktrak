@@ -3,7 +3,7 @@ var model = app.model,
 
 module.exports = function (router) {
     router.get('/pages', function (req, res, next) {
-        model.Page.find({ /*deleted: false*/ }).populate(['editor', 'urlConfiguration']).exec(function (err, pages) {
+        model.Page.find({company: req.company._id, deleted: false}).populate('editor', 'urlConfiguration').exec(function (err, pages) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Pages.', { }, err));
             }
@@ -15,25 +15,32 @@ module.exports = function (router) {
         if (!validate.objectId(req.params.id)) {
             return res.status(400).end();
         }
-        model.Page.find({_id: req.params.id, deleted: false, companyId: req.company._id}).populate('editor').exec(function (err, pages) {
+        model.Page.findOne({_id: req.params.id, deleted: false, company: req.company._id}).populate('editor').exec(function (err, page) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Pages.', { }, err));
             }
-            res.json(pages);
+            if (!page) {
+                return res.status(404).end();
+            }
+            res.json(page);
         });
     });
 
     router.post('/pages', function (req, res, next) {
         var page = new model.Page(req.body);
-        // TODO AN set the real internalId
-        page.internalId = 0;
         page.editor = req.user._id;
         page.company = req.company._id;
-        page.save(function (err, page) {
+        model.Page.find({company: req.company._id}).sort('-internalId').findOne(function (err, lastPage) {
             if (err) {
-                return next(Error.create('An error occurred trying save the Page.', { }, err));
+                return next(Error.create('An error occurred trying get the last Page.', { }, err));
             }
-            res.status(201).end();
+            page.internalId = lastPage ? lastPage.internalId + 1 : 1;
+            page.save(function (err, page) {
+                if (err) {
+                    return next(Error.create('An error occurred trying save the Page.', { }, err));
+                }
+                res.status(201).end();
+            });
         });
     });
 
@@ -47,11 +54,11 @@ module.exports = function (router) {
     });
 
     router.delete('/pages/:id', function (req, res, next) {
-        model.Page.findById(req.params.id, req.body, function (err, page) {
+        model.Page.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, page) {
             if (err) {
                 return next(Error.create('An error occurred trying delete the Page.', { }, err));
             }
-            if (!page || page.deleted || !req.company._id.equals(page.company)) {
+            if (!page) {
                 return res.status(404).end();
             }
             page.deleted = true;

@@ -5,11 +5,17 @@ var debug = require('debug')('authenticate');
  * @param loginPage
  * @returns {Function} A middleware that checks the user's session.
  */
-module.exports = function (loginPage) {
+module.exports = function (section, loginPage) {
     return  function (req, res, next) {
+        var isAdmin = (section == "admin");
         if (req.session.user) {
             req.user = req.session.user;
-            return next();
+            if (!isAdmin){
+                return next();
+            }
+            if (req.user.admin){
+                return next();
+            }
         }
 
         debug('User not authenticated');

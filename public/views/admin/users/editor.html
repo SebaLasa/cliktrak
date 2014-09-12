@@ -1,0 +1,27 @@
+<div class="container">
+    <a href="#/users" class="btn btn-default">Back</a>
+
+    <h2>User</h2>
+
+    <form ng-submit="save()">
+        <div class="input-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" ng-model="user.name"/>
+        </div>
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" ng-model="user.email"/>
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" ng-model="user.password"/>
+        </div>
+        <div class="input-group">
+            <label for="company">Company</label>
+            <select id="company" name="company" ng-model="user.company"
+                    ng-options="company._id as company.name for company in companies">
+            </select>
+        </div>
+        <input type="submit" value="save" class="btn btn-primary"/>
+    </form>
+</div>
