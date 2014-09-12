@@ -54,8 +54,9 @@ module.exports = function (router) {
     router.put('/pages/:id', function (req, res, next) {
         delete req.body.page._id;
         delete req.body.page.urlConfiguration;
-        page.editor = req.user._id;
-        page.company = req.company._id;
+        delete req.body.urlConfiguration._id;
+        req.body.page.editor = req.user._id;
+        req.body.page.company = req.company._id;
         model.Page.findOneAndUpdate({_id: req.params.id, deleted: false, company: req.company._id}, req.body.page, function (err, page) {
             if (err) {
                 return next(Error.create('An error occurred trying update the Page.', { }, err));
