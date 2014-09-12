@@ -3,12 +3,12 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.$watch(function () {
             return $($scope.page.html).find('.staticBarcode').length;
         }, function (newValue) {
-            $scope.page.urlConfiguration.barcodeGenerated = !!newValue;
+            $scope.urlConfiguration.barcodeGenerated = !!newValue;
         });
         $scope.$watch(function () {
             return $($scope.page.html).find('.staticQr').length;
         }, function (newValue) {
-            $scope.page.urlConfiguration.qrGenerated = !!newValue;
+            $scope.urlConfiguration.qrGenerated = !!newValue;
         });
         $scope.$watch(function () {
             return $($scope.page.html).find('.dynamicQr').length;
@@ -45,8 +45,8 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
     if ($routeParams.id) {
         $http.get('/api/pages/' + $routeParams.id)
             .success(function (data, status) {
-                if (!data.urlConfiguration) data.urlConfiguration = {};
                 $scope.page = data;
+                $scope.urlConfiguration = data.urlConfiguration || {};
                 registerWatchers();
             }).error(function (data, status) {
                 $location.path('pages');
@@ -83,13 +83,14 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.page.html += '<img class="dynamicQr dynamicQr' + count + '" src="/images/codes/qr' + count + '.png"/>';
     };
     $scope.save = function () {
+        var data = { page: $scope.page, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {
-            return $http.put('/api/pages/' + $routeParams.id, $scope.page)
+            return $http.put('/api/pages/' + $routeParams.id, data)
                 .success(function (data, status) {
                     $location.path('pages');
                 });
         }
-        $http.post('/api/pages/', $scope.page)
+        $http.post('/api/pages/', data)
             .success(function (data, status) {
                 $location.path('pages');
             });
