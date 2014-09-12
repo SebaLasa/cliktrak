@@ -47,11 +47,13 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
             .success(function (data, status) {
                 $scope.page = data;
                 $scope.urlConfiguration = data.urlConfiguration || {};
+                $scope.pageTitle = data.name;
                 registerWatchers();
             }).error(function (data, status) {
                 $location.path('pages');
             });
     } else {
+        $scope.pageTitle = 'Nueva página';
         $scope.page = { };
         $scope.urlConfiguration = {};
         registerWatchers();

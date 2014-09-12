@@ -1,11 +1,10 @@
-<a href="#/contacts/new" class="btn btn-primary">New</a>
+<a href="#/contacts/new" class="btn btn-primary">Nuevo contacto</a>
 <h2>Contacts</h2>
 <div class="row">
-    <div class="col-md-3"><h4>Name</h4></div>
-    <div class="col-md-3"><h4>Surname</h4></div>
-    <div class="col-md-3"><h4>E-mail</h4></div>
-    <div class="col-md-3"><h4>Mobile</h4></div>
-    <div class="col-md-3"><h4>Options</h4></div>
+    <div class="col-md-3"><h4>Nombre</h4></div>
+    <div class="col-md-3"><h4>Apellido</h4></div>
+    <div class="col-md-2"><h4>E-mail</h4></div>
+    <div class="col-md-2"><h4>Móvil</h4></div>
 </div>
 <div ng-repeat="contact in contacts">
     <div class="row">
@@ -13,12 +12,12 @@
         <div class="col-md-3">{{contact.surname}}</div>
         <div class="col-md-3">{{contact.email}}</div>
         <div class="col-md-3">{{contact.mobilePhone}}</div>
-        <div class="col-md-3"><buton ng-click="deleteContact(contact._id)">Delete</buton></div>
+        <div class="col-md-3"><a ng-click="deleteContact(contact._id)">Delete</a></div>
     </div>
 </div>
 <div>
     <form action="/api/contacts/upload" method="post" enctype="multipart/form-data">
-        Upload CSV: <input type="file" name="contacts-csv">
+        Subir CSV: <input type="file" name="contacts-csv">
         <input type="submit" value="Send">
     </form>
 </div>
