@@ -15,7 +15,7 @@ module.exports = function (router) {
         if (!validate.objectId(req.params.id)) {
             return res.status(400).end();
         }
-        model.Page.findOne({_id: req.params.id, deleted: false, company: req.company._id}).populate('editor').exec(function (err, page) {
+        model.Page.findOne({_id: req.params.id, deleted: false, company: req.company._id}).populate(['editor', 'urlConfiguration']).exec(function (err, page) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Pages.', { }, err));
             }
