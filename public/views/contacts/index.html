@@ -8,16 +8,25 @@
 </div>
 <div ng-repeat="contact in contacts">
     <div class="row">
-        <div class="col-md-3"><a href="#/contacts/{{contact._id}}">{{contact.name}}</a></div>
+        <div class="col-md-3">{{contact.name}}</div>
         <div class="col-md-3">{{contact.surname}}</div>
-        <div class="col-md-3">{{contact.email}}</div>
-        <div class="col-md-3">{{contact.mobilePhone}}</div>
-        <div class="col-md-3"><a ng-click="deleteContact(contact._id)">Delete</a></div>
+        <div class="col-md-2">{{contact.email}}</div>
+        <div class="col-md-2">{{contact.mobilePhone}}</div>
+        <div class="col-md-2 btn-group">
+            <a href="#/contacts/{{contact._id}}" class="btn btn-sm btn-primary" title="Editar contacto">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+            <a ng-click="deleteContact(contact._id)" class="btn btn-sm btn-danger" title="Borrar contacto">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </div>
     </div>
 </div>
+<br/>
 <div>
     <form action="/api/contacts/upload" method="post" enctype="multipart/form-data">
-        Subir CSV: <input type="file" name="contacts-csv">
-        <input type="submit" value="Send">
+        <h3>Subir CSV</h3>
+        <input type="file" name="contacts-csv">
+        <input type="submit" value="Enviar" class="btn btn-success">
     </form>
 </div>
