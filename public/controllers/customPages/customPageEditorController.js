@@ -2,14 +2,17 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
     $http.get('/api/pages/').success(function (data, status) {
         $scope.pages = data;
     });
-    
+
     if ($routeParams.id) {
         $http.get('/api/customPages/' + $routeParams.id)
             .success(function (data, status) {
                 $scope.customPage = data;
+                $scope.pageTitle = data.name;
             }).error(function (data, status) {
                 $location.path('customPages');
             });
+    } else {
+        $scope.pageTitle = 'Nueva página personalizada';
     }
 
     $scope.save = function () {

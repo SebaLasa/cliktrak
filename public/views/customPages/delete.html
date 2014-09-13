@@ -1,28 +1,29 @@
 <div class="container">
-    <h1>Custom Pages</h1>
-    
-    <h2>Are you sure?</h2>
-    
-    <h3>Delete</h3>
+    <a href="#/customPages">Volver</a>
+
+    <h1>Borrando {{customPage.name}}</h1>
+
+    <h2>Está seguro que desea eliminar esta página personalizada?</h2>
+
+    <h3>Borrar</h3>
 
     <div>
         <b>Name</b>
         <span>{{customPage.name}}</span>
     </div>
     <div>
-        <b>Type</b>
+        <b>Tipo</b>
         <span>{{customPage.type}}</span>
     </div>
     <div>
-        <b>Date Started</b>
+        <b>Inicio</b>
         <span>{{customPage.dateStart}}</span>
     </div>
     <div>
-        <b>Date End</b>
+        <b>Fin</b>
         <span>{{customPage.dateEnd}}</span>
     </div>
     <form ng-submit="delete()">
-        <input type="submit" class="button" value="delete"/>
+        <input type="submit" class="button" value="Borrar"/>
     </form>
-    <a href="#/customPages">back</a>
 </div>

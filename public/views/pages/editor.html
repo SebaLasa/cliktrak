@@ -1,32 +1,32 @@
 <div class="container">
-    <a href="#/pages" class="btn btn-default">Back</a>
+    <a href="#/pages" class="btn btn-default">Volver</a>
 
-    <h2>Page</h2>
+    <h2>{{pageTitle}}</h2>
 
     <form ng-submit="save()" class="form" role="form">
         <div class="row">
             <div class="col-md-6">
                 <div class="input-group">
-                    <label for="name">Name</label>
+                    <label for="name">Nombre</label>
                     <input type="text" id="name" name="name" ng-model="page.name" required/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group">
-                    <label for="title">Page Title</label>
+                    <label for="title">Título</label>
                     <input type="text" id="title" name="title" ng-model="page.title" required/>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <label for="layout">Layout</label>
+                <label for="layout">Diseño</label>
                 <select id="layout" name="layout" ng-model="page.layout"
                         ng-options="layout._id as layout.name for layout in layouts">
                 </select>
             </div>
             <div class="col-md-6">
-                <label for="forCustomPages">For custom pages</label>
+                <label for="forCustomPages">Sólo para páginas personalizadas</label>
                 <input type="checkbox" id="forCustomPages" name="forCustomPages" ng-model="page.forCustomPages">
             </div>
         </div>
@@ -38,11 +38,11 @@
         </div>
         <div class="row" ng-show="!page.forCustomPages">
             <div class="col-md-6">
-                <label for="isTracked">Are the clicks tracked?</label>
+                <label for="isTracked">Activar seguimiento</label>
                 <input type="checkbox" id="isTracked" name="isTracked" ng-model="urlConfiguration.isTracked"/>
             </div>
             <div class="col-md-6">
-                <label for="subdomain">Subdomain</label>
+                <label for="subdomain">Subdominio</label>
                 <input type="text" id="subdomain" name="subdomain" ng-model="urlConfiguration.subdomain" required/>
                 {{urlConfiguration.subdomain}}
             </div>
@@ -55,27 +55,27 @@
             <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <span class="glyphicon glyphicon-barcode"></span> Barcode
+                        <span class="glyphicon glyphicon-barcode"></span> Código de barras
                     </div>
                     <div class="panel-body">
                         <a ng-click="addBarcode()" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-plus"></span>Static
+                            <span class="glyphicon glyphicon-plus"></span>Estático
                         </a>
                         <a ng-click="addDynamicBarcode()" ng-show="page.forCustomPages" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-plus"></span>Dynamic
+                            <span class="glyphicon glyphicon-plus"></span>Dinámico
                         </a>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <span class="glyphicon glyphicon-qrcode"></span> QR Code
+                        <span class="glyphicon glyphicon-qrcode"></span>Código QR
                     </div>
                     <div class="panel-body">
                         <a ng-click="addQrCode()" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-plus"></span>Static
+                            <span class="glyphicon glyphicon-plus"></span>Estático
                         </a>
                         <a ng-click="addDynamicQrCode()" ng-show="page.forCustomPages" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-plus"></span>Dynamic
+                            <span class="glyphicon glyphicon-plus"></span>Dinámico
                         </a>
                     </div>
                 </div>
@@ -83,36 +83,36 @@
         </div>
         <div class="row" ng-show="!page.forCustomPages">
             <div class="col-md-6">
-                <label for="qrGenerated">Generate QR code?</label>
+                <label for="qrGenerated">Generar código QR?</label>
                 <input type="checkbox" id="qrGenerated" name="qrGenerated" ng-model="urlConfiguration.qrGenerated"/>
             </div>
         </div>
         <div class="row" ng-show="!page.forCustomPages && urlConfiguration.qrData">
             <div class="col-md-6">
-                <label for="qrData">Value</label>
+                <label for="qrData">Valor</label>
                 <input type="text" id="qrData" name="qrData" ng-model="urlConfiguration.qrData"
                        ng-required="urlConfiguration.qrGenerated"/>
             </div>
         </div>
         <div class="row" ng-show="!page.forCustomPages">
             <div class="col-md-6">
-                <label for="barcodeGenerated">Generate barcode?</label>
+                <label for="barcodeGenerated">Generar código de barras?</label>
                 <input type="checkbox" id="barcodeGenerated" name="barcodeGenerated"
                        ng-model="urlConfiguration.barcodeGenerated"/>
             </div>
         </div>
         <div class="row" ng-show="!page.forCustomPages && urlConfiguration.barcodeGenerated">
             <div class="col-md-6">
-                <label for="barcodeData">Value</label>
+                <label for="barcodeData">Valor</label>
                 <input type="text" id="barcodeData" name="barcodeData" ng-model="urlConfiguration.barcodeData"
                        ng-required="urlConfiguration.barcodeGenerated"/>
             </div>
             <div class="col-md-6">
-                <label>Size</label>
+                <label>Tamaño</label>
                 <barcode-size selected="urlConfiguration.barcodeSize"></barcode-size>
             </div>
         </div>
         <br/>
-        <input type="submit" value="save" class="btn btn-primary"/>
+        <input type="submit" value="Guardar" class="btn btn-primary"/>
     </form>
 </div>
