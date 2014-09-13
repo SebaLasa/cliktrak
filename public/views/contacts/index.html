@@ -1,3 +1,24 @@
+<style>
+    .fileinput-button
+    {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .fileinput-button input
+    {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        transform: translate(-300px, 0) scale(4);
+        font-size: 23px;
+        direction: ltr;
+        cursor: pointer;
+    }
+</style>
 <a href="#/contacts/new" class="btn btn-primary">Nuevo contacto</a>
 <h2>Contactos</h2>
 <div class="row">
@@ -26,7 +47,16 @@
 <div>
     <form action="/api/contacts/upload" method="post" enctype="multipart/form-data">
         <h3>Subir CSV</h3>
-        <input type="file" name="contacts-csv">
+        <div class="control-group">
+            <div class="controls">
+                <span class="btn btn-default fileinput-button">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                    <input type="file" name="contacts-csv" fileread="csv">
+                    <span ng-hide="csv">&nbsp;Ningún archivo seleccionado.</span>
+                    <span ng-show="csv">&nbsp;Seleccionado: {{csv.name}}</span>
+                </span>
+            </div>
+        </div>
         <input type="submit" value="Enviar" class="btn btn-success">
     </form>
 </div>
