@@ -1,10 +1,8 @@
 var bwipjs = require('node-bwipjs-ng');
 
 function generateBarcode(data, cb) {
-    var img = bwipjs.createBarcode(data, function (png) {
-        var imgBase64 = new Buffer(png, 'binary').toString('base64');
-
-        cb(null, '<img src="data:image/png;base64,' + imgBase64 + '" />');
+    var img = bwipjs.createBarcode(data, function (img) {
+        cb(null, img);
     });
 }
 
