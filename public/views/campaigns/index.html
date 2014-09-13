@@ -1,12 +1,12 @@
 <div class="container">
-    <a href="#/campaigns/new" class="btn btn-primary">New</a>
+    <a href="#/campaigns/new" class="btn btn-primary">Nueva campaña</a>
 
-    <h2>Campaigns</h2>
+    <h2>Campañas</h2>
 
     <div class="row">
-        <div class="col-md-3"><h4>Name</h4></div>
-        <div class="col-md-2"><h4>States</h4></div>
-        <div class="col-md-2"><h4>Modified</h4></div>
+        <div class="col-md-3"><h4>Nombre</h4></div>
+        <div class="col-md-2"><h4>Estado</h4></div>
+        <div class="col-md-2"><h4>Modificado</h4></div>
         <div class="col-md-2"><h4>Editor</h4></div>
     </div>
     <div ng-repeat="campaign in campaigns">
@@ -20,10 +20,10 @@
                 {{campaign.editor.name}}
             </div>
             <div class="col-md-2 btn-group">
-                <a href="#/campaigns/{{campaign._id}}" class="btn btn-sm btn-primary" title="Edit campaign">
+                <a href="#/campaigns/{{campaign._id}}" class="btn btn-sm btn-primary" title="Editar campaña">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
-                <a href="#/campaigns/delete/{{campaign._id}}" class="btn btn-sm btn-danger" title="Delete campaign">
+                <a href="#/campaigns/delete/{{campaign._id}}" class="btn btn-sm btn-danger" title="Borrar campaña">
                     <span class="glyphicon glyphicon-remove"></span>
                 </a>
             </div>

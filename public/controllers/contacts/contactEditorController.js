@@ -6,9 +6,13 @@ angular.module('clicks').controller('contactEditorController', function ($scope,
                 if ($scope.contact.birthDate && !angular.isDate($scope.contact.birthDate)) {
                     $scope.contact.birthDate = new Date($scope.contact.birthDate);
                 }
+
+                $scope.pageTitle = data.name + ' ' + data.surname;
             }).error(function (data, status) {
                 $location.path('contacts');
             });
+    } else {
+        $scope.pageTitle = 'Nuevo contacto';
     }
 
     $scope.save = function () {

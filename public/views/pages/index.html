@@ -1,12 +1,12 @@
 <div class="container">
-    <a href="#/pages/new" class="btn btn-primary">New</a>
+    <a href="#/pages/new" class="btn btn-primary">Nueva página</a>
 
     <h2>Pages</h2>
 
     <div class="row">
-        <div class="col-md-3"><h4>Name</h4></div>
-        <div class="col-md-2"><h4>States</h4></div>
-        <div class="col-md-2"><h4>Modified</h4></div>
+        <div class="col-md-3"><h4>Nombre</h4></div>
+        <div class="col-md-2"><h4>Estado</h4></div>
+        <div class="col-md-2"><h4>Modificado</h4></div>
         <div class="col-md-2"><h4>Editor</h4></div>
     </div>
     <div ng-repeat="page in pages">
@@ -40,21 +40,21 @@
                 {{page.editor.name}}
             </div>
             <div class="col-md-2 btn-group">
-                <a href="#/pages/{{page._id}}" class="btn btn-sm btn-primary" title="Edit page">
+                <a href="#/pages/{{page._id}}" class="btn btn-sm btn-primary" title="Editar página">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
                 <button ng-click="enable(page, false)" ng-show="page.enabled" class="btn btn-sm btn-success"
-                        title="The page is enabled. Click for Disable.">
+                        title="La página está activa. Haga click para desactivar.">
                     <span class="glyphicon glyphicon-ok-circle"></span>
                 </button>
                 <button ng-click="enable(page, true)" ng-hide="page.enabled" class="btn btn-sm btn-warning"
-                        title="The page is disabled. Click for Enable.">
+                        title="La página está desactivada. Haga click para activar.">
                     <span class="glyphicon glyphicon-remove-circle"></span>
                 </button>
-                <a href="#/pages/delete/{{page._id}}" class="btn btn-sm btn-danger" title="Delete page">
+                <a href="#/pages/delete/{{page._id}}" class="btn btn-sm btn-danger" title="Borrar página">
                     <span class="glyphicon glyphicon-remove"></span>
                 </a>
-                <a href="#/reports/page/{{page._id}}" class="btn btn-sm btn-primary" title="Statistics">
+                <a href="#/reports/page/{{page._id}}" class="btn btn-sm btn-primary" title="Estadísticas">
                     <span class="glyphicon glyphicon-signal"></span>
                 </a>
             </div>

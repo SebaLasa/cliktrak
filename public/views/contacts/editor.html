@@ -1,22 +1,22 @@
-<a href="#/contacts" class="btn btn-default">Back</a>
-<h2>Contact</h2>
+<a href="#/contacts" class="btn btn-default">Volver</a>
+<h2>{{pageTitle}}</h2>
 <form ng-submit="save()">
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name">Nombre</label>
                 <input type="text" id="name" ng-model="contact.name"/>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="surname">Surname</label>
+                <label for="surname">Apellido</label>
                 <input type="text" id="surname" ng-model="contact.surname"/>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="gender">gender</label>
+            <label for="gender">Género</label>
             <select id="gender" ng-model="contact.gender">
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -32,7 +32,7 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="birthDate">Birth Date</label>
+                <label for="birthDate">Fecha de nacimiento</label>
                 <input type="text" id="birthDate" ui-date ng-model="contact.birthDate"/>
             </div>
         </div>
@@ -40,13 +40,13 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="mobilePhone">Mobile Phone</label>
+                <label for="mobilePhone">Móvil</label>
                 <input type="text" id="mobilePhone" ng-model="contact.mobilePhone"/>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="telephone">Telephone</label>
+                <label for="telephone">Teléfono</label>
                 <input type="text" id="telephone" ng-model="contact.telephone"/>
             </div>
         </div>
@@ -54,29 +54,32 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="address">address</label>
+                <label for="address">Dirección</label>
                 <input type="text" id="address" ng-model="contact.address"/>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="state">state</label>
-                    <input type="text" id="state" ng-model="contact.state"/>
-                </div>
-                <div class="form-group">
-                    <label for="city">city</label>
-                    <input type="text" id="city" ng-model="contact.city"/>
-                </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="state">Provincia</label>
+                <input type="text" id="state" ng-model="contact.state"/>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="country">country</label>
-                    <input type="text" id="country" ng-model="contact.country"/>
-                </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="city">Ciudad</label>
+                <input type="text" id="city" ng-model="contact.city"/>
             </div>
-
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="country">País</label>
+                <input type="text" id="country" ng-model="contact.country"/>
+            </div>
         </div>
     </div>
 
     <br/>
-    <input type="submit" value="save" class="btn btn-primary"/>
+    <input type="submit" value="Guardar" class="btn btn-primary"/>
 </form>

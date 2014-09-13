@@ -1,23 +1,23 @@
 <div class="container">
-    <a href="#/layouts" class="btn btn-default">Back</a>
+    <a href="#/layouts" class="btn btn-default">Volver</a>
 
-    <h2>Layout</h2>
+    <h2>{{pageTitle}}</h2>
 
     <form ng-submit="save()">
         <div class="input-group">
-            <label for="name">Name</label>
+            <label for="name">Nombre</label>
             <input type="text" id="name" ng-model="layout.name"/>
         </div>
         <div class="input-group">
-            <label for="footerBackgroundColor">Background color</label>
+            <label for="footerBackgroundColor">Color de fondo</label>
             <input type="text" id="footerBackgroundColor" colorpicker="hex" colorpicker-with-input="true"
                    ng-model="layout.footerBackgroundColor"/>
         </div>
         <div class="input-group">
-            <label for="footer">Footer</label>
+            <label for="footer">Pie de página</label>
             <textarea id="footer" ui-tinymce ng-model="layout.footer"></textarea>
         </div>
         <br/>
-        <input type="submit" value="save" class="btn btn-primary"/>
+        <input type="submit" value="Guardar" class="btn btn-primary"/>
     </form>
 </div>
