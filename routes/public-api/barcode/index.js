@@ -3,6 +3,8 @@
  */
 var CodeConverter = require("../../../services/codeConverter")
 
+// TODO unhardcode mimeType
+
 module.exports = function (router) {
     router.get('/barcode/:sizing/:string', function (req, res, next) {
         var data= req.params.string;
