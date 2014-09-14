@@ -1,27 +1,28 @@
 <div class="container">
-    <a href="#/campaigns" class="btn btn-primary">Back</a>
+    <a href="#/campaigns" class="btn btn-default">Volver</a>
 
     <form ng-submit="save()">
         <div class="row">
             <div class="form-group col-md-6">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" ng-model="campaign.name"/>
+                <label for="name">Nombre</label>
+                <input type="text" id="name" name="name" ng-model="campaign.name" maxlength="80"/>
             </div>
         </div>
-        <h3>Page Selection</h3>
+        <h3>Selección de Página</h3>
+
         <div class="form-group">
             <label>
                 <input type="radio" name="pageType" ng-model="pageType" ng-value="'page'" ng-click="page = null"/>
-                Pages
+                Páginas
             </label>
             <label>
                 <input type="radio" name="pageType" ng-model="pageType" ng-value="'customPage'" ng-click="page = null"/>
-                Custom pages
+                Páginas personalizadas
             </label>
         </div>
         <div ng-show="pageType" class="row">
             <div class="col-md-1"></div>
-            <div class="col-md-3"><h4>Name</h4></div>
+            <div class="col-md-3"><h4>Nombre</h4></div>
         </div>
         <div ng-show="pageType == 'page'" ng-repeat="page in pages" class="row" ng-click="$parent.page = page">
             <div class="col-md-1">
@@ -38,73 +39,99 @@
         </div>
         <hr>
         <div class="form-group">
-            <label for="subject">Subject</label>
-            <input type="text" id="subject" name="subject" ng-model="email.subject"/>
+            <label for="subject">Asunto</label>
+            <input type="text" id="subject" name="subject" ng-model="email.subject" maxlength="100"/>
         </div>
         <div class="form-group">
             <textarea ng-model="email.message" ui-tinymce></textarea>
         </div>
         <div class="row">
+            <div class="col-md-3">
+                <h4>Campos de contactos</h4>
+            </div>
+            <div class="col-md-9">
+                <div class="panel">
+                    <a ng-click="addFieldToMessage('name')" class="btn btn-primary">Nombre</a>
+                    <a ng-click="addFieldToMessage('surname')" class="btn btn-primary">Apellido</a>
+                    <a ng-click="addFieldToMessage('email')" class="btn btn-primary">Email</a>
+                    <a ng-click="addFieldToMessage('birthDay')" class="btn btn-primary">Cumpleaños</a>
+                    <a ng-click="addFieldToMessage('mobilePhone')" class="btn btn-primary">Celular</a>
+                    <a ng-click="addFieldToMessage('telephone')" class="btn btn-primary">Teléfono</a>
+                    <a ng-click="addFieldToMessage('address')" class="btn btn-primary">Direccion</a>
+                    <a ng-click="addFieldToMessage('city')" class="btn btn-primary">Localidad</a>
+                    <a ng-click="addFieldToMessage('state')" class="btn btn-primary">Provincia</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-md-6">
-                <label for="start">Start date</label>
+                <label for="start">Incio</label>
                 <input type="text" id="start" name="start" ng-model="email.dateStart" ui-date/>
             </div>
             <div class="form-group col-md-6">
-                <label for="end">End date</label>
+                <label for="end">Finalización</label>
                 <input type="text" id="end" name="end" ng-model="email.dateEnd" ui-date/>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <input type="checkbox" id="monday" name="monday" ng-model="days.monday"/>
-                <label for="monday">Monday</label>
+                <label for="monday">Lunes</label>
             </div>
             <div class="col-md-3">
                 <input type="checkbox" id="tuesday" name="tuesday" ng-model="days.tuesday"/>
-                <label for="tuesday">Tuesday</label>
+                <label for="tuesday">Martes</label>
             </div>
             <div class="col-md-3">
                 <input type="checkbox" id="wednesday" name="wednesday" ng-model="days.wednesday"/>
-                <label for="wednesday">Wednesday</label>
+                <label for="wednesday">Miércoles</label>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <input type="checkbox" id="thursday" name="thursday" ng-model="days.thursday"/>
-                <label for="thursday">Thursday</label>
+                <label for="thursday">Jueves</label>
             </div>
             <div class="col-md-3">
                 <input type="checkbox" id="friday" name="friday" ng-model="days.friday"/>
-                <label for="friday">Friday</label>
+                <label for="friday">Viernes</label>
             </div>
             <div class="col-md-3">
                 <input type="checkbox" id="saturday" name="saturday" ng-model="days.saturday"/>
-                <label for="saturday">Saturday</label>
+                <label for="saturday">Sábado</label>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <input type="checkbox" id="sunday" name="sunday" ng-model="days.sunday"/>
-                <label for="sunday">Sunday</label>
+                <label for="sunday">Domingo</label>
             </div>
         </div>
         <div class="form-group">
-            <label for="startTime">Start time</label>
+            <label for="startTime">Inicio</label>
             <input type="text" id="startTime" name="startTime"/>
         </div>
         <hr>
-        <h3>Contact selection</h3>
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Selección de Contactos</h3>
+                <label for="allContacts">Todos los contactos</label>
+                <input type="checkbox" id="allContacts" name="allContacts" ng-model="allContacts"
+                       ng-change="selectAllContacts()"/>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-1"></div>
-            <div class="col-md-2"><h4>Name</h4></div>
-            <div class="col-md-2"><h4>Surname</h4></div>
+            <div class="col-md-2"><h4>Nombre</h4></div>
+            <div class="col-md-2"><h4>Apellido</h4></div>
         </div>
         <div ng-repeat="contact in contacts" ng-click="contact.selected = !contact.selected" class="row">
-            <div class="col-md-1"><input type="checkbox" ng-model="contact.selected" /></div>
+            <div class="col-md-1"><input type="checkbox" ng-model="contact.selected"/></div>
             <div class="col-md-2">{{contact.name}}</div>
             <div class="col-md-2">{{contact.surname}}</div>
         </div>
         <hr>
-        <input type="submit" value="Schedule" class="btn btn-primary"/>
+        <input type="submit" value="Programar Envio" class="btn btn-primary"/>
     </form>
 </div>

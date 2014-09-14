@@ -1,4 +1,5 @@
 angular.module('clicks').controller('campaignEditorController', function ($scope, $http, $location, $routeParams) {
+    $scope.allContacts = false;
     $scope.campaign = {};
     $scope.days = {};
     if ($routeParams.id) {
@@ -96,5 +97,15 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
             .success(function (data, status) {
                 $location.path('campaigns');
             });
+    };
+
+    $scope.selectAllContacts = function () {
+        _.each($scope.contacts, function (contact) {
+            contact.selected = $scope.allContacts;
+        });
+    };
+
+    $scope.addFieldToMessage = function (field) {
+        $scope.email.message += '##' + field + '##';
     }
 });
