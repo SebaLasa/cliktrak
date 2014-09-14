@@ -1,21 +1,21 @@
 <div class="container">
-    <a href="#/layouts" class="btn btn-default">back</a>
+    <a href="#/layouts" class="btn btn-default">Volver</a>
 
-    <h1>Deleting {{layout.name}}</h1>
+    <h1>Borrando {{layout.name}}</h1>
 
-    <h3>Are you sure that you want to delete this layout?</h3>
+    <h3>Está seguro que desea eliminar este diseño?</h3>
 
     <p>
-        <b>Modified</b>
+        <strong>Modificado</strong>
         <span>{{layout.updated_at | dateTimeFormat}}</span>
     </p>
 
     <p>
-        <b>Editor</b>
+        <strong>Editor</strong>
         <span>{{layout.editor.name}}</span>
     </p>
 
     <form ng-submit="delete()">
-        <input type="submit" value="Delete" class="btn btn-danger"/>
+        <input type="submit" value="Borrar" class="btn btn-danger"/>
     </form>
 </div>

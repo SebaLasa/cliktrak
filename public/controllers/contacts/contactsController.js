@@ -3,11 +3,4 @@ angular.module('clicks').controller('contactsController', function ($scope, $htt
         .success(function (data, status) {
             $scope.contacts = data;
         });
-
-    $scope.deleteContact = function (id) {
-        $http.delete('/api/contacts/' + id)
-            .success(function (data, status) {
-                loadContacts();
-            });
-    };
 });

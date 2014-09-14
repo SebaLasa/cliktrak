@@ -1,0 +1,56 @@
+<div class="container">
+    <a href="#/contacts">Volver</a>
+
+    <h1>Borrando {{contact.name}} {{contact.surname}}</h1>
+
+    <h3>Está seguro que desea eliminar este contacto?</h3>
+
+    <p>
+        <strong>Email</strong>
+        <span>{{contact.email}}</span>
+    </p>
+
+    <p>
+        <strong>Teléfono</strong>
+        <span>{{contact.telephone}}</span>
+    </p>
+
+    <p>
+        <strong>Móvil</strong>
+        <span>{{contact.mobilePhone}}</span>
+    </p>
+
+    <p>
+        <strong>Dirección</strong>
+        <span>{{contact.mobilePhone}}</span>
+    </p>
+
+    <p>
+        <strong>Localidad</strong>
+        <span>{{contact.city}}</span>
+    </p>
+
+    <p>
+        <strong>Provincia</strong>
+        <span>{{contact.state}}</span>
+    </p>
+
+    <p>
+        <strong>Fecha de nacimiento</strong>
+        <span>{{contact.birthDate | dateFormat}}</span>
+    </p>
+
+    <p>
+        <strong>Modificado</strong>
+        <span>{{contact.updated_at | dateTimeFormat}}</span>
+    </p>
+
+    <p>
+        <strong>Editor</strong>
+        <span>{{contact.editor.name}}</span>
+    </p>
+
+    <form ng-submit="delete()">
+        <input type="submit" value="Borrar" class="btn btn-danger" />
+    </form>
+</div>

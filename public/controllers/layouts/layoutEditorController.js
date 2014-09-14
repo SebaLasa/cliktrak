@@ -17,6 +17,6 @@ angular.module('clicks').controller('layoutEditorController', function ($scope, 
                 .success(function (data, status) {
                     $location.path('layouts');
                 });
-        }
+        };
     }
 );
