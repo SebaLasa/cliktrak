@@ -3,8 +3,6 @@
  */
 var CodeConverter = require("../../../services/codeConverter")
 
-// TODO unhardcode mimeType
-
 module.exports = function (router) {
     router.get('/barcode/:sizing/:string', function (req, res, next) {
         var data= req.params.string;
@@ -12,6 +10,7 @@ module.exports = function (router) {
            if(err){
                return next(Error.create('An error occurred trying to create the barcode.', { }, err));
            }
+            // TODO unhardcode mimeType
             res.writeHead(200, {'Content-Type': 'image/gif' });
             res.end(img, 'binary');
         });
@@ -23,6 +22,7 @@ module.exports = function (router) {
             if(err){
                 return next(Error.create('An error occurred trying to create the barcode.', { }, err));
             }
+            // TODO unhardcode mimeType
             res.writeHead(200, {'Content-Type': 'image/gif' });
             res.end(img, 'binary');
         });
