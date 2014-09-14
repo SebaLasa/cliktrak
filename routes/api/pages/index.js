@@ -77,8 +77,22 @@ module.exports = function (router) {
         var page = {
             editor: req.user._id,
             company: req.company._id,
+            enabled: false,
             deleted: true
         };
+        model.Page.findOneAndUpdate({_id: req.params.id, deleted: false, company: req.company._id}, page, function (err, page) {
+            if (err) {
+                return next(Error.create('An error occurred trying delete the Page.', { }, err));
+            }
+            if (!page) {
+                return res.status(404).end();
+            }
+            res.status(200).end();
+        });
+    });
+
+    router.post('/pages/enable/:id', function (req, res, next) {
+        var page = { enabled: req.body.enabled };
         model.Page.findOneAndUpdate({_id: req.params.id, deleted: false, company: req.company._id}, page, function (err, page) {
             if (err) {
                 return next(Error.create('An error occurred trying delete the Page.', { }, err));
