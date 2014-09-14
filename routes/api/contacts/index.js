@@ -1,8 +1,7 @@
 var model = app.model,
-    validate = app.validation.validate;
-
-var multiparty = require('multiparty');
-var csvparse = require('csv-parse');
+    validate = app.validation.validate,
+    multiparty = require('multiparty'),
+    csvparse = require('csv-parse');
 
 module.exports = function (router) {
     router.get('/contacts', function (req, res, next) {
@@ -30,20 +29,16 @@ module.exports = function (router) {
     });
 
     router.post('/contacts/upload', function (req, res, next) {
-
         //TODO: Validar si los contactos ya existe
         var form = new multiparty.Form();
-
         var upload;
         form.on('error', next);
         form.on('close', function () {
-
             csvparse(upload.data, {columns: true}, function (err, output) {
                 output.forEach(function (data) {
                     var contact = new model.Contact(data);
                     contact.editor = req.user._id;
                     contact.company = req.company._id;
-
                     contact.save(function (err, contact) {
                         if (err) {
                             return next(Error.create('An error occurred trying save the Contact.', { }, err));
@@ -54,16 +49,13 @@ module.exports = function (router) {
             res.redirect('/back#contacts');
         });
 
-
         // listen on part event for image file
         form.on('part', function (part) {
             if (!part.filename) return;
-            if (part.name !== 'contacts-csv') return part.resume();
-            upload = {};
-            upload.filename = part.filename;
-            upload.data = "";
-            part.on('data', function (buf) {
-                upload.data += buf;
+            if (part.name != 'contacts-csv') return part.resume();
+            upload = { filename: part.filename, data: '' };
+            part.on('data', function (buffer) {
+                upload.data += buffer;
             });
         });
 

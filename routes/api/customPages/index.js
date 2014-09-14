@@ -1,5 +1,9 @@
 var model = app.model,
-    validate = app.validation.validate;
+    validate = app.validation.validate,
+    _ = require('lodash'),
+    async = require('async'),
+    multiparty = require('multiparty'),
+    csvparse = require('csv-parse');
 
 module.exports = function (router) {
     router.get('/customPages', function (req, res, next) {
@@ -67,6 +71,56 @@ module.exports = function (router) {
                 }
                 res.status(200).end();
             });
+        });
+    });
+
+    router.post('/customPages/upload/:id', function (req, res, next) {
+        if (!validate.objectId(req.params.id)) {
+            return res.send(400);
+        }
+        model.CustomPage.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, customPage) {
+            if (err) {
+                return next(Error.create('An error occurred trying get the Custom Page.', { }, err));
+            }
+            if (!customPage) {
+                return res.status(404).end();
+            }
+            var form = new multiparty.Form();
+            var upload;
+            form.on('error', next);
+            form.on('close', function () {
+                var columns = _.map(_.range(15), function (x) {
+                    return 'parameter' + x;
+                });
+                csvparse(upload.data, {columns: columns, delimiter: ';'}, function (err, output) {
+                    if (err) {
+                        return next(Error.create('An error occurred trying read the values from the CSV file.', { }, err));
+                    }
+                    async.each(_.rest(output), function (data, callback) {
+                        var value = new model.CustomPageValue(data);
+                        value.customPage = customPage._id;
+                        value.save(callback);
+                    }, function (err) {
+                        if (err) {
+                            return next(Error.create('An error occurred trying save the values for the Custom Page.', { }, err));
+                        }
+                        res.redirect('/back#customPages');
+                    });
+                });
+            });
+
+            // listen on part event for image file
+            form.on('part', function (part) {
+                if (!part.filename) return;
+                if (part.name != 'contacts-csv') return part.resume();
+                upload = { filename: part.filename, data: '' };
+                part.on('data', function (buffer) {
+                    upload.data += buffer;
+                });
+            });
+
+            // parse the form
+            form.parse(req);
         });
     });
 

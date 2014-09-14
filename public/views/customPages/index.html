@@ -62,4 +62,20 @@
             </a>
         </div>
     </div>
+
+    <div>
+        <form action="/api/customPages/upload/53f7c729260a383810fc188e" method="post" enctype="multipart/form-data">
+            <h3>Subir CSV</h3>
+
+            <div class="btn-group">
+                <span class="btn btn-default fileinput-button">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                    <input type="file" name="contacts-csv" fileread="csv">
+                    <span ng-hide="csv">&nbsp;Ningún archivo seleccionado.</span>
+                    <span ng-show="csv">&nbsp;Seleccionado: {{csv.name}}</span>
+                </span>
+                <input type="submit" value="Enviar" class="btn btn-success">
+            </div>
+        </form>
+    </div>
 </div>
