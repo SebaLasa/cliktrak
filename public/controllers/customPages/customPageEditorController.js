@@ -26,5 +26,5 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
             .success(function (data, status) {
                 $location.path('customPages');
             });
-    }
+    };
 });

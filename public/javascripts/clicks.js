@@ -18,7 +18,7 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 templateUrl: '/views/layouts/editor.html'
             })
             .when('/layouts/delete/:id', {
-                controller: 'layoutsDeleteController',
+                controller: 'layoutDeleteController',
                 templateUrl: '/views/layouts/delete.html'
             })
             .when('/pages', {
@@ -33,6 +33,10 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 controller: 'pageEditorController',
                 templateUrl: '/views/pages/editor.html'
             })
+            .when('/pages/delete/:id', {
+                controller: 'pageDeleteController',
+                templateUrl: '/views/pages/delete.html'
+            })
             .when('/customPages', {
                 controller: 'customPagesController',
                 templateUrl: '/views/customPages/index.html'
@@ -46,7 +50,7 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 templateUrl: '/views/customPages/editor.html'
             })
             .when('/customPages/delete/:id', {
-                controller: 'customPagesDeleteController',
+                controller: 'customPageDeleteController',
                 templateUrl: '/views/customPages/delete.html'
             })
             .when('/reports/:pageType/:id', {
@@ -65,6 +69,10 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 controller: 'campaignEditorController',
                 templateUrl: '/views/campaigns/editor.html'
             })
+            .when('/campaigns/delete/:id', {
+                controller: 'campaignDeleteController',
+                templateUrl: '/views/campaigns/delete.html'
+            })
             .when('/contacts', {
                 controller: 'contactsController',
                 templateUrl: '/views/contacts/index.html'
@@ -76,6 +84,10 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
             .when('/contacts/:id', {
                 controller: 'contactEditorController',
                 templateUrl: '/views/contacts/editor.html'
+            })
+            .when('/contacts/delete/:id', {
+                controller: 'contactDeleteController',
+                templateUrl: '/views/contacts/delete.html'
             })
             .otherwise({ redirectTo: '/' });
 
