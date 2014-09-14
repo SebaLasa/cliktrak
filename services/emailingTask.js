@@ -25,6 +25,26 @@ module.exports.run = function (cb) {
     });
 };
 
+function getTemplateMessageFields(message) {
+    var seeker = /##([\w\d]+)##/gi;
+    var match;
+    var matches = [];
+    while (match = seeker.exec(message)) {
+        matches.push({
+            text: match[0],
+            property: match[1]
+        });
+    }
+    return matches;
+}
+
+function getCompiledMessageTemplate(message, fields, contact) {
+    fields.forEach(function (field) {
+        message = message.replace(field.text, contact[field.property]);
+    });
+    return message;
+}
+
 function generateMessages(task, callback) {
     if (task.messages && task.messages.length) {
         return callback();
@@ -33,10 +53,12 @@ function generateMessages(task, callback) {
         return callback();
     }
 
+    var fields = getTemplateMessageFields(task.message);
     task.messages = task.contacts.map(function (contact) {
         return {
             contact: contact._id,
-            email: contact.email
+            email: contact.email,
+            message: getCompiledMessageTemplate(task.message, fields, contact)
         };
     });
     task.save(callback);

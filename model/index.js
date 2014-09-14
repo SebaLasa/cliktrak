@@ -22,7 +22,7 @@ model.User = mongoose.model('users', new Schema({
     password: { type: String, required: true },
     enabled: { type: Boolean, required: true, default: true },
     deleted: { type: Boolean, required: true, default: false },
-    admin:{ type: Boolean, default: false }
+    admin: { type: Boolean, default: false }
 }));
 
 model.Menu = mongoose.model('menus', new Schema({
@@ -186,6 +186,7 @@ emailing.Task = mongoose.model('emailing.tasks', new Schema({
         {
             contact: { type: ObjectId, ref: 'contacts' },
             dateSent: { type: Date },
+            message: { type: String, required: true },
             email: { type: String, required: true },
             error: { type: Schema.Types.Mixed }
         }
