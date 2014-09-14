@@ -61,6 +61,7 @@ model.Page = mongoose.model('pages', new Schema({
     name: { type: String, required: true },
     title: { type: String, required: true },
     html: { type: String, required: true },
+    forCustomPages: { type: Boolean, required: true },
     enabled: { type: Boolean, required: true, default: true },
     deleted: { type: Boolean, required: true, default: false }
 }).plugin(timestamps));
