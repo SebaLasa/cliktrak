@@ -28,7 +28,12 @@
             {{customPage.name}}
         </div>
         <div class="col-md-1">
-            {{customPage.type}}
+           <span class="label label-bg label-primary" ng-show="customPage.type == 'withLoad'">
+                <span class="glyphicon glyphicon-floppy-disk" title="Con carga de datos."></span>
+            </span>
+             <span class="label label-bg label-danger" ng-hide="customPage.type == 'withLoad'">
+                <span class="glyphicon glyphicon-floppy-remove" title="Sin carga de datos."></span>
+            </span>
         </div>
         <div class="col-md-1">
             {{customPage.dateStart | dateFormat}}
