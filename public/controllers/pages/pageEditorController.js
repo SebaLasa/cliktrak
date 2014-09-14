@@ -54,7 +54,7 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
             });
     } else {
         $scope.pageTitle = 'Nueva página';
-        $scope.page = { };
+        $scope.page = { forCustomPages: false };
         $scope.urlConfiguration = {};
         registerWatchers();
     }
