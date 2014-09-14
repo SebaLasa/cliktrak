@@ -1,7 +1,8 @@
 angular.module('clicks').controller('customPageEditorController', function ($scope, $http, $location, $routeParams) {
-    $http.get('/api/pages/').success(function (data, status) {
-        $scope.pages = data;
-    });
+    $http.get('/api/pages/active')
+        .success(function (data, status) {
+            $scope.pages = data;
+        });
 
     if ($routeParams.id) {
         $http.get('/api/customPages/' + $routeParams.id)

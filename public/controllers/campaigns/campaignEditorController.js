@@ -12,7 +12,7 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
     }
 
     // TODO AN make this in one ajax call.
-    $http.get('/api/pages').success(function (data, status) {
+    $http.get('/api/pages/active').success(function (data, status) {
         $scope.pages = data;
     });
     $http.get('/api/customPages').success(function (data, status) {
