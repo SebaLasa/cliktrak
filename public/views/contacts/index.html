@@ -31,17 +31,15 @@
         <form action="/api/contacts/upload" method="post" enctype="multipart/form-data">
             <h3>Subir CSV</h3>
 
-            <div class="control-group">
-                <div class="controls">
+            <div class="btn-group">
                 <span class="btn btn-default fileinput-button">
                     <span class="glyphicon glyphicon-folder-open"></span>
                     <input type="file" name="contacts-csv" fileread="csv">
                     <span ng-hide="csv">&nbsp;Ningún archivo seleccionado.</span>
                     <span ng-show="csv">&nbsp;Seleccionado: {{csv.name}}</span>
                 </span>
-                </div>
+                <input type="submit" value="Enviar" class="btn btn-success">
             </div>
-            <input type="submit" value="Enviar" class="btn btn-success">
         </form>
     </div>
 </div>
