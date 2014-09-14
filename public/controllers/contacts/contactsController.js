@@ -1,10 +1,8 @@
 angular.module('clicks').controller('contactsController', function ($scope, $http) {
-    function loadContacts() {
-        $http.get('/api/contacts/')
-            .success(function (data, status) {
-                $scope.contacts = data;
-            });
-    }
+    $http.get('/api/contacts/')
+        .success(function (data, status) {
+            $scope.contacts = data;
+        });
 
     $scope.deleteContact = function (id) {
         $http.delete('/api/contacts/' + id)
@@ -12,5 +10,4 @@ angular.module('clicks').controller('contactsController', function ($scope, $htt
                 loadContacts();
             });
     };
-    loadContacts();
 });

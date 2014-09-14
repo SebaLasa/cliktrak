@@ -3,12 +3,12 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.$watch(function () {
             return $($scope.page.html).find('.staticBarcode').length;
         }, function (newValue) {
-            $scope.page.urlConfiguration.barcodeGenerated = !!newValue;
+            $scope.urlConfiguration.barcodeGenerated = !!newValue;
         });
         $scope.$watch(function () {
             return $($scope.page.html).find('.staticQr').length;
         }, function (newValue) {
-            $scope.page.urlConfiguration.qrGenerated = !!newValue;
+            $scope.urlConfiguration.qrGenerated = !!newValue;
         });
         $scope.$watch(function () {
             return $($scope.page.html).find('.dynamicQr').length;
@@ -45,51 +45,54 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
     if ($routeParams.id) {
         $http.get('/api/pages/' + $routeParams.id)
             .success(function (data, status) {
-                if (!data.urlConfiguration) data.urlConfiguration = {};
                 $scope.page = data;
+                $scope.urlConfiguration = data.urlConfiguration || {};
+                $scope.pageTitle = data.name;
                 registerWatchers();
             }).error(function (data, status) {
                 $location.path('pages');
             });
     } else {
+        $scope.pageTitle = 'Nueva página';
         $scope.page = { };
         $scope.urlConfiguration = {};
         registerWatchers();
     }
     $scope.addBarcode = function () {
         if ($($scope.page.html).find('.staticBarcode').length) {
-            return alert('A static Barcode has already added.');
+            return alert('Un código de barras estático ya ha sido agregado.');
         }
         $scope.page.html += '<img class="staticBarcode" src="/images/codes/bcS.gif"/>';
     };
     $scope.addQrCode = function () {
         if ($($scope.page.html).find('.staticQr').length) {
-            return alert('A static QR code has already added.');
+            return alert('Un código QR estático ya ha sido agregado.');
         }
         $scope.page.html += '<img class="staticQr" src="/images/codes/qrS.png"/>';
     };
     $scope.addDynamicBarcode = function () {
         var count = $($scope.page.html).find('.dynamicBarcode').length;
         if (count > 8) {
-            return alert('Has reached the maximum quantity of dynamic barcodes.');
+            return alert('Ha alcanzado el número máximo de códigos de barras dinámicos.');
         }
         $scope.page.html += '<img class="dynamicBarcode dynamicBarcode' + count + '" src="/images/codes/bc' + count + '.gif"/>';
     };
     $scope.addDynamicQrCode = function () {
         var count = $($scope.page.html).find('.dynamicQr').length;
         if (count > 8) {
-            return alert('Has reached the maximum quantity of dynamic QR codes.');
+            return alert('Ha alcanzado el número máximo de códigos QR dinámicos.');
         }
         $scope.page.html += '<img class="dynamicQr dynamicQr' + count + '" src="/images/codes/qr' + count + '.png"/>';
     };
     $scope.save = function () {
+        var data = { page: $scope.page, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {
-            return $http.put('/api/pages/' + $routeParams.id, $scope.page)
+            return $http.put('/api/pages/' + $routeParams.id, data)
                 .success(function (data, status) {
                     $location.path('pages');
                 });
         }
-        $http.post('/api/pages/', $scope.page)
+        $http.post('/api/pages/', data)
             .success(function (data, status) {
                 $location.path('pages');
             });

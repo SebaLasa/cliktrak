@@ -5,7 +5,7 @@ var model = app.model,
     codeConverter = require('../../../services/codeConverter.js');
 
 module.exports = function (router) {
-    router.use(require('../../trackingMiddleware.js')())
+    router.use(require('../../trackingMiddleware.js')());
     function addBarcodeAndSend(page, next, landing, res) {
         codeConverter.toBarcode(page.urlConfiguration.barcodeData,{}, function (err, dataUrl) {
             if (err) {
@@ -47,33 +47,19 @@ module.exports = function (router) {
                         return res.json(404, { message: 'Page not found!' });
                     }
 
-
                     req.trackedClick.page = page;
                     req.trackedClick.save();
 
-
                     var landing = page.html;
-                    if (page.urlConfiguration){
-                        if (page.urlConfiguration.qrGenerated) {
-                            codeConverter.toQR(page.urlConfiguration.qrData,{}, function (err, dataUrl) {
-                                if (err) {
-                                    return next(Error.create('An error occurred generating the QR code.', err));
-                                }
-                                landing += dataUrl;
-                                if (page.urlConfiguration.barcodeGenerated) {
-                                    addBarcodeAndSend(page, next, landing, res);
-                                } else {
-                                    res.send(landing);
-                                }
-                            });
-                        } else if (page.urlConfiguration.barcodeGenerated) {
-                            addBarcodeAndSend(page, next, landing, res);
-                        } else {
-                            res.send(landing);
-                        }
+                    if (page.urlConfiguration.qrGenerated) {
+                        landing += '<img src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
+                            + page.urlConfiguration.qrData + '" />';
+                    }
+                    if (page.urlConfiguration.barcodeGenerated) {
+                        landing += '<img src="/public-api/barcode/' + page.urlConfiguration.barcodeSize + '/'
+                            + page.urlConfiguration.barcodeData + '" />';
                     }
                     res.send(landing);
-
                 });
         });
     });
@@ -116,22 +102,14 @@ module.exports = function (router) {
 
                     var landing = customPage.page.html;
                     if (customPage.urlConfiguration.qrGenerated) {
-                        codeConverter.toQR(customPage.urlConfiguration.qrData,{}, function (err, dataUrl) {
-                            if (err) {
-                                return next(Error.create('An error occurred generating the QR code.', err));
-                            }
-                            landing += dataUrl;
-                            if (customPage.urlConfiguration.barcodeGenerated) {
-                                addBarcodeAndSend(customPage, next, landing, res);
-                            } else {
-                                res.send(landing)
-                            }
-                        });
-                    } else if (customPage.urlConfiguration.barcodeGenerated) {
-                        addBarcodeAndSend(customPage, next, landing, res);
-                    } else {
-                        res.send(landing);
+                        landing += '<img src="/public-api/qr/' + customPage.urlConfiguration.qrSize + '/'
+                            + customPage.urlConfiguration.qrData + '" />';
                     }
+                    if (customPage.urlConfiguration.barcodeGenerated) {
+                        landing += '<img src="/public-api/barcode/' + customPage.urlConfiguration.barcodeSize + '/'
+                            + customPage.urlConfiguration.barcodeData + '" />';
+                    }
+                    res.send(landing);
                 });
         });
     });

@@ -18,11 +18,11 @@ module.exports = function (router) {
         if (!validate.objectId(req.params.id)) {
             return res.status(400).end();
         }
-        model.Contact.findById(req.params.id, function (err, contact) {
+        model.Contact.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, contact) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Contact.', { }, err));
             }
-            if (!contact || contact.deleted || !req.company._id.equals(contact.company)) {
+            if (!contact) {
                 return res.status(404).end();
             }
             res.json(contact);

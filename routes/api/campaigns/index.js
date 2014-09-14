@@ -19,7 +19,7 @@ module.exports = function (router) {
         if (!validate.objectId(req.params.id)) {
             return res.status(400).end();
         }
-        model.Campaign.findById(req.params.id, function (err, campaign) {
+        model.Campaign.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, campaign) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Campaign.', { }, err));
             }
@@ -31,12 +31,11 @@ module.exports = function (router) {
         var campaign = new model.Campaign(req.body.campaign);
         campaign.company = req.company._id;
         campaign.editor = req.user._id;
-        model.Campaign.find().sort('-internalId').limit(1).findOne(function (err, maxCamp){
-            if (err){
-                campaign.internalId = 0;
-            }else{
-                campaign.internalId = maxCamp.internalId +1;
+        model.Campaign.find().sort('-internalId').limit(1).findOne(function (err, lastCampaign) {
+            if (err) {
+                return next(Error.create('An error occurred trying get the last Campaign.', { }, err));
             }
+            campaign.internalId = lastCampaign ? lastCampaign.internalId + 1 : 1;
             campaign.save(function (err, campaign) {
                 if (err) {
                     return next(Error.create('An error occurred trying save the Campaign.', { }, err));

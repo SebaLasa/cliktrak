@@ -5,23 +5,23 @@ var model = app.model,
 module.exports = function (router) {
 
     /*router.get('/users/generateAdmin', function (req, res, next) {
-        model.Company.findOne({internalId:0}, function (err, company){
-            if (err) {
-                return next(Error.create('An error occurred trying get the root company.', err));
-            }
-            var adminUser = new model.User();
-            adminUser.name = "Super Admin";
-            adminUser.company = company;
-            adminUser.email = "admin@clicktrack.com";
-            adminUser.password = hash("admin123456");
-            adminUser.save(function(err){
-                if (err) {
-                    return next(Error.create('An error occurred creating superAdminUser', err));
-                }
-                res.send("SuperAdmin creado");
-            });
-        });
-    });*/
+     model.Company.findOne({internalId:0}, function (err, company){
+     if (err) {
+     return next(Error.create('An error occurred trying get the root company.', err));
+     }
+     var adminUser = new model.User();
+     adminUser.name = "Super Admin";
+     adminUser.company = company;
+     adminUser.email = "admin@clicktrack.com";
+     adminUser.password = hash("admin123456");
+     adminUser.save(function(err){
+     if (err) {
+     return next(Error.create('An error occurred creating superAdminUser', err));
+     }
+     res.send("SuperAdmin creado");
+     });
+     });
+     });*/
 
     router.get('/users', function (req, res, next) {
         model.User.find({deleted: false}).populate("company").exec(function (err, users) {
@@ -59,10 +59,10 @@ module.exports = function (router) {
 
     router.put('/users/:id', function (req, res, next) {
         delete req.body._id;
-        if (req.body.password == ''){
-            delete req.body.password;
-        }else {
+        if (req.body.password) {
             req.body.password = hash(req.body.password);
+        } else {
+            delete req.body.password;
         }
         model.User.findByIdAndUpdate(req.params.id, req.body, function (err, user) {
             if (err) {
@@ -73,7 +73,7 @@ module.exports = function (router) {
     });
 
     router.delete('/users/:id', function (req, res, next) {
-        req.body.deleted= true;
+        req.body.deleted = true;
         model.User.findByIdAndUpdate(req.params.id, req.body, function (err, user) {
             if (err) {
                 return next(Error.create('An error occurred trying delete the Company.', { }, err));

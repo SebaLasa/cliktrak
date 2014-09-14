@@ -1,24 +1,62 @@
-<a href="#/contacts/new" class="btn btn-primary">New</a>
-<h2>Contacts</h2>
+<style>
+    .fileinput-button
+    {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .fileinput-button input
+    {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        transform: translate(-300px, 0) scale(4);
+        font-size: 23px;
+        direction: ltr;
+        cursor: pointer;
+    }
+</style>
+<a href="#/contacts/new" class="btn btn-primary">Nuevo contacto</a>
+<h2>Contactos</h2>
 <div class="row">
-    <div class="col-md-3"><h4>Name</h4></div>
-    <div class="col-md-3"><h4>Surname</h4></div>
-    <div class="col-md-3"><h4>E-mail</h4></div>
-    <div class="col-md-3"><h4>Mobile</h4></div>
-    <div class="col-md-3"><h4>Options</h4></div>
+    <div class="col-md-3"><h4>Nombre</h4></div>
+    <div class="col-md-3"><h4>Apellido</h4></div>
+    <div class="col-md-2"><h4>E-mail</h4></div>
+    <div class="col-md-2"><h4>Móvil</h4></div>
 </div>
 <div ng-repeat="contact in contacts">
     <div class="row">
-        <div class="col-md-3"><a href="#/contacts/{{contact._id}}">{{contact.name}}</a></div>
+        <div class="col-md-3">{{contact.name}}</div>
         <div class="col-md-3">{{contact.surname}}</div>
-        <div class="col-md-3">{{contact.email}}</div>
-        <div class="col-md-3">{{contact.mobilePhone}}</div>
-        <div class="col-md-3"><buton ng-click="deleteContact(contact._id)">Delete</buton></div>
+        <div class="col-md-2">{{contact.email}}</div>
+        <div class="col-md-2">{{contact.mobilePhone}}</div>
+        <div class="col-md-2 btn-group">
+            <a href="#/contacts/{{contact._id}}" class="btn btn-sm btn-primary" title="Editar contacto">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+            <a ng-click="deleteContact(contact._id)" class="btn btn-sm btn-danger" title="Borrar contacto">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </div>
     </div>
 </div>
+<br/>
 <div>
     <form action="/api/contacts/upload" method="post" enctype="multipart/form-data">
-        Upload CSV: <input type="file" name="contacts-csv">
-        <input type="submit" value="Send">
+        <h3>Subir CSV</h3>
+        <div class="control-group">
+            <div class="controls">
+                <span class="btn btn-default fileinput-button">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                    <input type="file" name="contacts-csv" fileread="csv">
+                    <span ng-hide="csv">&nbsp;Ningún archivo seleccionado.</span>
+                    <span ng-show="csv">&nbsp;Seleccionado: {{csv.name}}</span>
+                </span>
+            </div>
+        </div>
+        <input type="submit" value="Enviar" class="btn btn-success">
     </form>
 </div>
