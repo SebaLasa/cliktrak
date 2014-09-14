@@ -15,3 +15,8 @@
     direction: ltr;
     cursor: pointer;
 }
+
+.daysReport, .deviceReport {
+    height: 200px;
+    width: 200px;
+}
