@@ -1,5 +1,6 @@
 var model = app.model,
     validate = app.validation.validate,
+    async = require('async'),
     multiparty = require('multiparty'),
     csvparse = require('csv-parse');
 
@@ -35,18 +36,18 @@ module.exports = function (router) {
         form.on('error', next);
         form.on('close', function () {
             csvparse(upload.data, {columns: true}, function (err, output) {
-                output.forEach(function (data) {
+                output.async(function (data, callback) {
                     var contact = new model.Contact(data);
                     contact.editor = req.user._id;
                     contact.company = req.company._id;
-                    contact.save(function (err, contact) {
-                        if (err) {
-                            return next(Error.create('An error occurred trying save the Contact.', { }, err));
-                        }
-                    });
+                    contact.save(callback);
+                }, function (err) {
+                    if (err) {
+                        return next(Error.create('An error occurred trying save the Contact.', { }, err));
+                    }
+                    res.redirect('/back#contacts');
                 });
             });
-            res.redirect('/back#contacts');
         });
 
         // listen on part event for image file
