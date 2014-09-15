@@ -1,29 +1,26 @@
-/**
- * Created by nico on 8/15/14.
- */
-var CodeConverter = require("../../../services/codeConverter")
+var CodeConverter = require("../../../services/codeConverter");
 
 module.exports = function (router) {
     router.get('/barcode/:sizing/:string', function (req, res, next) {
-        var data= req.params.string;
-        CodeConverter.toBarcode(data,{scale:req.params.sizing},function(err,img){
-           if(err){
-               return next(Error.create('An error occurred trying to create the barcode.', { }, err));
-           }
+        var data = req.params.string;
+        CodeConverter.toBarcode(data, {scale: req.params.sizing}, function (err, img) {
+            if (err) {
+                return next(Error.create('An error occurred trying to create the barcode.', { }, err));
+            }
             // TODO unhardcode mimeType
-            res.writeHead(200, {'Content-Type': 'image/gif' });
+            res.writeHead(200, { 'Content-Type': 'image/gif' });
             res.end(img, 'binary');
         });
     });
 
     router.get('/qr/:sizing/:string', function (req, res, next) {
-        var data= req.params.string;
-        CodeConverter.toQR(data,{scale:req.params.sizing},function(err,img){
-            if(err){
+        var data = req.params.string;
+        CodeConverter.toQR(data, {scale: req.params.sizing}, function (err, img) {
+            if (err) {
                 return next(Error.create('An error occurred trying to create the barcode.', { }, err));
             }
             // TODO unhardcode mimeType
-            res.writeHead(200, {'Content-Type': 'image/gif' });
+            res.writeHead(200, { 'Content-Type': 'image/gif' });
             res.end(img, 'binary');
         });
     });
