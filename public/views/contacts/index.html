@@ -34,6 +34,7 @@
             <div class="btn-group">
                 <span class="btn btn-default fileinput-button">
                     <span class="glyphicon glyphicon-folder-open"></span>
+                    <input type="hidden" value="{{}}">
                     <input type="file" name="contacts-csv" fileread="csv">
                     <span ng-hide="csv">&nbsp;Ningún archivo seleccionado.</span>
                     <span ng-show="csv">&nbsp;Seleccionado: {{csv.name}}</span>

@@ -1,7 +1,7 @@
 <div class="container">
     <a href="#/customPages/new" class="btn btn-primary">Nueva página personalizada</a>
 
-    <h2>Custom Pages</h2>
+    <h2>Páginas personalizadas</h2>
 
     <div class="row">
         <div class="col-md-2">
@@ -47,7 +47,7 @@
         <div class="col-md-2">
             {{customPage.editor.name}}
         </div>
-        <div class="col-md-2 btn-group">
+        <div class="col-md-3 btn-group">
             <a href="#/customPages/{{customPage._id}}" role="button" class="btn btn-sm btn-primary"
                title="Editar página personalizada">
                 <span class="glyphicon glyphicon-pencil"></span>
@@ -60,21 +60,23 @@
                class="btn btn-sm btn-success">
                 <span class="glyphicon glyphicon-signal"></span>
             </a>
+            <a ng-click="$parent.customPage = customPage" class="btn btn-sm btn-primary" title="Cargar datos">
+                <span class="glyphicon glyphicon-cloud-upload"></span>
+            </a>
         </div>
     </div>
-
-    <div>
-        <form action="/api/customPages/upload/53f7c729260a383810fc188e" method="post" enctype="multipart/form-data">
-            <h3>Subir CSV</h3>
-
+    <div ng-show="customPage">
+        <form name="uploadValuesForm" action="{{'/api/customPages/upload/' + customPage._id}}" method="post" enctype="multipart/form-data">
+            <h3>Subir CSV a {{customPage.name}}</h3>
             <div class="btn-group">
                 <span class="btn btn-default fileinput-button">
                     <span class="glyphicon glyphicon-folder-open"></span>
-                    <input type="file" name="contacts-csv" fileread="csv">
+                    <input type="file" name="values-csv" fileread="csv">
                     <span ng-hide="csv">&nbsp;Ningún archivo seleccionado.</span>
                     <span ng-show="csv">&nbsp;Seleccionado: {{csv.name}}</span>
                 </span>
-                <input type="submit" value="Enviar" class="btn btn-success">
+                <a class="btn btn-success" ng-click="sendValues()">Enviar</a>
+                <a class="btn btn-danger" ng-click="clearSend()">Cancelar</a>
             </div>
         </form>
     </div>

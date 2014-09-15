@@ -77,7 +77,7 @@ module.exports = function (router) {
 
     router.post('/customPages/upload/:id', function (req, res, next) {
         if (!validate.objectId(req.params.id)) {
-            return res.send(400);
+            return res.status(400).end();
         }
         model.CustomPage.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, customPage) {
             if (err) {
@@ -123,7 +123,7 @@ module.exports = function (router) {
             // listen on part event for image file
             form.on('part', function (part) {
                 if (!part.filename) return;
-                if (part.name != 'contacts-csv') return part.resume();
+                if (part.name != 'values-csv') return part.resume();
                 upload = { filename: part.filename, data: '' };
                 part.on('data', function (buffer) {
                     upload.data += buffer;
