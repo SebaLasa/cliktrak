@@ -1,6 +1,7 @@
 var model = app.model,
     validate = app.validation.validate,
     _ = require('lodash'),
+    _s = require('underscore.string'),
     async = require('async'),
     multiparty = require('multiparty'),
     csvparse = require('csv-parse');
@@ -96,15 +97,25 @@ module.exports = function (router) {
                     if (err) {
                         return next(Error.create('An error occurred trying read the values from the CSV file.', { }, err));
                     }
-                    async.each(_.rest(output), function (data, callback) {
+                    var result = upload.data.split(/\r?\n/g);
+                    result[0] += ';URL';
+                    var i = 1;
+                    async.eachSeries(_.rest(output), function (data, callback) {
                         var value = new model.CustomPageValue(data);
                         value.customPage = customPage._id;
-                        value.save(callback);
+                        value.save(function (err, value) {
+                            if (err) {
+                                return callback(err);
+                            }
+                            result[i++] += ';/c/' + value._id;
+                            callback();
+                        });
                     }, function (err) {
                         if (err) {
                             return next(Error.create('An error occurred trying save the values for the Custom Page.', { }, err));
                         }
-                        res.redirect('/back#customPages');
+                        res.attachment(upload.filename);
+                        res.send(result.join('\n'));
                     });
                 });
             });
