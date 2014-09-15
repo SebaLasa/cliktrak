@@ -6,9 +6,12 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
         $http.get('/api/campaigns/' + $routeParams.id)
             .success(function (data, status) {
                 $scope.campaign = data;
+                $scope.pageTitle = data.name;
             }).error(function (data, status) {
                 $location.path('campaigns');
             });
+    } else {
+        $scope.pageTitle = 'Nueva campaña';
     }
 
     // TODO AN make this in one ajax call.

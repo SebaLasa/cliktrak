@@ -40,7 +40,8 @@ function getTemplateMessageFields(message) {
 
 function getCompiledMessageTemplate(message, fields, contact) {
     fields.forEach(function (field) {
-        message = message.replace(field.text, contact[field.property]);
+        // TODO put the real page URL.
+        message = message.replace(field.text, field.property == 'url' ? 'http://www.gogle.com' : contact[field.property]);
     });
     return message;
 }
@@ -97,7 +98,7 @@ function sendEmail(transporter, task, message, callback) {
         from: "ClikTrak <" + app.config.email.user + ">", // sender address
         to: message.email,
         subject: task.subject,
-        html: task.message
+        html: message.message
     };
     transporter.sendMail(mailOptions, function (err) {
         callback(err);
