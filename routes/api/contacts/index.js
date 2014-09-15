@@ -36,7 +36,7 @@ module.exports = function (router) {
         form.on('error', next);
         form.on('close', function () {
             csvparse(upload.data, {columns: true}, function (err, output) {
-                output.async(function (data, callback) {
+                output.each(function (data, callback) {
                     var contact = new model.Contact(data);
                     contact.editor = req.user._id;
                     contact.company = req.company._id;
