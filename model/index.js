@@ -172,6 +172,8 @@ emailing.Task = mongoose.model('emailing.tasks', new Schema({
     editor: { type: ObjectId, ref: 'users', required: true },
     dateStart: { type: Date, required: true },
     dateEnd: { type: Date, required: true },
+    contactFieldMath: { type: String },
+    paramToMatchWithContacts: { type: String },
     contacts: [
         { type: ObjectId, ref: 'contacts' }
     ],
