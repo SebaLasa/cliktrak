@@ -19,40 +19,40 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 form-group">
                 <label for="layout">Diseño</label>
                 <select id="layout" name="layout" ng-model="page.layout"
                         ng-options="layout._id as layout.name for layout in layouts">
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 form-group">
                 <label for="forCustomPages">Sólo para páginas personalizadas</label>
                 <input type="checkbox" id="forCustomPages" name="forCustomPages" ng-model="page.forCustomPages">
             </div>
         </div>
         <div class="row" ng-show="!page.forCustomPages">
-            <div class="col-md-6">
+            <div class="col-md-6 form-group">
                 <label for="keywords">Keywords SEO</label>
                 <input type="text" id="keywords" name="keywords" ng-model="urlConfiguration.keywords"/>
             </div>
         </div>
         <div class="row" ng-show="!page.forCustomPages">
-            <div class="col-md-6">
+            <div class="col-md-6 form-group">
                 <label for="isTracked">Activar seguimiento</label>
                 <input type="checkbox" id="isTracked" name="isTracked" ng-model="urlConfiguration.isTracked"/>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 form-group">
                 <label for="subdomain">Subdominio</label>
                 <input type="text" id="subdomain" name="subdomain" ng-model="urlConfiguration.subdomain" required/>
                 {{urlConfiguration.subdomain}}
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-8 form-group">
                 <label for="html">HTML</label>
                 <textarea id="html" name="html" ui-tinymce ng-model="page.html"></textarea>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 form-group">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <span class="glyphicon glyphicon-barcode"></span> Código de barras
@@ -82,32 +82,33 @@
             </div>
         </div>
         <div class="row" ng-show="!page.forCustomPages">
-            <div class="col-md-6">
+            <div class="col-md-6 form-group">
                 <label for="qrGenerated">Generar código QR?</label>
-                <input type="checkbox" id="qrGenerated" name="qrGenerated" ng-model="urlConfiguration.qrGenerated"/>
+                <input type="checkbox" id="qrGenerated" name="qrGenerated" ng-model="urlConfiguration.qrGenerated"
+                       readonly/>
             </div>
         </div>
         <div class="row" ng-show="!page.forCustomPages && urlConfiguration.qrData">
-            <div class="col-md-6">
+            <div class="col-md-6 form-group">
                 <label for="qrData">Valor</label>
                 <input type="text" id="qrData" name="qrData" ng-model="urlConfiguration.qrData"
                        ng-required="urlConfiguration.qrGenerated"/>
             </div>
         </div>
         <div class="row" ng-show="!page.forCustomPages">
-            <div class="col-md-6">
+            <div class="col-md-6 form-group">
                 <label for="barcodeGenerated">Generar código de barras?</label>
                 <input type="checkbox" id="barcodeGenerated" name="barcodeGenerated"
-                       ng-model="urlConfiguration.barcodeGenerated"/>
+                       ng-model="urlConfiguration.barcodeGenerated" readonly/>
             </div>
         </div>
         <div class="row" ng-show="!page.forCustomPages && urlConfiguration.barcodeGenerated">
-            <div class="col-md-6">
+            <div class="col-md-6 form-group">
                 <label for="barcodeData">Valor</label>
                 <input type="text" id="barcodeData" name="barcodeData" ng-model="urlConfiguration.barcodeData"
                        ng-required="urlConfiguration.barcodeGenerated"/>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 form-group">
                 <label>Tamaño</label>
                 <barcode-size selected="urlConfiguration.barcodeSize"></barcode-size>
             </div>
