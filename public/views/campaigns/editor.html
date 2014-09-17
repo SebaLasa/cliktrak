@@ -43,6 +43,22 @@
             <div class="col-md-3">{{customPage.name}}</div>
         </div>
         <hr>
+        <div class="row" ng-show="pageType == 'customPage'">
+            <div class="col-md-3">
+                <custom-values selected="email.paramToMatchWithContacts"></custom-values>
+            </div>
+            <div class="col-md-1">
+                ->
+            </div>
+            <div class="col-md-3">
+                <select id="contactFieldMatch" name="contactFieldMatch" ng-model="email.contactFieldMatch"
+                        class="form-control">
+                    <option value="email">Email</option>
+                    <option value="mobilePhone">Celular</option>
+                </select>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-4">
                 <div class="input-group">
@@ -84,6 +100,17 @@
                     <a ng-click="addFieldToMessage('city')" class="btn btn-primary btn-sm">Localidad</a>
                     <a ng-click="addFieldToMessage('state')" class="btn btn-primary btn-sm">Provincia</a>
                 </div>
+            </div>
+        </div>
+        <div class="row" ng-show="pageType == 'customPage'">
+            <div class="col-md-3">
+                <h4>Valores personalizados</h4>
+            </div>
+            <div class="col-md-9">
+                <custom-values selected="customValue"></custom-values>
+                <a ng-click="addCustomValue()" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
             </div>
         </div>
         <div class="row">
