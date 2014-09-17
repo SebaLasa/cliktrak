@@ -38,7 +38,7 @@ module.exports = function (router) {
             }
 
             model.Page.findOne({internalId: idPag, company: comp._id})
-                .populate(['urlConfiguration', 'company'])
+                .populate(['urlConfiguration', 'company', 'layout'])
                 .exec(function (err, page) {
                     if (err) {
                         return next(Error.create('An error occurred trying to find the page.', {pageId: idPag}, err));
@@ -50,7 +50,7 @@ module.exports = function (router) {
                     req.trackedClick.page = page;
                     req.trackedClick.save();
 
-                    var landing = page.html;
+                    var landing = '<html><body>' + page.html;
                     if (page.urlConfiguration.qrGenerated) {
                         landing += '<img src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
                             + page.urlConfiguration.qrData + '" />';
@@ -59,7 +59,8 @@ module.exports = function (router) {
                         landing += '<img src="/public-api/barcode/' + page.urlConfiguration.barcodeSize + '/'
                             + page.urlConfiguration.barcodeData + '" />';
                     }
-                    res.send(landing);
+                    landing += '<footer>' + page.layout.footer + '</footer>';
+                    res.send(landing + '</html></body>');
                 });
         });
     });
