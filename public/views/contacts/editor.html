@@ -5,85 +5,87 @@
 
     <form ng-submit="save()">
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
+            <div class="col-md-4 ">
+                <div class="input-group">
                     <label for="name">Nombre</label>
-                    <input type="text" id="name" ng-model="contact.name"/>
+                    <input type="text" id="name" ng-model="contact.name" class="form-control"/>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="form-group">
+                <div classs="input-group">
                     <label for="surname">Apellido</label>
-                    <input type="text" id="surname" ng-model="contact.surname"/>
+                    <input type="text" id="surname" ng-model="contact.surname" class="form-control"/>
                 </div>
             </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <input type="text" id="email" ng-model="contact.email" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="birthDate">Fecha de nacimiento</label>
+                    <input type="text" id="birthDate" ui-date ng-model="contact.birthDate" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <label for="mobilePhone">Móvil</label>
+                    <input type="text" id="mobilePhone" ng-model="contact.mobilePhone" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <label for="telephone">Teléfono</label>
+                    <input type="text" id="telephone" ng-model="contact.telephone" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <label for="address">Dirección</label>
+                    <input type="text" id="address" ng-model="contact.address" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <label for="state">Provincia</label>
+                    <input type="text" id="state" ng-model="contact.state" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <label for="city">Ciudad</label>
+                    <input type="text" id="city" ng-model="contact.city" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <label for="country">País</label>
+                    <input type="text" id="country" ng-model="contact.country" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="gender">Género</label>
-                    <select id="gender" ng-model="contact.gender">
+                    <select id="gender" ng-model="contact.gender" class="form-control">
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </select>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="text" id="email" ng-model="contact.email"/>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="birthDate">Fecha de nacimiento</label>
-                    <input type="text" id="birthDate" ui-date ng-model="contact.birthDate"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="mobilePhone">Móvil</label>
-                    <input type="text" id="mobilePhone" ng-model="contact.mobilePhone"/>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="telephone">Teléfono</label>
-                    <input type="text" id="telephone" ng-model="contact.telephone"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="address">Dirección</label>
-                    <input type="text" id="address" ng-model="contact.address"/>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="state">Provincia</label>
-                    <input type="text" id="state" ng-model="contact.state"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="city">Ciudad</label>
-                    <input type="text" id="city" ng-model="contact.city"/>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="country">País</label>
-                    <input type="text" id="country" ng-model="contact.country"/>
-                </div>
-            </div>
-        </div>
-
         <br/>
         <input type="submit" value="Guardar" class="btn btn-primary"/>
     </form>
