@@ -5,9 +5,12 @@
 
     <form ng-submit="save()">
         <div class="row">
-            <div class="form-group col-md-6">
-                <label for="name">Nombre</label>
-                <input type="text" id="name" name="name" ng-model="campaign.name" maxlength="80"/>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" name="name" ng-model="campaign.name" maxlength="80"
+                           class="form-control"/>
+                </div>
             </div>
         </div>
         <h3>Selección de Página</h3>
@@ -41,14 +44,19 @@
         </div>
         <hr>
         <div class="row">
-            <div class="col-md-4 form-group">
-                <label for="subject">Asunto</label>
-                <input type="text" id="subject" name="subject" ng-model="email.subject" maxlength="100"/>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <label for="subject">Asunto</label>
+                    <input type="text" id="subject" name="subject" ng-model="email.subject" maxlength="100"
+                           class="form-control"/>
+                </div>
             </div>
             <div class="col-md-3">
                 <a ng-click="addFieldToMessage('url')" class="btn btn-primary">URL a la página</a>
             </div>
         </div>
+        <br/>
+
         <div class="row">
             <div class="col-md-9">
                 <textarea ng-model="email.message" ui-tinymce></textarea>
@@ -72,20 +80,24 @@
                     <a ng-click="addFieldToMessage('birthDay')" class="btn btn-primary btn-sm">Cumpleaños</a>
                     <a ng-click="addFieldToMessage('mobilePhone')" class="btn btn-primary btn-sm">Celular</a>
                     <a ng-click="addFieldToMessage('telephone')" class="btn btn-primary btn-sm">Teléfono</a>
-                    <a ng-click="addFieldToMessage('address')" class="btn btn-primary">Direccion</a>
-                    <a ng-click="addFieldToMessage('city')" class="btn btn-primary">Localidad</a>
-                    <a ng-click="addFieldToMessage('state')" class="btn btn-primary">Provincia</a>
+                    <a ng-click="addFieldToMessage('address')" class="btn btn-primary btn-sm">Direccion</a>
+                    <a ng-click="addFieldToMessage('city')" class="btn btn-primary btn-sm">Localidad</a>
+                    <a ng-click="addFieldToMessage('state')" class="btn btn-primary btn-sm">Provincia</a>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-6">
-                <label for="start">Incio</label>
-                <input type="text" id="start" name="start" ng-model="email.dateStart" ui-date/>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="start">Incio</label>
+                    <input type="text" id="start" name="start" ng-model="email.dateStart" ui-date class="form-control"/>
+                </div>
             </div>
-            <div class="form-group col-md-6">
-                <label for="end">Finalización</label>
-                <input type="text" id="end" name="end" ng-model="email.dateEnd" ui-date/>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="end">Finalización</label>
+                    <input type="text" id="end" name="end" ng-model="email.dateEnd" ui-date class="form-control"/>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -122,9 +134,9 @@
                 <label for="sunday">Domingo</label>
             </div>
         </div>
-        <div class="form-group">
+        <div class="input-group">
             <label for="startTime">Inicio</label>
-            <input type="text" id="startTime" name="startTime"/>
+            <input type="text" id="startTime" name="startTime" class="form-control"/>
         </div>
         <hr>
         <div class="row">
