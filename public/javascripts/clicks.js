@@ -1,4 +1,4 @@
-angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.date', 'angularCharts','click-interceptor'])
+angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.date', 'angularCharts','click-interceptor','angularFileUpload'])
     .config(function ($routeProvider, $httpProvider) {
         $routeProvider
             .when('/', {
