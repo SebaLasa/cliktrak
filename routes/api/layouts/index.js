@@ -102,14 +102,6 @@ module.exports = function (router) {
 
         form.parse(req);
 
-        /*delete req.body._id;
-        req.body.editor = req.user._id;
-        model.Layout.findByIdAndUpdate(req.params.id, req.body, function (err, layout) {
-            if (err) {
-                return next(Error.create('An error occurred trying get the Layout.', { }, err));
-            }
-            res.status(200).end();
-        });*/
     });
 
     router.delete('/layouts/:id', function (req, res, next) {
