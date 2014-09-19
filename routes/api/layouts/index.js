@@ -1,4 +1,7 @@
 var model = app.model,
+    multiparty = require('multiparty'),
+    fs = require('fs'),
+    path = require('path'),
     validate = app.validation.validate;
 
 module.exports = function (router) {
@@ -27,26 +30,71 @@ module.exports = function (router) {
     });
 
     router.post('/layouts', function (req, res, next) {
-        var layout = new model.Layout(req.body);
-        layout.editor = req.user._id;
-        layout.company = req.company._id;
-        layout.save(function (err, layout) {
-            if (err) {
-                return next(Error.create('An error occurred trying save the Layout.', { }, err));
-            }
-            res.status(201).end();
+        var form = new multiparty.Form();
+        var upload = {layout: ''};
+        form.on('error', next);
+        form.on('close', function () {
+            var layout = new model.Layout(JSON.parse(upload.layout));
+            layout.editor = req.user._id;
+            layout.company = req.company._id;
+            layout.image = upload.image;
+            layout.save(function (err, layout) {
+                if (err) {
+                    return next(Error.create('An error occurred trying save the Layout.', { }, err));
+                }
+                res.status(201).end();
+            });
         });
+
+        // listen on part event for image file
+        form.on('part', function (part) {
+            if (part.name == 'layout') {
+                part.on('data', function (buffer) {
+                    upload.layout += buffer;
+                });
+            }
+            if (part.name == 'file') {
+                upload.image = path.join('images/layouts', req.company._id + "-" + part.filename);
+                upload.fsfile = fs.createWriteStream(path.join('public', upload.image));
+                part.pipe(upload.fsfile);
+            }
+        });
+        form.parse(req);
     });
 
     router.put('/layouts/:id', function (req, res, next) {
-        delete req.body._id;
-        req.body.editor = req.user._id;
-        model.Layout.findByIdAndUpdate(req.params.id, req.body, function (err, layout) {
-            if (err) {
-                return next(Error.create('An error occurred trying get the Layout.', { }, err));
+        var form = new multiparty.Form();
+        var upload = {layout: ''};
+        form.on('error', next);
+        form.on('close', function () {
+            var layout = JSON.parse(upload.layout);
+            delete layout._id;
+            layout.editor = req.user._id;
+            if (upload.image) {
+                layout.image = upload.image;
             }
-            res.status(200).end();
+            model.Layout.findByIdAndUpdate(req.params.id, layout, function (err, layout) {
+                if (err) {
+                    return next(Error.create('An error occurred trying get the Layout.', { }, err));
+                }
+                res.status(200).end();
+            });
         });
+
+        // listen on part event for image file
+        form.on('part', function (part) {
+            if (part.name == 'layout') {
+                part.on('data', function (buffer) {
+                    upload.layout += buffer;
+                });
+            }
+            if (part.name == 'file') {
+                upload.image = path.join('images/layouts', req.company._id + "-" + part.filename);
+                upload.fsfile = fs.createWriteStream(path.join('public', upload.image));
+                part.pipe(upload.fsfile);
+            }
+        });
+        form.parse(req);
     });
 
     router.delete('/layouts/:id', function (req, res, next) {
