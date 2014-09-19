@@ -2,7 +2,7 @@
     <a href="#/layouts" class="btn btn-default">Volver</a>
 
     <h2>{{pageTitle}}</h2>
-
+    <img ng-src='/{{layout.image}}' ng-show="layout.image">
     <form ng-submit="save()">
         <div class="input-group">
             <label for="name">Nombre</label>
@@ -12,6 +12,10 @@
             <label for="footerBackgroundColor">Color de fondo</label>
             <input type="text" id="footerBackgroundColor" colorpicker="hex" colorpicker-with-input="true"
                    ng-model="layout.footerBackgroundColor" class="form-control"/>
+        </div>
+        <div class="input-group">
+            <label for="headerImage">Imagen de Cabecera</label>
+            <input type="file" ng-file-select="onFileSelect($files)" accept="image/*">
         </div>
         <div class="input-group">
             <label for="footer">Pie de página</label>
