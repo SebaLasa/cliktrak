@@ -43,22 +43,6 @@
             <div class="col-md-3">{{customPage.name}}</div>
         </div>
         <hr>
-        <div class="row" ng-show="pageType == 'customPage'">
-            <div class="col-md-3">
-                <custom-values selected="email.paramToMatchWithContacts"></custom-values>
-            </div>
-            <div class="col-md-1">
-                ->
-            </div>
-            <div class="col-md-3">
-                <select id="contactFieldMatch" name="contactFieldMatch" ng-model="email.contactFieldMatch"
-                        class="form-control">
-                    <option value="email">Email</option>
-                    <option value="mobilePhone">Celular</option>
-                </select>
-            </div>
-        </div>
-
         <div class="row">
             <div class="col-md-4">
                 <div class="input-group">
@@ -168,13 +152,32 @@
         <hr>
         <div class="row">
             <div class="col-md-8">
-                <h3>Selección de Contactos</h3>
-                <label for="allContacts">Todos los contactos</label>
-                <input type="checkbox" id="allContacts" name="allContacts" ng-model="allContacts"
-                       ng-change="selectAllContacts()"/>
+                <h3>
+                    Selección de Contactos
+                    <small ng-show="pageType == 'page'">
+                        <label for="allContacts">Todos los contactos</label>
+                        <input type="checkbox" id="allContacts" name="allContacts" ng-model="allContacts"
+                               ng-change="selectAllContacts()"/>
+                    </small>
+                </h3>
             </div>
         </div>
-        <div class="row">
+        <div class="row" ng-show="pageType == 'customPage'">
+            <div class="col-md-3">
+                <custom-values selected="email.paramToMatchWithContacts"></custom-values>
+            </div>
+            <div class="col-md-1">
+                ->
+            </div>
+            <div class="col-md-3">
+                <select id="contactFieldMatch" name="contactFieldMatch" ng-model="email.contactFieldMatch"
+                        class="form-control">
+                    <option value="email">Email</option>
+                    <option value="mobilePhone">Celular</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" ng-show="pageType == 'page'">
             <div class="col-md-1"></div>
             <div class="col-md-2"><h4>Nombre</h4></div>
             <div class="col-md-2"><h4>Apellido</h4></div>

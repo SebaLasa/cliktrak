@@ -4,7 +4,7 @@ var nodemailer = require('nodemailer'),
 
 module.exports.run = function (cb) {
     var today = new Date();
-    model.emailing.Task.find({dateStart: { $lt: today }, dateEnd: { $gt: today }}).populate('contacts').exec(function (err, tasks) {
+    model.emailing.Task.find({dateStart: { $lt: today }, dateEnd: { $gt: today }}).populate(['contacts']).exec(function (err, tasks) {
         if (err) {
             return cb(err);
         }
@@ -41,7 +41,7 @@ function getTemplateMessageFields(message) {
 function getCompiledMessageTemplate(message, fields, contact) {
     fields.forEach(function (field) {
         // TODO put the real page URL.
-        message = message.replace(field.text, field.property == 'url' ? 'http://www.gogle.com' : contact[field.property]);
+        message = message.replace(field.text, field.property == 'url' ? 'http://www.google.com' : contact[field.property]);
     });
     return message;
 }
@@ -51,7 +51,38 @@ function generateMessages(task, callback) {
         return callback();
     }
     if (!task.contacts || !task.contacts.length) {
-        return callback();
+        if (!task.contactFieldMatch || !task.paramToMatchWithContacts) {
+            return callback();
+        }
+        model.Contact.find({company: task.company, deleted: false}, function (err, contacts) {
+                if (err) {
+                    return callback(err);
+                }
+                model.CustomPageValue.find({customPage: task.customPage}, function (err, customPageValues) {
+                    if (err) {
+                        return callback(err);
+                    }
+
+                    var matches = _.compact(customPageValues.map(function (customValue) {
+                        var contact = contacts.find(function (contact) {
+                            return contact[task.contactFieldMatch] == customValue[task.paramToMatchWithContacts]
+                        });
+                        return contact ? { contact: contact, customValue: customValue } : null;
+                    }));
+
+                    var fields = getTemplateMessageFields(task.message);
+                    task.messages = matches.map(function (match) {
+                        return {
+                            contact: match.contact._id,
+                            email: match.contact.email,
+                            message: getCompiledMessageTemplate(task.message, fields, contact)
+                        };
+                    });
+                    task.save(callback);
+                });
+            }
+        );
+        return;
     }
 
     var fields = getTemplateMessageFields(task.message);
@@ -64,6 +95,7 @@ function generateMessages(task, callback) {
     });
     task.save(callback);
 }
+
 
 function sendEmails(tasks, callback) {
     var transporter = nodemailer.createTransport({
