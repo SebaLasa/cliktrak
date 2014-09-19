@@ -50,7 +50,7 @@ module.exports = function (router) {
                     req.trackedClick.page = page;
                     req.trackedClick.save();
 
-                    var landing = '<html><body>' + page.html;
+                    var landing = '<html><head><img src="' + page.layout.image + '" /></head><body>' + page.html;
                     if (page.urlConfiguration.qrGenerated) {
                         landing += '<img src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
                             + page.urlConfiguration.qrData + '" />';
@@ -60,7 +60,7 @@ module.exports = function (router) {
                             + page.urlConfiguration.barcodeData + '" />';
                     }
                     landing += '<footer>' + page.layout.footer + '</footer>';
-                    res.send(landing + '</html></body>');
+                    res.send(landing + '</body></html>');
                 });
         });
     });
