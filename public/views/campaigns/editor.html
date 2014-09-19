@@ -177,15 +177,17 @@
                 </select>
             </div>
         </div>
-        <div class="row" ng-show="pageType == 'page'">
-            <div class="col-md-1"></div>
-            <div class="col-md-2"><h4>Nombre</h4></div>
-            <div class="col-md-2"><h4>Apellido</h4></div>
-        </div>
-        <div ng-repeat="contact in contacts" ng-click="contact.selected = !contact.selected" class="row">
-            <div class="col-md-1"><input type="checkbox" ng-model="contact.selected"/></div>
-            <div class="col-md-2">{{contact.name}}</div>
-            <div class="col-md-2">{{contact.surname}}</div>
+        <div ng-show="pageType == 'page'">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-2"><h4>Nombre</h4></div>
+                <div class="col-md-2"><h4>Apellido</h4></div>
+            </div>
+            <div ng-repeat="contact in contacts" ng-click="contact.selected = !contact.selected" class="row">
+                <div class="col-md-1"><input type="checkbox" ng-model="contact.selected"/></div>
+                <div class="col-md-2">{{contact.name}}</div>
+                <div class="col-md-2">{{contact.surname}}</div>
+            </div>
         </div>
         <hr>
         <input type="submit" value="Programar Envio" class="btn btn-primary"/>
