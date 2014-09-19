@@ -50,7 +50,8 @@ module.exports = function (router) {
                     req.trackedClick.page = page;
                     req.trackedClick.save();
 
-                    var landing = '<html><head><img src="' + page.layout.image + '" /></head><body>' + page.html;
+                    var landing = '<html><style>footer{background-color:' + page.layout.footerBackgroundColor +
+                        ';}</style><head><img src="' + page.layout.image + '" /></head><body>' + page.html;
                     if (page.urlConfiguration.qrGenerated) {
                         landing += '<img src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
                             + page.urlConfiguration.qrData + '" />';
