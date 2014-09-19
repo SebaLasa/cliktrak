@@ -31,7 +31,7 @@ module.exports = function (router) {
 
     router.post('/layouts', function (req, res, next) {
         var form = new multiparty.Form();
-        var upload = {layout:''};
+        var upload = {layout: ''};
         form.on('error', next);
         form.on('close', function () {
             var layout = new model.Layout(JSON.parse(upload.layout));
@@ -48,36 +48,31 @@ module.exports = function (router) {
 
         // listen on part event for image file
         form.on('part', function (part) {
-            if (part.name == "layout"){
+            if (part.name == 'layout') {
                 part.on('data', function (buffer) {
                     upload.layout += buffer;
                 });
             }
-            if (part.name == "file"){
-                upload.image = "images/layouts/" + req.company._id + "-" + part.filename;
-                upload.fsfile = fs.createWriteStream("public/"+upload.image);
+            if (part.name == 'file') {
+                upload.image = path.join('images/layouts', req.company._id + "-" + part.filename);
+                upload.fsfile = fs.createWriteStream(path.join('public', upload.image));
                 part.pipe(upload.fsfile);
             }
         });
-
         form.parse(req);
     });
 
     router.put('/layouts/:id', function (req, res, next) {
-
         var form = new multiparty.Form();
-        var upload = {layout:''};
+        var upload = {layout: ''};
         form.on('error', next);
         form.on('close', function () {
-
-
             var layout = JSON.parse(upload.layout);
             delete layout._id;
             layout.editor = req.user._id;
-            if (upload.image){
+            if (upload.image) {
                 layout.image = upload.image;
             }
-
             model.Layout.findByIdAndUpdate(req.params.id, layout, function (err, layout) {
                 if (err) {
                     return next(Error.create('An error occurred trying get the Layout.', { }, err));
@@ -88,20 +83,18 @@ module.exports = function (router) {
 
         // listen on part event for image file
         form.on('part', function (part) {
-            if (part.name == "layout"){
+            if (part.name == 'layout') {
                 part.on('data', function (buffer) {
                     upload.layout += buffer;
                 });
             }
-            if (part.name == "file"){
-                upload.image = "images/layouts/" + req.company._id + "-" + part.filename;
-                upload.fsfile = fs.createWriteStream("public/"+upload.image);
+            if (part.name == 'file') {
+                upload.image = path.join('images/layouts', req.company._id + "-" + part.filename);
+                upload.fsfile = fs.createWriteStream(path.join('public', upload.image));
                 part.pipe(upload.fsfile);
             }
         });
-
         form.parse(req);
-
     });
 
     router.delete('/layouts/:id', function (req, res, next) {
