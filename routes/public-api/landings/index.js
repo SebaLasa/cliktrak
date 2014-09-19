@@ -7,7 +7,7 @@ var model = app.model,
 module.exports = function (router) {
     router.use(require('../../trackingMiddleware.js')());
     function addBarcodeAndSend(page, next, landing, res) {
-        codeConverter.toBarcode(page.urlConfiguration.barcodeData,{}, function (err, dataUrl) {
+        codeConverter.toBarcode(page.urlConfiguration.barcodeData, {}, function (err, dataUrl) {
             if (err) {
                 return next(Error.create('An error occurred generating the barcode.', err));
             }
@@ -50,7 +50,7 @@ module.exports = function (router) {
                     req.trackedClick.page = page;
                     req.trackedClick.save();
 
-                    var landing = '<html><head><img src="' + page.layout.image + '" /></head><body>' + page.html;
+                    var landing = '<html><head></head><body><header><img src="' + page.layout.image + '" /></header>' + page.html;
                     if (page.urlConfiguration.qrGenerated) {
                         landing += '<img src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
                             + page.urlConfiguration.qrData + '" />';
@@ -96,7 +96,7 @@ module.exports = function (router) {
                     }
 
                     req.trackedClick.customPage = customPage;
-                    req.trackedClick.save(function(err){
+                    req.trackedClick.save(function (err) {
                         if (err)
                             console.log(err);
                     });
