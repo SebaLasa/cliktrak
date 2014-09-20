@@ -50,15 +50,19 @@ module.exports = function (router) {
                     req.trackedClick.page = page;
                     req.trackedClick.save();
 
-                    var landing = '<html><style>footer{background-color:' + page.layout.footerBackgroundColor +
-                        ';}</style><head></head><body><header><img src="' + page.layout.image + '" /></header>' + page.html;
+                    var landing = '<html><link rel="stylesheet" href="/stylesheets/landing.css"><style>footer{background-color:'
+                        + page.layout.footerBackgroundColor
+                        + ';}</style><head></head><body><header><img class="layoutHeaderImage" src="/' + page.layout.image
+                        + '" /></header>' + page.html;
                     if (page.urlConfiguration.qrGenerated) {
-                        landing += '<img src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
-                            + page.urlConfiguration.qrData + '" />';
+                        var qrCodeSource = 'src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
+                            + page.urlConfiguration.qrData;
+                        landing = landing.replace('src="/images/codes/qrS.png', qrCodeSource);
                     }
                     if (page.urlConfiguration.barcodeGenerated) {
-                        landing += '<img src="/public-api/barcode/' + page.urlConfiguration.barcodeSize + '/'
-                            + page.urlConfiguration.barcodeData + '" />';
+                        var barcodeSource = 'src="/public-api/barcode/' + page.urlConfiguration.barcodeSize + '/'
+                            + page.urlConfiguration.barcodeData;
+                        landing = landing.replace('src="images/codes/bcS.gif', barcodeSource);
                     }
                     landing += '<footer>' + page.layout.footer + '</footer>';
                     res.send(landing + '</body></html>');
