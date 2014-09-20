@@ -52,8 +52,8 @@ module.exports = function (router) {
 
                     var landing = '<html><link rel="stylesheet" href="/stylesheets/landing.css"><style>footer{background-color:'
                         + page.layout.footerBackgroundColor
-                        + ';}</style><head></head><body><header><img class="layoutHeaderImage" src="/' + page.layout.image
-                        + '" /></header>' + page.html;
+                        + ';}</style><head></head><body><header><img class="layoutHeaderImage" src="/'
+                        + page.layout.image + '" /></header>' + page.html;
                     if (page.urlConfiguration.qrGenerated) {
                         var qrCodeSource = 'src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
                             + page.urlConfiguration.qrData;
