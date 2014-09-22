@@ -1,6 +1,6 @@
 var model = app.model,
     validate = app.validation.validate,
-    //stringify = require('csv-stringify'),
+    stringify = require('csv-stringify'),
     _ = require('lodash');
 
 module.exports = function (router) {
