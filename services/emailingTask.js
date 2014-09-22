@@ -2,20 +2,21 @@ var nodemailer = require('nodemailer'),
     async = require('async'),
     _ = require('lodash'),
     model = app.model,
-    domain = require('domain');
+    domain = require('./clicksDomain');
 
 module.exports.run = function (cb) {
-
     var today = new Date();
-    model.emailing.Task.find({dateStart: { $lt: today }, dateEnd: { $gt: today }}).populate(['contacts']).exec(function (err, tasks) {
+    model.emailing.Task.find({dateStart: { $lt: today }, dateEnd: { $gt: today }}).populate(['contacts', 'page']).exec(function (err, tasks) {
         if (err) {
             return cb(err);
         }
-
         async.each(tasks, function (task, messageCallback) {
-            console.log("------------------------TASK--------------------------------");
-            console.log(task);
-            generateMessages(task, messageCallback);
+            if (!task.page) {
+                return generateMessages(task, messageCallback);
+            }
+            model.Page.populate(task.page, 'urlConfiguration').then(function () {
+                generateMessages(task, messageCallback);
+            }).end();
         }, function (err) {
             if (err) {
                 return cb(err);
@@ -25,7 +26,6 @@ module.exports.run = function (cb) {
                     return !!message.dateSent;
                 });
             });
-
 
             sendEmails(tasks, cb);
         });
@@ -54,7 +54,7 @@ function getCompiledMessageTemplate(task, fields, contact, customValue) {
             if (customValue) {
                 value = customValue.urlGenerated;
             } else {
-                value = domain() + '/p/' + task.company + '.' + task.page;
+                value = domain(task.page.urlConfiguration.subdomain) + '/p/' + task.company + '.' + task.page._id;
             }
         } else if (field.property.indexOf('parameter') > -1) {
             value = customValue ? customValue[field.property] : field.property;
