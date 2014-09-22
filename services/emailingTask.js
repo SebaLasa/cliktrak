@@ -1,8 +1,10 @@
 var nodemailer = require('nodemailer'),
     async = require('async'),
     model = app.model;
+var _ = require('lodash');
 
 module.exports.run = function (cb) {
+    
     var today = new Date();
     model.emailing.Task.find({dateStart: { $lt: today }, dateEnd: { $gt: today }}).populate(['contacts']).exec(function (err, tasks) {
         if (err) {
@@ -10,6 +12,8 @@ module.exports.run = function (cb) {
         }
 
         async.each(tasks, function (task, messageCallback) {
+            console.log("------------------------TASK--------------------------------");
+            console.log(task);
             generateMessages(task, messageCallback);
         }, function (err) {
             if (err) {
@@ -20,6 +24,8 @@ module.exports.run = function (cb) {
                     return !!message.dateSent;
                 });
             });
+            
+            
             sendEmails(tasks, cb);
         });
     });
@@ -35,49 +41,82 @@ function getTemplateMessageFields(message) {
             property: match[1]
         });
     }
+   
     return matches;
 }
 
-function getCompiledMessageTemplate(message, fields, contact) {
+function getCompiledMessageTemplate(message, fields, contact, customPages, pagId, callback) {
     fields.forEach(function (field) {
-        // TODO put the real page URL.
-        message = message.replace(field.text, field.property == 'url' ? 'http://www.google.com' : contact[field.property]);
+      
+       var url = "";
+       var urlGenerated="";
+       if(customPages){
+            model.CustomPageValue.find({customPage: customPages}, function (err, customPageValues) {
+                if (err) {
+                    return callback(err);
+                }
+                  urlGenerated = customPageValues.urlGenerated;
+            });
+       }else{
+            model.Page.findOne({_id: pagId}).populate('urlConfiguration').exec(function (err, page) {
+                    console.log(page);
+                    if (err) {
+
+                        return callback(err);
+                    }
+                    urlGenerated =  page.urlConfiguration.urlGenerated;
+                });
+        };
+       url = app.config.server.host + urlGenerated;
+       console.log("---------------------URL----------------------");
+       console.log(url);
+       message = message.replace(field.text, field.property == 'url' ? url : contact[field.property]);
+        
     });
+
     return message;
 }
 
 function generateMessages(task, callback) {
-    if (task.messages && task.messages.length) {
+
+    if (!task.messages || !task.messages.length) {
         return callback();
     }
     if (!task.contacts || !task.contacts.length) {
+      
         if (!task.contactFieldMatch || !task.paramToMatchWithContacts) {
             return callback();
         }
+
         model.Contact.find({company: task.company, deleted: false}, function (err, contacts) {
+               
                 if (err) {
                     return callback(err);
                 }
-                model.CustomPageValue.find({customPage: task.customPage}, function (err, customPageValues) {
+                    
+                    model.CustomPageValue.find({customPage: task.customPage}, function (err, customPageValues) {
+                    
                     if (err) {
                         return callback(err);
                     }
-
                     var matches = _.compact(customPageValues.map(function (customValue) {
+                      
                         var contact = contacts.find(function (contact) {
-                            return contact[task.contactFieldMatch] == customValue[task.paramToMatchWithContacts]
+                             return contact[task.contactFieldMatch] == customValue[task.paramToMatchWithContacts]
                         });
                         return contact ? { contact: contact, customValue: customValue } : null;
                     }));
-
+                  
                     var fields = getTemplateMessageFields(task.message);
                     task.messages = matches.map(function (match) {
+                        
                         return {
                             contact: match.contact._id,
                             email: match.contact.email,
-                            message: getCompiledMessageTemplate(task.message, fields, contact)
+                            message: getCompiledMessageTemplate(task.message, fields, match.contact, match.customPage, task.page, callback)
                         };
                     });
+
                     task.save(callback);
                 });
             }
@@ -86,13 +125,15 @@ function generateMessages(task, callback) {
     }
 
     var fields = getTemplateMessageFields(task.message);
+    
     task.messages = task.contacts.map(function (contact) {
         return {
             contact: contact._id,
             email: contact.email,
-            message: getCompiledMessageTemplate(task.message, fields, contact)
+            message: getCompiledMessageTemplate(task.message, fields, contact, task.customPage, task.page, callback)
         };
     });
+  
     task.save(callback);
 }
 

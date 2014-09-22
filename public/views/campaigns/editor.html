@@ -92,7 +92,7 @@
             </div>
             <div class="col-md-9">
                 <custom-values selected="customValue"></custom-values>
-                <a ng-click="addCustomValue()" class="btn btn-primary">
+                <a ng-click="addCustomValue(customValue)" class="btn btn-primary">
                     <span class="glyphicon glyphicon-plus"></span>
                 </a>
             </div>
@@ -146,8 +146,9 @@
             </div>
         </div>
         <div class="input-group">
-            <label for="startTime">Inicio</label>
-            <input type="text" id="startTime" name="startTime" class="form-control"/>
+            <label for="startTime">Hora de Inicio</label>
+            <!--<input type="text" id="startTime" name="startTime" class="form-control"/> -->
+            <input type="text" id="startTime" name="startTime" class="form-control" ng-model="email.startTime" data-autoclose="1" placeholder="Hora de inicio" bs-timepicker>
         </div>
         <hr>
         <div class="row">

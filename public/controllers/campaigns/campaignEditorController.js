@@ -83,7 +83,7 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
         $scope.email.contacts = _($scope.contacts).filter(function (contact) {
             return contact.selected;
         }).pluck('_id').value();
-        if (!$scope.email.contacts.length) {
+        if (!$scope.email.contacts.length && $scope.pageType=="page") {
             return alert('Plase, select a contact for the campaign.');
         }
         $scope.email.triggers = [
@@ -110,5 +110,9 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
 
     $scope.addFieldToMessage = function (field) {
         $scope.email.message += '##' + field + '##';
+    }
+
+    $scope.addCustomValue = function (customValue) {
+        $scope.email.message += '##' + customValue + '##';
     }
 });

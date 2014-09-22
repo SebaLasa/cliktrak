@@ -4,6 +4,7 @@
         "title": "Clicks"
     },
     "server": {
+        "host": "cliktrak.com/",
         "port": 3000
     },
     "//": "mongodb://127.0.0.1/clicks?safe=true",
