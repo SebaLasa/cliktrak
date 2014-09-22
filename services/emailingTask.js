@@ -71,7 +71,6 @@ function generateMessages(task, callback) {
         return callback();
     }
     if (!task.contacts || !task.contacts.length) {
-
         if (!task.contactFieldMatch || !task.paramToMatchWithContacts) {
             return callback();
         }
@@ -95,15 +94,13 @@ function generateMessages(task, callback) {
                     }));
 
                     var fields = getTemplateMessageFields(task.message);
-                    task.messages = matches.map(function (match) {
-
-                        return {
+                    matches.each(function (match) {
+                        task.messages.push({
                             contact: match.contact._id,
                             email: match.contact.email,
                             message: getCompiledMessageTemplate(task, fields, match.contact, match.customValue)
-                        };
+                        });
                     });
-
                     task.save(callback);
                 });
             }
@@ -112,15 +109,13 @@ function generateMessages(task, callback) {
     }
 
     var fields = getTemplateMessageFields(task.message);
-
-    task.messages = task.contacts.map(function (contact) {
-        return {
+    task.contacts.map(function (contact) {
+        task.messages.push( {
             contact: contact._id,
             email: contact.email,
             message: getCompiledMessageTemplate(task, fields, contact)
-        };
+        });
     });
-
     task.save(callback);
 }
 

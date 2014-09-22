@@ -1,3 +1,8 @@
+/**
+ * Returns the app url.
+ * @param subdomain The subdomain to add to the url.
+ * @returns {string} The app url.
+ */
 module.exports = function (subdomain) {
     var urlBase = 'http://';
     if (subdomain) {
