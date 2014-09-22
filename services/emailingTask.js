@@ -1,16 +1,22 @@
 var nodemailer = require('nodemailer'),
     async = require('async'),
-    model = app.model;
+    _ = require('lodash'),
+    model = app.model,
+    domain = require('./clicksDomain');
 
 module.exports.run = function (cb) {
     var today = new Date();
-    model.emailing.Task.find({dateStart: { $lt: today }, dateEnd: { $gt: today }}).populate('contacts').exec(function (err, tasks) {
+    model.emailing.Task.find({dateStart: { $lt: today }, dateEnd: { $gt: today }}).populate(['contacts', 'page']).exec(function (err, tasks) {
         if (err) {
             return cb(err);
         }
-
         async.each(tasks, function (task, messageCallback) {
-            generateMessages(task, messageCallback);
+            if (!task.page) {
+                return generateMessages(task, messageCallback);
+            }
+            model.Page.populate(task.page, 'urlConfiguration').then(function () {
+                generateMessages(task, messageCallback);
+            }).end();
         }, function (err) {
             if (err) {
                 return cb(err);
@@ -20,6 +26,7 @@ module.exports.run = function (cb) {
                     return !!message.dateSent;
                 });
             });
+
             sendEmails(tasks, cb);
         });
     });
@@ -35,35 +42,83 @@ function getTemplateMessageFields(message) {
             property: match[1]
         });
     }
+
     return matches;
 }
 
-function getCompiledMessageTemplate(message, fields, contact) {
+function getCompiledMessageTemplate(task, fields, contact, customValue) {
+    var message = task.message;
     fields.forEach(function (field) {
-        // TODO put the real page URL.
-        message = message.replace(field.text, field.property == 'url' ? 'http://www.gogle.com' : contact[field.property]);
+        var value;
+        if (field.property == 'url') {
+            if (customValue) {
+                value = customValue.urlGenerated;
+            } else {
+                value = domain(task.page.urlConfiguration.subdomain) + '/p/' + task.company + '.' + task.page._id;
+            }
+        } else if (field.property.indexOf('parameter') > -1) {
+            value = customValue ? customValue[field.property] : field.property;
+        } else {
+            value = contact[field.property];
+        }
+        message = message.replace(field.text, value);
     });
     return message;
 }
 
 function generateMessages(task, callback) {
-    if (task.messages && task.messages.length) {
+    if (!task.messages || !task.messages.length) {
         return callback();
     }
     if (!task.contacts || !task.contacts.length) {
-        return callback();
+        if (!task.contactFieldMatch || !task.paramToMatchWithContacts) {
+            return callback();
+        }
+
+        model.Contact.find({company: task.company, deleted: false}, function (err, contacts) {
+
+                if (err) {
+                    return callback(err);
+                }
+
+                model.CustomPageValue.find({customPage: task.customPage}, function (err, customPageValues) {
+
+                    if (err) {
+                        return callback(err);
+                    }
+                    var matches = _.compact(customPageValues.map(function (customValue) {
+                        var contact = contacts.find(function (contact) {
+                            return contact[task.contactFieldMatch] == customValue[task.paramToMatchWithContacts]
+                        });
+                        return contact ? { contact: contact, customValue: customValue } : null;
+                    }));
+
+                    var fields = getTemplateMessageFields(task.message);
+                    matches.each(function (match) {
+                        task.messages.push({
+                            contact: match.contact._id,
+                            email: match.contact.email,
+                            message: getCompiledMessageTemplate(task, fields, match.contact, match.customValue)
+                        });
+                    });
+                    task.save(callback);
+                });
+            }
+        );
+        return;
     }
 
     var fields = getTemplateMessageFields(task.message);
-    task.messages = task.contacts.map(function (contact) {
-        return {
+    task.contacts.map(function (contact) {
+        task.messages.push( {
             contact: contact._id,
             email: contact.email,
-            message: getCompiledMessageTemplate(task.message, fields, contact)
-        };
+            message: getCompiledMessageTemplate(task, fields, contact)
+        });
     });
     task.save(callback);
 }
+
 
 function sendEmails(tasks, callback) {
     var transporter = nodemailer.createTransport({
