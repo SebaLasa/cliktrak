@@ -79,7 +79,7 @@ module.exports = function (router) {
         if (!validate.objectId(req.params.id)) {
             return res.status(400).end();
         }
-        model.CustomPage.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, customPage) {
+        model.CustomPage.findOne({_id: req.params.id, deleted: false, company: req.company._id}).populate(['urlConfiguration']).exec(function (err, customPage) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Custom Page.', { }, err));
             }
@@ -100,7 +100,7 @@ module.exports = function (router) {
                     var result = upload.data.split(/\r?\n/g);
                     result[0] += ';URL';
                     var i = 1;
-                    var urlBase = require('../../../services/emailingTask')();
+                    var domain = require('../../../services/clicksDomain')(customPage.urlConfiguration.subdomain);
                     async.eachSeries(_.rest(output), function (data, callback) {
                         var value = new model.CustomPageValue(data);
                         value.customPage = customPage._id;
@@ -109,7 +109,7 @@ module.exports = function (router) {
                                 return callback(err);
                             }
                             // TODO put the real URL to page.
-                            result[i++] += ';' + urlBase + '/c/' + value._id;
+                            result[i++] += ';' + domain + '/c/' + value._id;
                             callback();
                         });
                     }, function (err) {
