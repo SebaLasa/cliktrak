@@ -108,7 +108,6 @@ module.exports = function (router) {
                             if (err) {
                                 return callback(err);
                             }
-                            // TODO put the real URL to page.
                             result[i++] += ';' + domain + '/c/' + value._id;
                             callback();
                         });
