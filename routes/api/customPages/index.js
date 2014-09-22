@@ -100,6 +100,7 @@ module.exports = function (router) {
                     var result = upload.data.split(/\r?\n/g);
                     result[0] += ';URL';
                     var i = 1;
+                    var urlBase = require('../../../services/emailingTask')();
                     async.eachSeries(_.rest(output), function (data, callback) {
                         var value = new model.CustomPageValue(data);
                         value.customPage = customPage._id;
@@ -108,7 +109,7 @@ module.exports = function (router) {
                                 return callback(err);
                             }
                             // TODO put the real URL to page.
-                            result[i++] += ';/c/' + value._id;
+                            result[i++] += ';' + urlBase + '/c/' + value._id;
                             callback();
                         });
                     }, function (err) {
