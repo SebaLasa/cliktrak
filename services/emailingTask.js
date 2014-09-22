@@ -46,7 +46,7 @@ function getTemplateMessageFields(message) {
     return matches;
 }
 
-function getCompiledMessageTemplate(task, fields, contact, customValue, callback) {
+function getCompiledMessageTemplate(task, fields, contact, customValue) {
     var message = task.message;
     fields.forEach(function (field) {
         var value;
@@ -54,15 +54,13 @@ function getCompiledMessageTemplate(task, fields, contact, customValue, callback
             if (customValue) {
                 value = customValue.urlGenerated;
             } else {
-                value = domain() + '/p/';
-                // url to static page.
+                value = domain() + '/p/' + task.company + '.' + task.page;
             }
-        } else if (customValue && field.property.indexOf('parameter') > -1) {
-            value = customValue[field.property];
+        } else if (field.property.indexOf('parameter') > -1) {
+            value = customValue ? customValue[field.property] : field.property;
         } else {
             value = contact[field.property];
         }
-
         message = message.replace(field.text, value);
     });
     return message;
@@ -102,7 +100,7 @@ function generateMessages(task, callback) {
                         return {
                             contact: match.contact._id,
                             email: match.contact.email,
-                            message: getCompiledMessageTemplate(task, fields, match.contact, match.customValue, callback)
+                            message: getCompiledMessageTemplate(task, fields, match.contact, match.customValue)
                         };
                     });
 
@@ -119,7 +117,7 @@ function generateMessages(task, callback) {
         return {
             contact: contact._id,
             email: contact.email,
-            message: getCompiledMessageTemplate(task.message, fields, contact, task.customPage, task.page, callback)
+            message: getCompiledMessageTemplate(task, fields, contact)
         };
     });
 
