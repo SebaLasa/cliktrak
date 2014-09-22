@@ -169,10 +169,13 @@ emailing.Task = mongoose.model('emailing.tasks', new Schema({
     company: { type: ObjectId, ref: 'companies', required: true },
     campaign: { type: ObjectId, ref: 'campaigns', required: true },
     page: { type: ObjectId, ref: 'pages' },
-    customPages: { type: ObjectId, ref: 'customPages' },
+    customPage: { type: ObjectId, ref: 'customPages' },
     editor: { type: ObjectId, ref: 'users', required: true },
     dateStart: { type: Date, required: true },
     dateEnd: { type: Date, required: true },
+    startTime: {type: String},
+    contactFieldMatch: { type: String },
+    paramToMatchWithContacts: { type: String },
     contacts: [
         { type: ObjectId, ref: 'contacts' }
     ],

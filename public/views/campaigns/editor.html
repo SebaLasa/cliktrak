@@ -86,6 +86,17 @@
                 </div>
             </div>
         </div>
+        <div class="row" ng-show="pageType == 'customPage'">
+            <div class="col-md-3">
+                <h4>Valores personalizados</h4>
+            </div>
+            <div class="col-md-9">
+                <custom-values selected="customValue"></custom-values>
+                <a ng-click="addCustomValue(customValue)" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="input-group">
@@ -135,27 +146,49 @@
             </div>
         </div>
         <div class="input-group">
-            <label for="startTime">Inicio</label>
-            <input type="text" id="startTime" name="startTime" class="form-control"/>
+            <label for="startTime">Hora de Inicio</label>
+            <!--<input type="text" id="startTime" name="startTime" class="form-control"/> -->
+            <input type="text" id="startTime" name="startTime" class="form-control" ng-model="email.startTime" data-autoclose="1" placeholder="Hora de inicio" bs-timepicker>
         </div>
         <hr>
         <div class="row">
             <div class="col-md-8">
-                <h3>Selección de Contactos</h3>
-                <label for="allContacts">Todos los contactos</label>
-                <input type="checkbox" id="allContacts" name="allContacts" ng-model="allContacts"
-                       ng-change="selectAllContacts()"/>
+                <h3>
+                    Selección de Contactos
+                    <small ng-show="pageType == 'page'">
+                        <label for="allContacts">Todos los contactos</label>
+                        <input type="checkbox" id="allContacts" name="allContacts" ng-model="allContacts"
+                               ng-change="selectAllContacts()"/>
+                    </small>
+                </h3>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-2"><h4>Nombre</h4></div>
-            <div class="col-md-2"><h4>Apellido</h4></div>
+        <div class="row" ng-show="pageType == 'customPage'">
+            <div class="col-md-3">
+                <custom-values selected="email.paramToMatchWithContacts"></custom-values>
+            </div>
+            <div class="col-md-1">
+                ->
+            </div>
+            <div class="col-md-3">
+                <select id="contactFieldMatch" name="contactFieldMatch" ng-model="email.contactFieldMatch"
+                        class="form-control">
+                    <option value="email">Email</option>
+                    <option value="mobilePhone">Celular</option>
+                </select>
+            </div>
         </div>
-        <div ng-repeat="contact in contacts" ng-click="contact.selected = !contact.selected" class="row">
-            <div class="col-md-1"><input type="checkbox" ng-model="contact.selected"/></div>
-            <div class="col-md-2">{{contact.name}}</div>
-            <div class="col-md-2">{{contact.surname}}</div>
+        <div ng-show="pageType == 'page'">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-2"><h4>Nombre</h4></div>
+                <div class="col-md-2"><h4>Apellido</h4></div>
+            </div>
+            <div ng-repeat="contact in contacts" ng-click="contact.selected = !contact.selected" class="row">
+                <div class="col-md-1"><input type="checkbox" ng-model="contact.selected"/></div>
+                <div class="col-md-2">{{contact.name}}</div>
+                <div class="col-md-2">{{contact.surname}}</div>
+            </div>
         </div>
         <hr>
         <input type="submit" value="Programar Envio" class="btn btn-primary"/>
