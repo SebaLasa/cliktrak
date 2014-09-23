@@ -9,7 +9,7 @@ var model = app.model,
 module.exports = function (router) {
     router.use(require('../../trackingMiddleware.js')());
     function addBarcodeAndSend(page, next, landing, res) {
-        codeConverter.toBarcode(page.urlConfiguration.barcodeData,{}, function (err, dataUrl) {
+        codeConverter.toBarcode(page.urlConfiguration.barcodeData, {}, function (err, dataUrl) {
             if (err) {
                 return next(Error.create('An error occurred generating the barcode.', err));
             }
@@ -52,11 +52,13 @@ module.exports = function (router) {
                     req.trackedClick.page = page;
                     req.trackedClick.save();
 
+
                     var content = page.html;
                     content = contentGeneration.replaceCodes(page.urlConfiguration,content);
                     var pageContent = contentGeneration.gluePage(page.layout, content);
 
                     res.send(pageContent);
+
                 });
         });
     });
@@ -86,7 +88,7 @@ module.exports = function (router) {
                     }
 
                     req.trackedClick.customPage = customPage;
-                    req.trackedClick.save(function(err){
+                    req.trackedClick.save(function (err) {
                         if (err)
                             console.log(err);
                     });
