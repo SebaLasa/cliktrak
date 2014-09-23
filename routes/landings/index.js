@@ -4,7 +4,7 @@ var model = app.model,
     query = app.data.query,
     _ = require('lodash'),
     contentGeneration = require("../../services/contentGeneration")
-    codeConverter = require('../..//services/codeConverter.js');
+    codeConverter = require('../../services/codeConverter.js');
 
 module.exports = function (router) {
     router.use(require('../trackingMiddleware.js')());
