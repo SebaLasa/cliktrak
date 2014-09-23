@@ -10,7 +10,7 @@ var _ = require('lodash');
 
 module.exports.replaceCodes = function (urlConfiguration, content){
     if (urlConfiguration.qrGenerated) {
-        content =content.replace('<img class="staticQr" src="images/codes/qrS.png" alt="" />','<img src="/public-api/qr/' + urlConfiguration.qrSize + '/'
+        content =content.replace('<img class="staticQr" src="images/codes/qrS.png" alt="" />','<img src="/public-api/qr/' + (urlConfiguration.qrSize ? urlConfiguration.qrSize : 70)  + '/'
             + urlConfiguration.qrData + '" />');
     }
     if (urlConfiguration.barcodeGenerated) {
