@@ -1,0 +1,18 @@
+.layoutHeaderImage {
+    max-width:420px;
+}
+@media all and (max-width: 420px) {
+    .layoutHeaderImage {
+        width:80%;
+    }
+    .staticBarcode, .staticQR {
+        width: 100%;
+        min-width: 200px;
+    }
+}
+@media all and (max-width: 230px) {
+    .staticBarcode {
+        width: 200px;
+        transform: rotate(-90deg);
+    }
+}
