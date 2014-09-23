@@ -17,13 +17,14 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
     }
 
     $scope.save = function () {
+        var data = { customPage: $scope.customPage, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {
-            return $http.put('/api/customPages/' + $routeParams.id, $scope.customPage)
+            return $http.put('/api/customPages/' + $routeParams.id, data)
                 .success(function (data, status) {
                     $location.path('customPages');
                 });
         }
-        $http.post('/api/customPages/', $scope.customPage)
+        $http.post('/api/customPages/', data)
             .success(function (data, status) {
                 $location.path('customPages');
             });

@@ -70,7 +70,6 @@ module.exports = function (router) {
                 }
                 res.status(200).end();
             });
-            res.send(200);
         });
     });
 
