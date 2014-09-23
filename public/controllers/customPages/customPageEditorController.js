@@ -7,7 +7,10 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
     if ($routeParams.id) {
         $http.get('/api/customPages/' + $routeParams.id)
             .success(function (data, status) {
+                data.dateStart = new Date(data.dateStart);
+                data.dateEnd = new Date(data.dateEnd);
                 $scope.customPage = data;
+                $scope.urlConfiguration = data.urlConfiguration;
                 $scope.pageTitle = data.name;
             }).error(function (data, status) {
                 $location.path('customPages');
