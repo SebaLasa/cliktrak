@@ -63,6 +63,8 @@ model.Page = mongoose.model('pages', new Schema({
     title: { type: String, required: true },
     html: { type: String, required: true },
     forCustomPages: { type: Boolean, required: true },
+    quantityDynamicBarcodes: { type: Number, required: true, default: 0 },
+    quantityDynamicQrCodes: { type: Number, required: true, default: 0 },
     enabled: { type: Boolean, required: true, default: true },
     deleted: { type: Boolean, required: true, default: false }
 }).plugin(timestamps));

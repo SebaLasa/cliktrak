@@ -54,7 +54,7 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
             });
     } else {
         $scope.pageTitle = 'Nueva página';
-        $scope.page = { forCustomPages: false };
+        $scope.page = { forCustomPages: false, quantityDynamicBarcodes: 0, quantityDynamicQrCodes: 0 };
         $scope.urlConfiguration = {};
         registerWatchers();
     }
@@ -71,15 +71,15 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.page.html += '<img class="staticQr" src="/images/codes/qrS.png"/>';
     };
     $scope.addDynamicBarcode = function () {
-        var count = $($scope.page.html).find('.dynamicBarcode').length;
-        if (count > 8) {
+        $scope.page.quantityDynamicBarcodes = $($scope.page.html).find('.dynamicBarcode').length;
+        if ($scope.page.quantityDynamicBarcodes > 8) {
             return alert('Ha alcanzado el número máximo de códigos de barras dinámicos.');
         }
         $scope.page.html += '<img class="dynamicBarcode dynamicBarcode' + count + '" src="/images/codes/bc' + count + '.png"/>';
     };
     $scope.addDynamicQrCode = function () {
-        var count = $($scope.page.html).find('.dynamicQr').length;
-        if (count > 8) {
+        $scope.page.quantityDynamicQrCodes = $($scope.page.html).find('.dynamicQr').length;
+        if ($scope.page.quantityDynamicQrCodes > 8) {
             return alert('Ha alcanzado el número máximo de códigos QR dinámicos.');
         }
         $scope.page.html += '<img class="dynamicQr dynamicQr' + count + '" src="/images/codes/qr' + count + '.png"/>';
