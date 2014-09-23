@@ -83,14 +83,14 @@ function generateMessages(task, callback) {
                         return callback(err);
                     }
                     var matches = _.compact(customPageValues.map(function (customValue) {
-                        var contact = contacts.find(function (contact) {
+                        var contact = _.find(contacts, function (contact) {
                             return contact[task.contactFieldMatch] == customValue[task.paramToMatchWithContacts]
                         });
                         return contact ? { contact: contact, customValue: customValue } : null;
                     }));
 
                     var fields = getTemplateMessageFields(task.message);
-                    matches.each(function (match) {
+                    _.forEach(matches, function (match) {
                         task.messages.push({
                             contact: match.contact._id,
                             email: match.contact.email,

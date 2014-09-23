@@ -119,11 +119,12 @@ module.exports = function (router) {
                     async.eachSeries(_.rest(output), function (data, callback) {
                         var value = new model.CustomPageValue(data);
                         value.customPage = customPage._id;
+                        value.urlGenerated = domain + '/c/' + value._id;
                         value.save(function (err, value) {
                             if (err) {
                                 return callback(err);
                             }
-                            result[i++] += ';' + domain + '/c/' + value._id;
+                            result[i++] += ';' + value.urlGenerated;
                             callback();
                         });
                     }, function (err) {
