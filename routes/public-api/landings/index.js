@@ -100,23 +100,30 @@ module.exports = function (router) {
                     var columns = _.map(_.range(15), function (x) {
                         return 'parameter' + x;
                     });
-                    console.log(landing);
                     _.forEach(columns,function (x){
                         var searchString = '[['+x+']]';
                         var replaceValue = customPageValues[x] ? customPageValues[x] : '';
-                        console.log(searchString+" : "+replaceValue);
                         landing = landing.replace(searchString,replaceValue)
                     });
 
-                    if (customPage.urlConfiguration.qrGenerated) {
-                        landing += '<img src="/public-api/qr/' + customPage.urlConfiguration.qrSize + '/'
-                            + customPage.urlConfiguration.qrData + '" />';
-                    }
-                    if (customPage.urlConfiguration.barcodeGenerated) {
-                        landing += '<img src="/public-api/barcode/' + customPage.urlConfiguration.barcodeSize + '/'
-                            + customPage.urlConfiguration.barcodeData + '" />';
-                    }
-                    res.send(landing);
+                    model.UrlConfiguration.findOne({_id:customPage.page.urlConfiguration}, function (err, urlConfig){
+                        if (err) {
+                            return next(Error.create('An error occurred trying to find the custom page.', err));
+                        }
+
+                        customPage.urlConfiguration = _.assign(customPage.urlConfiguration,urlConfig);
+                        if (customPage.urlConfiguration.qrGenerated) {
+                            landing =landing.replace('<img class="staticQr" src="images/codes/qrS.png" alt="" />','<img src="/public-api/qr/' + customPage.urlConfiguration.qrSize + '/'
+                                + customPage.urlConfiguration.qrData + '" />');
+                        }
+                        if (customPage.urlConfiguration.barcodeGenerated) {
+                            landing =landing.replace('<img class="staticBarcode" src="images/codes/bcS.gif" alt="" />','<img src="/public-api/barcode/' + customPage.urlConfiguration.barcodeSize + '/'
+                                + customPage.urlConfiguration.barcodeData + '" />');
+                        }
+                        res.send(landing);
+                    });
+
+
                 });
         });
     });
