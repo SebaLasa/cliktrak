@@ -3,11 +3,11 @@ var model = app.model,
     validate = app.validation.validate,
     query = app.data.query,
     _ = require('lodash'),
-    contentGeneration = require("../../../services/contentGeneration")
-    codeConverter = require('../../../services/codeConverter.js');
+    contentGeneration = require("../../services/contentGeneration")
+    codeConverter = require('../..//services/codeConverter.js');
 
 module.exports = function (router) {
-    router.use(require('../../trackingMiddleware.js')());
+    router.use(require('../trackingMiddleware.js')());
     function addBarcodeAndSend(page, next, landing, res) {
         codeConverter.toBarcode(page.urlConfiguration.barcodeData, {}, function (err, dataUrl) {
             if (err) {

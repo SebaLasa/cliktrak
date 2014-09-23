@@ -257,4 +257,7 @@ module.exports = function (router) {
 
     router.use('/public-api',
         require('./public-api')(express.Router()));
+
+    router.use('/',
+        require('./landings')(express.Router()));
 };
