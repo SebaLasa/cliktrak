@@ -53,12 +53,12 @@ module.exports = function (router) {
 
                     var landing = page.html;
                     if (page.urlConfiguration.qrGenerated) {
-                        landing += '<img src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
-                            + page.urlConfiguration.qrData + '" />';
+                        landing =landing.replace('<img class="staticQr" src="images/codes/qrS.png" alt="" />','<img src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
+                            + page.urlConfiguration.qrData + '" />');
                     }
                     if (page.urlConfiguration.barcodeGenerated) {
-                        landing += '<img src="/public-api/barcode/' + page.urlConfiguration.barcodeSize + '/'
-                            + page.urlConfiguration.barcodeData + '" />';
+                        landing =landing.replace('<img class="staticBarcode" src="images/codes/bcS.gif" alt="" />','<img src="/public-api/barcode/' + page.urlConfiguration.barcodeSize + '/'
+                            + page.urlConfiguration.barcodeData + '" />');
                     }
                     res.send(landing);
                 });
