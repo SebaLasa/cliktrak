@@ -1,7 +1,6 @@
 var model = app.model,
     validate = app.validation.validate,
     _ = require('lodash'),
-    _s = require('underscore.string'),
     async = require('async'),
     multiparty = require('multiparty'),
     csvparse = require('csv-parse');
@@ -29,49 +28,66 @@ module.exports = function (router) {
     });
 
     router.post('/customPages', function (req, res, next) {
-        var customPage = new model.CustomPage(req.body);
-        customPage.editor = req.user._id;
-        customPage.company = req.company._id;
-        model.CustomPage.find({company: req.company._id}).sort('-internalId').findOne(function (err, lastPage) {
+        var urlConfiguration = new model.UrlConfiguration(req.body.urlConfiguration);
+        urlConfiguration.save(function (err, urlConfiguration) {
             if (err) {
-                return next(Error.create('An error occurred trying get the last Custom Page.', { }, err));
+                return next(Error.create('An error occurred trying save the URL configuration.', { }, err));
             }
-            customPage = lastPage ? lastPage.internalId + 1 : 1;
-            customPage.save(function (err, customPage) {
+            var customPage = new model.CustomPage(req.body);
+            customPage.editor = req.user._id;
+            customPage.company = req.company._id;
+            customPage.urlConfiguration = urlConfiguration._id;
+            model.CustomPage.find({company: req.company._id}).sort('-internalId').findOne(function (err, lastPage) {
                 if (err) {
-                    return next(Error.create('An error occurred trying save the Custom Page.', { }, err));
+                    return next(Error.create('An error occurred trying get the last Custom Page.', { }, err));
                 }
-                res.status(201).end();
+                customPage = lastPage ? lastPage.internalId + 1 : 1;
+                customPage.save(function (err, customPage) {
+                    if (err) {
+                        return next(Error.create('An error occurred trying save the Custom Page.', { }, err));
+                    }
+                    res.status(201).end();
+                });
             });
         });
     });
 
     router.put('/customPages/:id', function (req, res, next) {
-        delete req.body._id;
+        delete req.body.customPage._id;
+        delete req.body.customPage.urlConfiguration;
+        delete req.body.urlConfiguration._id;
         req.body.editor = req.user._id;
-        model.CustomPage.findByIdAndUpdate(req.params.id, req.body, function (err, customPage) {
+        model.CustomPage.findOneAndUpdate({_id: req.params.id, deleted: false, company: req.company._id}, req.body.customPage, function (err, customPage) {
             if (err) {
                 return next(Error.create('An error occurred trying update the Custom Page.', { }, err));
             }
+            if (!customPage) {
+                return res.status(404).end();
+            }
+            model.UrlConfiguration.findByIdAndUpdate(customPage.urlConfiguration, req.body.urlConfiguration, function (err, urlConfiguration) {
+                if (err) {
+                    return next(Error.create('An error occurred trying update the URL configuration.', { }, err));
+                }
+                res.status(200).end();
+            });
             res.send(200);
         });
     });
 
     router.delete('/customPages/:id', function (req, res, next) {
-        model.CustomPage.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, customPage) {
+        var customPage = {
+            editor: req.user._id,
+            company: req.company._id,
+            deleted: true
+        };
+        model.CustomPage.findOneAndUpdate({_id: req.params.id, deleted: false, company: req.company._id}, customPage, function (err, customPage) {
             if (err) {
                 return next(Error.create('An error occurred trying get the custom Page.', { }, err));
             }
             if (!customPage) {
                 return res.status(404).end();
             }
-            customPage.deleted = true;
-            customPage.save(function (err) {
-                if (err) {
-                    return next(Error.create('An error occurred trying delete the custom Page.', { }, err));
-                }
-                res.status(200).end();
-            });
+            res.status(200).end();
         });
     });
 
