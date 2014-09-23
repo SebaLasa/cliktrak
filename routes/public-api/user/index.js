@@ -39,7 +39,6 @@ module.exports = function (router) {
         if (!regId) {
             return res.status(400).json({ message: 'Invalid registration Id!'});
         }
-        console.log(req);
         model.User.findOne({ registrationId: regId, disabled: false }, function (err, user) {
             if (err) {
                 return next(Error.create('An error occurred trying to find the user.', { registrationId: regId }, err));
