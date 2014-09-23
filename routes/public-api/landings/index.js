@@ -2,6 +2,7 @@ var model = app.model,
     hash = app.security.hash,
     validate = app.validation.validate,
     query = app.data.query,
+    _ = require('lodash'),
     codeConverter = require('../../../services/codeConverter.js');
 
 module.exports = function (router) {
@@ -52,12 +53,12 @@ module.exports = function (router) {
 
                     var landing = page.html;
                     if (page.urlConfiguration.qrGenerated) {
-                        landing += '<img src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
-                            + page.urlConfiguration.qrData + '" />';
+                        landing =landing.replace('<img class="staticQr" src="images/codes/qrS.png" alt="" />','<img src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
+                            + page.urlConfiguration.qrData + '" />');
                     }
                     if (page.urlConfiguration.barcodeGenerated) {
-                        landing += '<img src="/public-api/barcode/' + page.urlConfiguration.barcodeSize + '/'
-                            + page.urlConfiguration.barcodeData + '" />';
+                        landing =landing.replace('<img class="staticBarcode" src="images/codes/bcS.gif" alt="" />','<img src="/public-api/barcode/' + page.urlConfiguration.barcodeSize + '/'
+                            + page.urlConfiguration.barcodeData + '" />');
                     }
                     res.send(landing);
                 });
@@ -69,22 +70,16 @@ module.exports = function (router) {
         if (!req.params.id) {
             return res.json(400, { message: 'Invalid code, try again by clicking on the link that has been sent.'});
         }
-        var ids = req.params.id.split('.');
-        var idComp = ids[0];
-        var idPag = ids[1];
 
-        if (!idPag) {
-            return res.json(400, { message: 'Invalid page and company id!'});
-        }
-        model.Company.findOne({internalId: idComp}, function (err, comp) {
+        model.CustomPageValue.findOne({_id: req.params.id}, function (err, customPageValues) {
             if (err) {
-                return next(Error.create('An error occurred trying to find the company.', {companyId: idComp}, err));
+                return next(Error.create('An error occurred trying to find your page.', err));
             }
-            if (!comp) {
-                return res.json(404, { message: 'Company not found!' });
+            if (!customPageValues) {
+                return res.json(404, { message: 'Page not found!' });
             }
 
-            model.CustomPage.findOne({internalId: idPag, company: comp._id})
+            model.CustomPage.findOne({_id: customPageValues.customPage})
                 .populate(['urlConfiguration', 'company', 'page'])
                 .exec(function (err, customPage) {
                     if (err) {
@@ -101,15 +96,34 @@ module.exports = function (router) {
                     });
 
                     var landing = customPage.page.html;
-                    if (customPage.urlConfiguration.qrGenerated) {
-                        landing += '<img src="/public-api/qr/' + customPage.urlConfiguration.qrSize + '/'
-                            + customPage.urlConfiguration.qrData + '" />';
-                    }
-                    if (customPage.urlConfiguration.barcodeGenerated) {
-                        landing += '<img src="/public-api/barcode/' + customPage.urlConfiguration.barcodeSize + '/'
-                            + customPage.urlConfiguration.barcodeData + '" />';
-                    }
-                    res.send(landing);
+
+                    var columns = _.map(_.range(15), function (x) {
+                        return 'parameter' + x;
+                    });
+                    _.forEach(columns,function (x){
+                        var searchString = '[['+x+']]';
+                        var replaceValue = customPageValues[x] ? customPageValues[x] : '';
+                        landing = landing.replace(searchString,replaceValue)
+                    });
+
+                    model.UrlConfiguration.findOne({_id:customPage.page.urlConfiguration}, function (err, urlConfig){
+                        if (err) {
+                            return next(Error.create('An error occurred trying to find the custom page.', err));
+                        }
+
+                        customPage.urlConfiguration = _.assign(customPage.urlConfiguration,urlConfig);
+                        if (customPage.urlConfiguration.qrGenerated) {
+                            landing =landing.replace('<img class="staticQr" src="images/codes/qrS.png" alt="" />','<img src="/public-api/qr/' + customPage.urlConfiguration.qrSize + '/'
+                                + customPage.urlConfiguration.qrData + '" />');
+                        }
+                        if (customPage.urlConfiguration.barcodeGenerated) {
+                            landing =landing.replace('<img class="staticBarcode" src="images/codes/bcS.gif" alt="" />','<img src="/public-api/barcode/' + customPage.urlConfiguration.barcodeSize + '/'
+                                + customPage.urlConfiguration.barcodeData + '" />');
+                        }
+                        res.send(landing);
+                    });
+
+
                 });
         });
     });
