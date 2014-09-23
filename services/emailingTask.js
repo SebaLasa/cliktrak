@@ -11,7 +11,6 @@ module.exports.run = function (cb) {
             return cb(err);
         }
         async.each(tasks, function (task, messageCallback) {
-
             if (!task.page) {
                 return generateMessages(task, messageCallback);
             }
@@ -27,7 +26,6 @@ module.exports.run = function (cb) {
                     return !!message.dateSent;
                 });
             });
-
             sendEmails(tasks, cb);
         });
     });
@@ -43,7 +41,6 @@ function getTemplateMessageFields(message) {
             property: match[1]
         });
     }
-
     return matches;
 }
 
