@@ -11,6 +11,7 @@ module.exports.run = function (cb) {
             return cb(err);
         }
         async.each(tasks, function (task, messageCallback) {
+
             if (!task.page) {
                 return generateMessages(task, messageCallback);
             }
@@ -67,22 +68,20 @@ function getCompiledMessageTemplate(task, fields, contact, customValue) {
 }
 
 function generateMessages(task, callback) {
-    if (!task.messages || !task.messages.length) {
+    if (task.state != model.enums.taskStates[0]) {
         return callback();
     }
+    task.state = model.enums.taskStates[1];
     if (!task.contacts || !task.contacts.length) {
         if (!task.contactFieldMatch || !task.paramToMatchWithContacts) {
             return callback();
         }
 
         model.Contact.find({company: task.company, deleted: false}, function (err, contacts) {
-
                 if (err) {
                     return callback(err);
                 }
-
                 model.CustomPageValue.find({customPage: task.customPage}, function (err, customPageValues) {
-
                     if (err) {
                         return callback(err);
                     }
@@ -110,7 +109,7 @@ function generateMessages(task, callback) {
 
     var fields = getTemplateMessageFields(task.message);
     task.contacts.map(function (contact) {
-        task.messages.push( {
+        task.messages.push({
             contact: contact._id,
             email: contact.email,
             message: getCompiledMessageTemplate(task, fields, contact)
@@ -141,6 +140,7 @@ function sendEmails(tasks, callback) {
             });
         }, function (err) {
             task.error = err;
+            task.state = model.enums.taskStates[err ? 3 : 2];
             task.save(function (err) {
                 taskCallback(err);
             });
