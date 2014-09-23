@@ -46,6 +46,7 @@ module.exports = function (router) {
                 email.editor = campaign.editor;
                 email.page = campaign.page;
                 email.customPage = campaign.customPage;
+                email.state = model.enums.taskStates[0];
                 email.save(function (err, email) {
                     if (err) {
                         return next(Error.create('An error occurred trying save the Email Task.', { }, err));

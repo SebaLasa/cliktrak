@@ -164,16 +164,17 @@ model.Campaign = mongoose.model('campaigns', new Schema({
 
 var emailing = model.emailing = {};
 emailing.Task = mongoose.model('emailing.tasks', new Schema({
-    subject: {type: String, required: true},
+    subject: { type: String, required: true },
     message: { type: String, required: true },
     company: { type: ObjectId, ref: 'companies', required: true },
     campaign: { type: ObjectId, ref: 'campaigns', required: true },
     page: { type: ObjectId, ref: 'pages' },
     customPage: { type: ObjectId, ref: 'customPages' },
     editor: { type: ObjectId, ref: 'users', required: true },
+    state: { type: String, enum: model.enums.taskStates, required: true },
     dateStart: { type: Date, required: true },
     dateEnd: { type: Date, required: true },
-    startTime: {type: String},
+    startTime: { type: String },
     contactFieldMatch: { type: String },
     paramToMatchWithContacts: { type: String },
     contacts: [
