@@ -41,7 +41,8 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="keywords">Keywords SEO</label>
-                    <input type="text" id="keywords" name="keywords" ng-model="urlConfiguration.keywords" class="form-control"/>
+                    <input type="text" id="keywords" name="keywords" ng-model="urlConfiguration.keywords"
+                           class="form-control"/>
                 </div>
             </div>
         </div>
@@ -66,12 +67,27 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="page">Página</label>
-                    <select id="page" name="page" ng-model="customPage.page"
-                            ng-options="page._id as page.name for page in pages" class="form-control"></select>
+                    <select id="page" name="page" ng-model="page" ng-options="page.name for page in pages"
+                            ng-change="pageSelected()" class="form-control"></select>
                 </div>
             </div>
         </div>
-        <br/>
-        <input type="submit" value="Guardar" class="btn btn-primary"/>
+        <div ng-show="barcodes && barcodes.length > 0">
+            <h4>Códigos de barras</h4>
+
+            <div class="row" ng-repeat="barcode in barcodes track by $index">
+                <label>Código de barras {{$index + 1}}</label>
+                <custom-values selected="barcode.value"></custom-values>
+            </div>
+        </div>
+        <div ng-show="qrCodes && qrCodes.length > 0">
+            <h4>Códigos QR</h4>
+
+            <div class="row" ng-repeat="qrCode in qrCodes track by $index">
+                <label>Código QR {{$index + 1}}</label>
+                <custom-values selected="qrCode.value"></custom-values>
+            </div>
+            <br/>
+            <input type="submit" value="Guardar" class="btn btn-primary"/>
     </form>
 </div>
