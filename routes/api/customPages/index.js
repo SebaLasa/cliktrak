@@ -19,7 +19,7 @@ module.exports = function (router) {
         if (!validate.objectId(req.params.id)) {
             return res.send(400);
         }
-        model.CustomPage.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, customPage) {
+        model.CustomPage.findOne({_id: req.params.id, deleted: false, company: req.company._id}).populate(['urlConfiguration']).exec(function (err, customPage) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Custom Page.', { }, err));
             }
@@ -33,7 +33,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying save the URL configuration.', { }, err));
             }
-            var customPage = new model.CustomPage(req.body);
+            var customPage = new model.CustomPage(req.body.customPage);
             customPage.editor = req.user._id;
             customPage.company = req.company._id;
             customPage.urlConfiguration = urlConfiguration._id;
@@ -41,7 +41,7 @@ module.exports = function (router) {
                 if (err) {
                     return next(Error.create('An error occurred trying get the last Custom Page.', { }, err));
                 }
-                customPage = lastPage ? lastPage.internalId + 1 : 1;
+                customPage.internalId = lastPage ? lastPage.internalId + 1 : 1;
                 customPage.save(function (err, customPage) {
                     if (err) {
                         return next(Error.create('An error occurred trying save the Custom Page.', { }, err));
