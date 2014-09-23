@@ -3,10 +3,11 @@ var model = app.model,
     validate = app.validation.validate,
     query = app.data.query,
     _ = require('lodash'),
-    codeConverter = require('../../../services/codeConverter.js');
+    contentGeneration = require("../../services/contentGeneration")
+    codeConverter = require('../../services/codeConverter.js');
 
 module.exports = function (router) {
-    router.use(require('../../trackingMiddleware.js')());
+    router.use(require('../trackingMiddleware.js')());
     function addBarcodeAndSend(page, next, landing, res) {
         codeConverter.toBarcode(page.urlConfiguration.barcodeData, {}, function (err, dataUrl) {
             if (err) {
@@ -39,7 +40,7 @@ module.exports = function (router) {
             }
 
             model.Page.findOne({internalId: idPag, company: comp._id})
-                .populate(['urlConfiguration', 'company', 'layout'])
+                .populate(['urlConfiguration', 'company','layout'])
                 .exec(function (err, page) {
                     if (err) {
                         return next(Error.create('An error occurred trying to find the page.', {pageId: idPag}, err));
@@ -51,23 +52,13 @@ module.exports = function (router) {
                     req.trackedClick.page = page;
                     req.trackedClick.save();
 
-                    var landing = '<html><link rel="stylesheet" href="/stylesheets/landing.css"><style>footer{background-color:'
-                        + page.layout.footerBackgroundColor
-                        + ';}</style><head></head><body><header><img class="layoutHeaderImage" src="/'
-                        + page.layout.image + '" /></header>' + page.html;
-                    if (page.urlConfiguration.qrGenerated) {
 
-                        var qrCodeSource = 'src="/public-api/qr/' + page.urlConfiguration.qrSize + '/'
-                            + page.urlConfiguration.qrData;
-                        landing = landing.replace('src="/images/codes/qrS.png', qrCodeSource);
-                    }
-                    if (page.urlConfiguration.barcodeGenerated) {
-                        var barcodeSource = 'src="/public-api/barcode/' + page.urlConfiguration.barcodeSize + '/'
-                            + page.urlConfiguration.barcodeData;
-                        landing = landing.replace('src="images/codes/bcS.gif', barcodeSource);
-                    }
-                    landing += '<footer>' + page.layout.footer + '</footer>';
-                    res.send(landing + '</body></html>');
+                    var content = page.html;
+                    content = contentGeneration.replaceCodes(page.urlConfiguration,content);
+                    var pageContent = contentGeneration.gluePage(page.layout, content);
+
+                    res.send(pageContent);
+
                 });
         });
     });
@@ -87,7 +78,7 @@ module.exports = function (router) {
             }
 
             model.CustomPage.findOne({_id: customPageValues.customPage})
-                .populate(['urlConfiguration', 'company', 'page'])
+                .populate(['urlConfiguration', 'company'])
                 .exec(function (err, customPage) {
                     if (err) {
                         return next(Error.create('An error occurred trying to find the custom page.', {internalId: idPag}, err));
@@ -102,32 +93,21 @@ module.exports = function (router) {
                             console.log(err);
                     });
 
-                    var landing = customPage.page.html;
-
-                    var columns = _.map(_.range(15), function (x) {
-                        return 'parameter' + x;
-                    });
-                    _.forEach(columns,function (x){
-                        var searchString = '[['+x+']]';
-                        var replaceValue = customPageValues[x] ? customPageValues[x] : '';
-                        landing = landing.replace(searchString,replaceValue)
-                    });
-
-                    model.UrlConfiguration.findOne({_id:customPage.page.urlConfiguration}, function (err, urlConfig){
+                    model.Page.findOne({_id:customPage.page})
+                        .populate(['urlConfiguration','layout'])
+                        .exec(function (err, page){
                         if (err) {
-                            return next(Error.create('An error occurred trying to find the custom page.', err));
+                            return next(Error.create('An error occurred trying to find the page.', err));
                         }
 
-                        customPage.urlConfiguration = _.assign(customPage.urlConfiguration,urlConfig);
-                        if (customPage.urlConfiguration.qrGenerated) {
-                            landing =landing.replace('<img class="staticQr" src="images/codes/qrS.png" alt="" />','<img src="/public-api/qr/' + customPage.urlConfiguration.qrSize + '/'
-                                + customPage.urlConfiguration.qrData + '" />');
-                        }
-                        if (customPage.urlConfiguration.barcodeGenerated) {
-                            landing =landing.replace('<img class="staticBarcode" src="images/codes/bcS.gif" alt="" />','<img src="/public-api/barcode/' + customPage.urlConfiguration.barcodeSize + '/'
-                                + customPage.urlConfiguration.barcodeData + '" />');
-                        }
-                        res.send(landing);
+                        var urlConfiguration = _.assign(customPage.urlConfiguration,page.urlConfiguration);
+
+                        var content = page.html;
+                        content = contentGeneration.replaceCodes(urlConfiguration,content);
+                        content = contentGeneration.replaceParameters(customPageValues, content);
+                        var pageContent = contentGeneration.gluePage(page.layout, content);
+
+                        res.send(pageContent);
                     });
 
 
