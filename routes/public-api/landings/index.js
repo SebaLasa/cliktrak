@@ -3,7 +3,7 @@ var model = app.model,
     validate = app.validation.validate,
     query = app.data.query,
     _ = require('lodash'),
-    contentGeneration = require("../../../toolkit/contentGeneration")
+    contentGeneration = require("../../../services/contentGeneration")
     codeConverter = require('../../../services/codeConverter.js');
 
 module.exports = function (router) {
