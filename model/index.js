@@ -137,7 +137,6 @@ model.UrlConfiguration = mongoose.model('urlConfigurations', new Schema({
     urlExpired: { type: String },
     urlGenerated: { type: String },
     keywords: { type: String },
-
     subdomain: { type: String, required: true },
     isTracked: { type: Boolean, required: true, default: false},
     canAccessWithoutData: { type: Boolean, required: true, default: false }
