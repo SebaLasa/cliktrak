@@ -28,11 +28,11 @@
             {{customPage.name}}
         </div>
         <div class="col-md-1">
-           <span class="label label-bg label-primary" ng-show="customPage.type == 'withLoad'">
-                <span class="glyphicon glyphicon-floppy-disk" title="Con carga de datos."></span>
+           <span class="label label-success" ng-show="page.urlConfiguration.isTracked">
+                <span class="glyphicon glyphicon-hand-up" title="Seguimiento de clicks activado."></span>
             </span>
-             <span class="label label-bg label-danger" ng-hide="customPage.type == 'withLoad'">
-                <span class="glyphicon glyphicon-floppy-remove" title="Sin carga de datos."></span>
+            <span class="label label-danger" ng-hide="page.urlConfiguration.isTracked">
+                <span class="glyphicon glyphicon-hand-up" title="Seguimiento de clicks desactivado."></span>
             </span>
         </div>
         <div class="col-md-1">
@@ -66,8 +66,10 @@
         </div>
     </div>
     <div ng-show="customPage">
-        <form name="uploadValuesForm" action="{{'/api/customPages/upload/' + customPage._id}}" method="post" enctype="multipart/form-data">
+        <form name="uploadValuesForm" action="{{'/api/customPages/upload/' + customPage._id}}" method="post"
+              enctype="multipart/form-data">
             <h3>Subir CSV a {{customPage.name}}</h3>
+
             <div class="btn-group">
                 <span class="btn btn-default fileinput-button">
                     <span class="glyphicon glyphicon-folder-open"></span>
