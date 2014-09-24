@@ -55,7 +55,6 @@ module.exports = function (router) {
                 });
             });
         });
-
     });
 
     router.put('/campaigns/:id', function (req, res, next) {

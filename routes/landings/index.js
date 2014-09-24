@@ -14,7 +14,7 @@ module.exports = function (router) {
     console.log('Loading landing module...');
     router.use(require('../trackingMiddleware.js')());
     function addBarcodeAndSend(page, next, landing, res) {
-        codeConverter.toBarcode(page.urlConfiguration.barcodeData, {}, function (err, dataUrl) {
+        codeConverter.toBarcode(page.barcodeData, {}, function (err, dataUrl) {
             if (err) {
                 return next(Error.create('An error occurred generating the barcode.', err));
             }
@@ -58,6 +58,7 @@ module.exports = function (router) {
                         }
                     });
 
+                    // TODO AN add validation subdomain.
                     // TODO AN add validation page disabled.
                     var content = page.html;
                     content = contentGeneration.replaceCodes(page, content);
@@ -97,14 +98,17 @@ module.exports = function (router) {
                     }
                 });
 
+                // TODO AN add validation subdomain.
                 // TODO AN add validation page expired.
                 model.Page.findById(customPage.page).populate(['urlConfiguration', 'layout']).exec(function (err, page) {
                     if (err) {
                         return next(Error.create('An error occurred trying to find the page.', err));
                     }
-
+                    if (!page) {
+                        return renderInvalidCodePage(res);
+                    }
                     var content = page.html;
-                    content = contentGeneration.replaceCodes(customPage.urlConfiguration, content);
+                    content = contentGeneration.replaceCodes(page, content);
                     content = contentGeneration.replaceParameters(customPageValues, content);
                     var pageContent = contentGeneration.gluePage(page.layout, content);
 
