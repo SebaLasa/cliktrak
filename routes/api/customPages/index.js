@@ -64,7 +64,6 @@ module.exports = function (router) {
             if (!customPage) {
                 return res.status(404).end();
             }
-            console.log(customPage.urlConfiguration);
             model.UrlConfiguration.findByIdAndUpdate(customPage.urlConfiguration, req.body.urlConfiguration, function (err, urlConfiguration) {
                 if (err) {
                     return next(Error.create('An error occurred trying update the URL configuration.', { }, err));
