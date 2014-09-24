@@ -3,12 +3,12 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.$watch(function () {
             return $($scope.page.html).find('.staticBarcode').length;
         }, function (newValue) {
-            $scope.urlConfiguration.barcodeGenerated = !!newValue;
+            $scope.page.barcodeGenerated = !!newValue;
         });
         $scope.$watch(function () {
             return $($scope.page.html).find('.staticQr').length;
         }, function (newValue) {
-            $scope.urlConfiguration.qrGenerated = !!newValue;
+            $scope.page.qrGenerated = !!newValue;
         });
         $scope.$watch(function () {
             return $($scope.page.html).find('.dynamicQr').length;
