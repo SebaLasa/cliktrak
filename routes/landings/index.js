@@ -62,7 +62,7 @@ module.exports = function (router) {
                     // TODO AN add validation page disabled.
                     // TODO AN add validation page deleted.
                     var content = page.html;
-                    content = contentGeneration.replaceCodes(page, content);
+                    content = contentGeneration.replaceStaticCodes(page, content);
                     var pageContent = contentGeneration.gluePage(page.layout, content);
 
                     res.send(pageContent);
@@ -108,7 +108,10 @@ module.exports = function (router) {
                         return renderInvalidCodePage(res);
                     }
                     var content = page.html;
-                    content = contentGeneration.replaceCodes(page, content);
+                    console.log(content);
+                    content = contentGeneration.replaceStaticCodes(page, content);
+                    content = contentGeneration.replaceDynamicCodes(customPage,customPageValues, content);
+
                     content = contentGeneration.replaceParameters(customPageValues, content);
                     var pageContent = contentGeneration.gluePage(page.layout, content);
 
