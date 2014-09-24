@@ -60,6 +60,7 @@ module.exports = function (router) {
 
                     // TODO AN add validation subdomain.
                     // TODO AN add validation page disabled.
+                    // TODO AN add validation page deleted.
                     var content = page.html;
                     content = contentGeneration.replaceCodes(page, content);
                     var pageContent = contentGeneration.gluePage(page.layout, content);
@@ -74,7 +75,6 @@ module.exports = function (router) {
         if (!req.params.id) {
             return renderInvalidCodePage(res);
         }
-
         model.CustomPageValue.findById(req.params.id, function (err, customPageValues) {
             if (err) {
                 return next(Error.create('An error occurred trying to find your page.', err));
@@ -82,10 +82,9 @@ module.exports = function (router) {
             if (!customPageValues) {
                 return renderInvalidCodePage(res);
             }
-
             model.CustomPage.findById(customPageValues.customPage).populate(['urlConfiguration', 'company']).exec(function (err, customPage) {
                 if (err) {
-                    return next(Error.create('An error occurred trying to find the custom page.', {internalId: idPag}, err));
+                    return next(Error.create('An error occurred trying to find the custom page.', { id: customPageValues.customPage }, err));
                 }
                 if (!customPage) {
                     return renderInvalidCodePage(res);
@@ -99,6 +98,7 @@ module.exports = function (router) {
                 });
 
                 // TODO AN add validation subdomain.
+                // TODO AN add validation page deleted.
                 // TODO AN add validation page expired.
                 model.Page.findById(customPage.page).populate(['urlConfiguration', 'layout']).exec(function (err, page) {
                     if (err) {
