@@ -110,8 +110,6 @@ module.exports = function (router) {
 
                         res.send(pageContent);
                     });
-
-
                 });
         });
     });
