@@ -63,6 +63,8 @@ model.Page = mongoose.model('pages', new Schema({
     title: { type: String, required: true },
     html: { type: String, required: true },
     forCustomPages: { type: Boolean, required: true },
+    quantityDynamicBarcodes: { type: Number, required: true, default: 0 },
+    quantityDynamicQrCodes: { type: Number, required: true, default: 0 },
     enabled: { type: Boolean, required: true, default: true },
     deleted: { type: Boolean, required: true, default: false }
 }).plugin(timestamps));
@@ -78,7 +80,13 @@ model.CustomPage = mongoose.model('customPages', new Schema({
     internalId: { type: Number, required: true },
     dateStart: { type: Date, required: true },
     dateEnd: { type: Date, required: true },
-    deleted: { type: Boolean, required: true, default: false }
+    deleted: { type: Boolean, required: true, default: false },
+    barcodes: [
+        { value: { type: String, required: true } }
+    ],
+    qrCodes: [
+        { value: { type: String, required: true } }
+    ]
 }).plugin(timestamps));
 
 model.PageImage = mongoose.model('pageImages', new Schema({

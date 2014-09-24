@@ -19,6 +19,17 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
         $scope.pageTitle = 'Nueva página personalizada';
     }
 
+    $scope.pageSelected = function () {
+        var page = _.find($scope.pages, { _id: $scope.customPage.page });
+
+        $scope.customPage.barcodes = _.map(_.range(page.quantityDynamicBarcodes), function () {
+            return {};
+        });
+        $scope.customPage.qrCodes = _.map(_.range(page.quantityDynamicQrCodes), function () {
+            return {};
+        });
+    };
+
     $scope.save = function () {
         var data = { customPage: $scope.customPage, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {

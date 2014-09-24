@@ -93,16 +93,16 @@
                 </div>
             </div>
         </div>
-        <div class="row" ng-show="!page.forCustomPages">
+        <div class="row">
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="qrGenerated">Generar código QR?</label>&nbsp;
                     <input type="checkbox" id="qrGenerated" name="qrGenerated" ng-model="urlConfiguration.qrGenerated"
-                           readonly/>
+                           disabled="disabled"/>
                 </div>
             </div>
         </div>
-        <div class="row" ng-show="!page.forCustomPages && urlConfiguration.qrGenerated">
+        <div class="row" ng-show="urlConfiguration.qrGenerated">
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="qrData">Valor</label>
@@ -111,15 +111,15 @@
                 </div>
             </div>
         </div>
-        <div class="row" ng-show="!page.forCustomPages">
+        <div class="row">
             <div class="col-md-6 form-group">
                 <div></div>
                 <label for="barcodeGenerated">Generar código de barras?</label>&nbsp;
                 <input type="checkbox" id="barcodeGenerated" name="barcodeGenerated"
-                       ng-model="urlConfiguration.barcodeGenerated" readonly/>
+                       ng-model="urlConfiguration.barcodeGenerated" disabled="disabled"/>
             </div>
         </div>
-        <div class="row" ng-show="!page.forCustomPages && urlConfiguration.barcodeGenerated">
+        <div class="row" ng-show="urlConfiguration.barcodeGenerated">
             <div class="col-md-6 form-group">
                 <label for="barcodeData">Valor</label>
                 <input type="text" id="barcodeData" name="barcodeData" ng-model="urlConfiguration.barcodeData"
