@@ -7,6 +7,7 @@ var model = app.model,
     codeConverter = require('../../services/codeConverter.js');
 
 module.exports = function (router) {
+    console.log('Loading landing module...');
     router.use(require('../trackingMiddleware.js')());
     function addBarcodeAndSend(page, next, landing, res) {
         codeConverter.toBarcode(page.urlConfiguration.barcodeData, {}, function (err, dataUrl) {

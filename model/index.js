@@ -81,8 +81,12 @@ model.CustomPage = mongoose.model('customPages', new Schema({
     dateStart: { type: Date, required: true },
     dateEnd: { type: Date, required: true },
     deleted: { type: Boolean, required: true, default: false },
-    barcodes: [String],
-    qrCodes: [String]
+    barcodes: [
+        { value: { type: String, required: true } }
+    ],
+    qrCodes: [
+        { value: { type: String, required: true } }
+    ]
 }).plugin(timestamps));
 
 model.PageImage = mongoose.model('pageImages', new Schema({

@@ -39,6 +39,5 @@ module.exports = function () {
         click.agent = agent;
         req.trackedClick = click;
         next();
-
     }
 };

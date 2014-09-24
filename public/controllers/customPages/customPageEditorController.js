@@ -20,14 +20,17 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
     }
 
     $scope.pageSelected = function () {
-        $scope.barcodes = new Array($scope.page.quantityDynamicBarcodes);
-        $scope.qrCodes = new Array($scope.page.quantityDynamicQrCodes);
+        var page = _.find($scope.pages, { _id: $scope.customPage.page });
+
+        $scope.customPage.barcodes = _.map(_.range(page.quantityDynamicBarcodes), function () {
+            return {};
+        });
+        $scope.customPage.qrCodes = _.map(_.range(page.quantityDynamicQrCodes), function () {
+            return {};
+        });
     };
 
     $scope.save = function () {
-        $scope.customPage.page = $scope.page._id;
-        $scope.customPage.barcodes = $scope.barcodes;
-        $scope.customPage.qrCodes = $scope.qrCodes;
         var data = { customPage: $scope.customPage, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {
             return $http.put('/api/customPages/' + $routeParams.id, data)
