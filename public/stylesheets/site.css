@@ -1,3 +1,84 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    height: 250px;
+    background-image: url("/images/home/bgHeader.jpg");
+}
+
+header .logo {
+    padding-top: 75px;
+}
+
+header .login {
+    padding-top: 100px;
+    font-size: 24px;
+    color: white;
+    text-decoration: none;
+}
+
+header .login div {
+    margin-top: 100px;
+    height: 60px;
+    width: 250px;
+    padding: 20px 0 0 0;
+    background-image: url("/images/home/btnLogin.png");
+}
+
+.home-section-1 {
+    margin-top: 30px;
+    height: 128px;
+    text-transform: uppercase;
+    color: #EA4F42;
+    font-size: 20px;
+    background: url('/images/home/lineMobile.jpg') no-repeat;
+}
+
+.home-section-2-title {
+    font-size: 24px;
+}
+
+.home-section-2 {
+    background-color: #333;
+    color: white;
+    font-size: 24px;
+    margin-top: 150px;
+    padding-bottom: 50px;
+    border: 0 solid #EA4F42;
+    border-top-width: 15px;
+}
+
+.home-section-2 img {
+    margin-top: -106px;
+}
+
+.home-section-3 {
+    font-size: 20px;
+    text-align: justify;
+    margin-top: 50px;
+}
+
+footer {
+    margin-top: 80px;
+}
+
+footer .line {
+    background-color: #333;
+    height: 8px;
+}
+
+footer .bottom {
+    background-image: url("/images/home/bgFooter.jpg");
+    height: 150px;
+    font-size: 20px;
+    color: white;
+}
+
+footer .bottom div {
+    padding-top: 80px;
+}
+
 .fileinput-button {
     position: relative;
     overflow: hidden;
