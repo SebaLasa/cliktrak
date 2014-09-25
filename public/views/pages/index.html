@@ -1,38 +1,30 @@
 <div class="container">
-    <a href="#/pages/new" class="btn btn-primary">Nueva página</a>
+    <h1>Páginas</h1>
 
-    <h2>Páginas</h2>
+    <a href="#/pages/new" class="btn btn-new">Nueva página</a>
 
-    <div class="row">
+    <div class="row row-header">
         <div class="col-md-2"><h4>Nombre</h4></div>
-        <div class="col-md-2"><h4>Estado</h4></div>
+        <div class="col-md-3"><h4>Estado</h4></div>
         <div class="col-md-2"><h4>Modificado</h4></div>
         <div class="col-md-2"><h4>Editor</h4></div>
+        <div class="com-md-2"></div>
     </div>
     <div ng-repeat="page in pages">
-        <div class="row">
+        <div class="row" ng-class-odd="'row-odd'" ng-class-even="'row-even'">
             <div class="col-md-2">{{page.name}}</div>
-            <div class="col-md-2">
-                <h4>
-                <span class="label label-info" ng-hide="page.forCustomPages">
-                    <span class="glyphicon glyphicon-file" title="Sólo puede ser usada como página estática."></span>
-                </span>
-                <span class="label label-info" ng-show="page.forCustomPages">
-                    <span class="glyphicon glyphicon-hand-up" title="Sólo puede ser usada en páginas dinámicas."></span>
-                </span>
-                <span class="label label-success" ng-show="page.urlConfiguration.isTracked">
-                    <span class="glyphicon glyphicon-hand-up" title="Seguimiento de clicks activado."></span>
-                </span>
-                <span class="label label-danger" ng-hide="page.urlConfiguration.isTracked">
-                    <span class="glyphicon glyphicon-hand-up" title="Seguimiento de clicks desactivado."></span>
-                </span>
-                <span class="label label-info" ng-show="page.barcodeGenerated">
-                    <span class="glyphicon glyphicon-barcode" title="Tiene código de barras."></span>
-                </span>
-                    <span class="label label-info" ng-show="page.qrGenerated">
-                    <span class="glyphicon glyphicon-qrcode" title="Tiene código QR."></span>
-                </span>
-                </h4>
+            <div class="col-md-3">
+                <span ng-hide="page.forCustomPages" class="clickicon clickicon-page"
+                      title="Sólo puede ser usada como página estática."></span>
+                <span ng-show="page.forCustomPages" class="clickicon clickicon-page-dynamic"
+                      title="Sólo puede ser usada en páginas dinámicas."></span>
+                <span ng-show="page.urlConfiguration.isTracked" class="clickicon clickicon-mouse-green"
+                      title="Seguimiento de clicks activado."></span>
+                <span ng-hide="page.urlConfiguration.isTracked" class="clickicon clickicon-mouse-red"
+                      title="Seguimiento de clicks desactivado."></span>
+                <span ng-show="page.barcodeGenerated" class="clickicon clickicon-barcode"
+                      title="Tiene código de barras."></span>
+                <span ng-show="page.qrGenerated" class="clickicon clickicon-qrcode" title="Tiene código QR."></span>
             </div>
             <div class="col-md-2">
                 {{page.updated_at | dateTimeFormat}}
@@ -40,23 +32,23 @@
             <div class="col-md-2">
                 {{page.editor.name}}
             </div>
-            <div class="col-md-3 btn-group">
-                <a href="#/pages/{{page._id}}" class="btn btn-sm btn-primary" title="Editar página">
-                    <span class="glyphicon glyphicon-pencil"></span>
+            <div class="col-md-3">
+                <a href="#/pages/{{page._id}}" title="Editar página">
+                    <span class="clickicon clickicon-pencil"></span>
                 </a>
-                <a ng-click="enable(page, false)" ng-show="page.enabled" class="btn btn-sm btn-success"
-                        title="La página está activa. Haga click para desactivar.">
-                    <span class="glyphicon glyphicon-ok-circle"></span>
+                <a ng-click="enable(page, false)" ng-show="page.enabled"
+                   title="La página está activa. Haga click para desactivar.">
+                    <span class="clickicon clickicon-bulb-on"></span>
                 </a>
-                <a ng-click="enable(page, true)" ng-hide="page.enabled" class="btn btn-sm btn-warning"
-                        title="La página está desactivada. Haga click para activar.">
-                    <span class="glyphicon glyphicon-remove-circle"></span>
+                <a ng-click="enable(page, true)" ng-hide="page.enabled"
+                   title="La página está desactivada. Haga click para activar.">
+                    <span class="clickicon clickicon-bulb-off"></span>
                 </a>
-                <a href="#/pages/delete/{{page._id}}" class="btn btn-sm btn-danger" title="Borrar página">
-                    <span class="glyphicon glyphicon-remove"></span>
+                <a href="#/pages/delete/{{page._id}}" title="Borrar página">
+                    <span class="clickicon clickicon-trash"></span>
                 </a>
-                <a href="#/reports/page/{{page._id}}" class="btn btn-sm btn-primary" title="Estadísticas">
-                    <span class="glyphicon glyphicon-signal"></span>
+                <a href="#/reports/page/{{page._id}}" title="Estadísticas">
+                    <span class="clickicon clickicon-signal"></span>
                 </a>
             </div>
         </div>
