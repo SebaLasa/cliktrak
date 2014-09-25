@@ -25,12 +25,13 @@
         }
 
         header .login div {
-            margin-top:100px;
+            margin-top: 100px;
             height: 60px;
             width: 250px;
-            padding: 20px 0 0 0 ;
+            padding: 20px 0 0 0;
             background-image: url("/images/home/btnLogin.png");
         }
+
         footer {
 
         }
@@ -43,8 +44,13 @@
         footer .bottom {
             background-image: url("/images/home/bgFooter.jpg");
             height: 150px;
+            font-size: 20px;
+            color: white;
         }
 
+        footer .bottom div {
+            padding-top: 80px;
+        }
     </style>
 </head>
 <body>
@@ -62,14 +68,24 @@
         </div>
     </div>
 </header>
-<div>
-    Brindamos a las empresas una plataforma para comunicarse con sus usuarios en el dispositivo más cómodo para ellos,
-    en su celular.
-</div>
-<div><img src="/images/home/lineMobile.jpg"/></div>
-<div><img src="/images/home/mobile.jpg"/></div>
-<h4>ClikTrak permite:</h4>
+<div class="row">
+    <img src="/images/home/lineMobile.jpg"/>
 
+    <div class="col-md-6 col-md-offset-3" style="text-transform: uppercase; color:#EA4F42;font-size:20px;">
+        Brindamos a las empresas una plataforma para comunicarse con sus usuarios en el dispositivo más cómodo para
+        ellos,
+        en su celular.
+    </div>
+</div>
+<div></div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <img src="/images/home/mobile.jpg"/>
+    </div>
+</div>
+<div class="col-md-12 text-center" style="font-size:24px;">
+    ClikTrak permite:
+</div>
 <div style="background-color: #333;"></div>
 <div class="container">
     <div class="row">
@@ -83,7 +99,7 @@
             <img src="/images/home/trioMonitor.png"/>
         </div>
     </div>
-    <div style="background-color: #333;color:white;">
+    <div style="background-color: #333;color:white; font-size:24px;">
         <div class="row">
             <div class="col-md-4">
                 Desarrollar campañas publicatarias.
@@ -97,7 +113,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="font-size:20px; text-align: justify;">
             ClikTrak es una solución integradora para la administración e implementación de campañas de notificaciones
             masivas
             vía SMS o e-mail además permite visualizar estadísticas de acceso de los usuarios a las mismas en tiempo
@@ -117,7 +133,7 @@
     </div>
     <div class="line"></div>
     <div class="bottom text-center">
-        <div style="padding-top:80px;color:white;">©2014 ClikTrak</div>
+        <div>©2014 ClikTrak</div>
     </div>
 </footer>
 </body>
