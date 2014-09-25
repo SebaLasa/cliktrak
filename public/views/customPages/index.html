@@ -1,9 +1,9 @@
 <div class="container">
-    <a href="#/customPages/new" class="btn btn-primary">Nueva página personalizada</a>
+    <h1>Páginas personalizadas</h1>
 
-    <h2>Páginas personalizadas</h2>
+    <a href="#/customPages/new" class="btn btn-new">Nueva página personalizada</a>
 
-    <div class="row">
+    <div class="row row-header">
         <div class="col-md-2">
             <h4>Nombre</h4>
         </div>
@@ -24,45 +24,42 @@
         </div>
     </div>
     <div ng-repeat="customPage in customPages">
-        <div class="col-md-2">
-            {{customPage.name}}
-        </div>
-        <div class="col-md-1">
-           <span class="label label-success" ng-show="page.urlConfiguration.isTracked">
-                <span class="glyphicon glyphicon-hand-up" title="Seguimiento de clicks activado."></span>
-            </span>
-            <span class="label label-danger" ng-hide="page.urlConfiguration.isTracked">
-                <span class="glyphicon glyphicon-hand-up" title="Seguimiento de clicks desactivado."></span>
-            </span>
-        </div>
-        <div class="col-md-1">
-            {{customPage.dateStart | dateFormat}}
-        </div>
-        <div class="col-md-1">
-            {{customPage.dateEnd | dateFormat}}
-        </div>
-        <div class="col-md-2">
-            {{customPage.updated_at | dateTimeFormat}}
-        </div>
-        <div class="col-md-2">
-            {{customPage.editor.name}}
-        </div>
-        <div class="col-md-3 btn-group">
-            <a href="#/customPages/{{customPage._id}}" role="button" class="btn btn-sm btn-primary"
-               title="Editar página personalizada">
-                <span class="glyphicon glyphicon-pencil"></span>
-            </a>
-            <a href="#/customPages/delete/{{customPage._id}}" role="button" class="btn btn-sm btn-danger"
-               title="Borrar página personalizada">
-                <span class="glyphicon glyphicon-remove"></span>
-            </a>
-            <a href="#/reports/customPage/{{customPage._id}}" role="button" title="Estadísticas"
-               class="btn btn-sm btn-success">
-                <span class="glyphicon glyphicon-signal"></span>
-            </a>
-            <a ng-click="$parent.customPage = customPage" class="btn btn-sm btn-primary" title="Cargar datos">
-                <span class="glyphicon glyphicon-cloud-upload"></span>
-            </a>
+        <div class="row" ng-class-even="'row-even'" ng-class-odd="'row-odd'">
+            <div class="col-md-2">
+                {{customPage.name}}
+            </div>
+            <div class="col-md-1">
+                <span ng-show="page.urlConfiguration.isTracked" class="clickicon clickicon-mouse-green"
+                      title="Seguimiento de clicks activado."></span>
+                <span ng-hide="page.urlConfiguration.isTracked" class="clickicon clickicon-mouse-red"
+                      title="Seguimiento de clicks desactivado."></span>
+            </div>
+            <div class="col-md-1">
+                {{customPage.dateStart | dateFormat}}
+            </div>
+            <div class="col-md-1">
+                {{customPage.dateEnd | dateFormat}}
+            </div>
+            <div class="col-md-2">
+                {{customPage.updated_at | dateTimeFormat}}
+            </div>
+            <div class="col-md-2">
+                {{customPage.editor.name}}
+            </div>
+            <div class="col-md-3 btn-group">
+                <a href="#/customPages/{{customPage._id}}" role="button" title="Editar página personalizada">
+                    <span class="clickicon clickicon-pencil"></span>
+                </a>
+                <a href="#/customPages/delete/{{customPage._id}}" role="button" title="Borrar página personalizada">
+                    <span class="clickicon clickicon-trash"></span>
+                </a>
+                <a href="#/reports/customPage/{{customPage._id}}" role="button" title="Estadísticas">
+                    <span class="clickicon clickicon-signal"></span>
+                </a>
+                <a ng-click="$parent.customPage = customPage" title="Cargar datos">
+                    <span class="clickicon clickicon-cloud-upload"></span>
+                </a>
+            </div>
         </div>
     </div>
     <div ng-show="customPage">
