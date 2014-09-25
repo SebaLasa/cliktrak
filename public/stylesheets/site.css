@@ -107,8 +107,8 @@ h1 {
     text-align: center;
     color:white;
     text-decoration: none;
-    padding: 5px 10px;
-    margin-bottom: 5px;
+    padding: 5px 15px;
+    margin-bottom: 15px;
 }
 .row-header {
     background-color: #333 !important;
@@ -125,6 +125,7 @@ h1 {
 }
 
 .clickicon {
+    margin-top:3px;
     position: relative;
     display: inline-block;
     height: 32px;
@@ -136,10 +137,6 @@ h1 {
 }
 
 .clickicon-mouse-green {
-    position: relative;
-    display: inline-block;
-    height: 30px;
-    width: 30px;
     background: url('/images/sprite.png') -40px 0;
 }
 
