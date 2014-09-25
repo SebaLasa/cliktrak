@@ -56,7 +56,11 @@ header .login div {
 .home-section-3 {
     font-size: 20px;
     text-align: justify;
-    margin: 50px 0 80px;
+    margin-top: 50px;
+}
+
+footer {
+    margin-top: 80px;
 }
 
 footer .line {
