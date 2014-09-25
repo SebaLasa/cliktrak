@@ -215,11 +215,11 @@ module.exports = function (router) {
                                         return '<script src="controllers/admin/' + f + '" type="text/javascript"></script>';
                                     });
 
-                                    data = data.toString().replace(/<%filters%>/, filters.join('\n'));
-                                    data = data.toString().replace(/<%services%>/, services.join('\n'));
-                                    data = data.toString().replace(/<%directives%>/, directives.join('\n'));
-                                    data = data.toString().replace(/<%controls%>/, controls.join('\n'));
-                                    data = data.toString().replace(/<%controllers%>/, controllers.join('\n'));
+                                    data = data.replace(/<%filters%>/, filters.join('\n'));
+                                    data = data.replace(/<%services%>/, services.join('\n'));
+                                    data = data.replace(/<%directives%>/, directives.join('\n'));
+                                    data = data.replace(/<%controls%>/, controls.join('\n'));
+                                    data = data.replace(/<%controllers%>/, controllers.join('\n'));
 
                                     res.set('Content-Type', 'text/html');
                                     res.send(data);

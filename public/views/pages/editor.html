@@ -55,7 +55,9 @@
                     <label for="subdomain">Subdominio</label>
                     <input type="text" id="subdomain" name="subdomain" ng-model="urlConfiguration.subdomain" required
                            class="form-control"/>
-                    {{urlConfiguration.subdomain}}
+                    <span ng-show="urlConfiguration.subdomain">
+                        http://{{urlConfiguration.subdomain}}.{{host}}
+                    </span>
                 </div>
             </div>
         </div>
@@ -67,7 +69,7 @@
             <div class="col-md-4 form-group">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <span class="glyphicon glyphicon-barcode"></span> Código de barras
+                        <span class="glyphicon glyphicon-barcode"></span>&nbsp;Código de barras
                     </div>
                     <div class="panel-body">
                         <a ng-click="addBarcode()" class="btn btn-primary">
@@ -80,7 +82,7 @@
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <span class="glyphicon glyphicon-qrcode"></span>Código QR
+                        <span class="glyphicon glyphicon-qrcode"></span>&nbsp;Código QR
                     </div>
                     <div class="panel-body">
                         <a ng-click="addQrCode()" class="btn btn-primary">

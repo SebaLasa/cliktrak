@@ -1,4 +1,4 @@
-angular.module('clicks').controller('pageEditorController', function ($scope, $http, $location, $routeParams) {
+angular.module('clicks').controller('pageEditorController', function ($scope, $http, $location, $routeParams, $window) {
     function registerWatchers() {
         $scope.$watch(function () {
             return $($scope.page.html).find('.staticBarcode').length;
@@ -39,6 +39,7 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.page.html = html.html();
     }
 
+    $scope.host = $window.location.host;
     $http.get('/api/layouts/').success(function (data, status) {
         $scope.layouts = data;
     });

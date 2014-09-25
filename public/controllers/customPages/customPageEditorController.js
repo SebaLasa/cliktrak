@@ -1,4 +1,5 @@
-angular.module('clicks').controller('customPageEditorController', function ($scope, $http, $location, $routeParams) {
+angular.module('clicks').controller('customPageEditorController', function ($scope, $http, $location, $routeParams, $window) {
+    $scope.host = $window.location.host;
     $http.get('/api/pages/active')
         .success(function (data, status) {
             $scope.pages = data;

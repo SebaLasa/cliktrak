@@ -52,6 +52,9 @@
                     <label for="subdomain">Subdomain</label>
                     <input type="text" id="subdomain" name="subdomain" ng-model="urlConfiguration.subdomain"
                            class="form-control"/>
+                    <span ng-show="urlConfiguration.subdomain">
+                        http://{{urlConfiguration.subdomain}}.{{host}}
+                    </span>
                 </div>
             </div>
         </div>
