@@ -3,14 +3,18 @@ var model = app.model,
     validate = app.validation.validate,
     query = app.data.query,
     _ = require('lodash'),
-    contentGeneration = require("../../services/contentGeneration")
+    contentGeneration = require("../../services/contentGeneration"),
     codeConverter = require('../../services/codeConverter.js');
+
+function renderInvalidCodePage(res) {
+    res.render('invalidCode');
+}
 
 module.exports = function (router) {
     console.log('Loading landing module...');
     router.use(require('../trackingMiddleware.js')());
     function addBarcodeAndSend(page, next, landing, res) {
-        codeConverter.toBarcode(page.urlConfiguration.barcodeData, {}, function (err, dataUrl) {
+        codeConverter.toBarcode(page.barcodeData, {}, function (err, dataUrl) {
             if (err) {
                 return next(Error.create('An error occurred generating the barcode.', err));
             }
@@ -22,44 +26,46 @@ module.exports = function (router) {
     //landing static page
     router.get('/p/:id', function (req, res, next) {
         if (!req.params.id) {
-            return res.json(400, { message: 'Invalid code, try again by clicking on the link that has been sent.'});
+            return renderInvalidCodePage(res);
         }
         var ids = req.params.id.split('.');
         var idComp = ids[0];
         var idPag = ids[1];
-
         if (!idPag) {
-            return res.json(400, { message: 'Invalid code, try again by clicking on the link that has been sent.'});
+            return renderInvalidCodePage(res);
         }
-
         model.Company.findOne({internalId: idComp}, function (err, comp) {
             if (err) {
                 return next(Error.create('An error occurred trying to find the company.', {companyId: idComp}, err));
             }
             if (!comp) {
-                return res.json(404, { message: 'Company not found!' });
+                return renderInvalidCodePage(res);
             }
-
             model.Page.findOne({internalId: idPag, company: comp._id})
-                .populate(['urlConfiguration', 'company','layout'])
+                .populate(['urlConfiguration', 'company', 'layout'])
                 .exec(function (err, page) {
                     if (err) {
                         return next(Error.create('An error occurred trying to find the page.', {pageId: idPag}, err));
                     }
                     if (!page) {
-                        return res.json(404, { message: 'Page not found!' });
+                        return renderInvalidCodePage(res);
                     }
 
                     req.trackedClick.page = page;
-                    req.trackedClick.save();
+                    req.trackedClick.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
 
-
+                    // TODO AN add validation subdomain.
+                    // TODO AN add validation page disabled.
+                    // TODO AN add validation page deleted.
                     var content = page.html;
-                    content = contentGeneration.replaceCodes(page.urlConfiguration,content);
+                    content = contentGeneration.replaceStaticCodes(page, content);
                     var pageContent = contentGeneration.gluePage(page.layout, content);
 
                     res.send(pageContent);
-
                 });
         });
     });
@@ -67,50 +73,51 @@ module.exports = function (router) {
     //landing custom page
     router.get('/c/:id', function (req, res, next) {
         if (!req.params.id) {
-            return res.json(400, { message: 'Invalid code, try again by clicking on the link that has been sent.'});
+            return renderInvalidCodePage(res);
         }
-
-        model.CustomPageValue.findOne({_id: req.params.id}, function (err, customPageValues) {
+        model.CustomPageValue.findById(req.params.id, function (err, customPageValues) {
             if (err) {
                 return next(Error.create('An error occurred trying to find your page.', err));
             }
             if (!customPageValues) {
-                return res.json(404, { message: 'Page not found!' });
+                return renderInvalidCodePage(res);
             }
+            model.CustomPage.findById(customPageValues.customPage).populate(['urlConfiguration', 'company']).exec(function (err, customPage) {
+                if (err) {
+                    return next(Error.create('An error occurred trying to find the custom page.', { id: customPageValues.customPage }, err));
+                }
+                if (!customPage) {
+                    return renderInvalidCodePage(res);
+                }
 
-            model.CustomPage.findOne({_id: customPageValues.customPage})
-                .populate(['urlConfiguration', 'company'])
-                .exec(function (err, customPage) {
+                req.trackedClick.customPage = customPage;
+                req.trackedClick.save(function (err) {
                     if (err) {
-                        return next(Error.create('An error occurred trying to find the custom page.', {internalId: idPag}, err));
+                        console.log(err);
                     }
-                    if (!customPage) {
-                        return res.json(404, { message: 'Custom page not found!' });
-                    }
-
-                    req.trackedClick.customPage = customPage;
-                    req.trackedClick.save(function (err) {
-                        if (err)
-                            console.log(err);
-                    });
-
-                    model.Page.findOne({_id:customPage.page})
-                        .populate(['urlConfiguration','layout'])
-                        .exec(function (err, page){
-                        if (err) {
-                            return next(Error.create('An error occurred trying to find the page.', err));
-                        }
-
-                        var urlConfiguration = _.assign(customPage.urlConfiguration,page.urlConfiguration);
-
-                        var content = page.html;
-                        content = contentGeneration.replaceCodes(urlConfiguration,content);
-                        content = contentGeneration.replaceParameters(customPageValues, content);
-                        var pageContent = contentGeneration.gluePage(page.layout, content);
-
-                        res.send(pageContent);
-                    });
                 });
+
+                // TODO AN add validation subdomain.
+                // TODO AN add validation page deleted.
+                // TODO AN add validation page expired.
+                model.Page.findById(customPage.page).populate(['urlConfiguration', 'layout']).exec(function (err, page) {
+                    if (err) {
+                        return next(Error.create('An error occurred trying to find the page.', err));
+                    }
+                    if (!page) {
+                        return renderInvalidCodePage(res);
+                    }
+                    var content = page.html;
+                    console.log(content);
+                    content = contentGeneration.replaceStaticCodes(page, content);
+                    content = contentGeneration.replaceDynamicCodes(customPage,customPageValues, content);
+
+                    content = contentGeneration.replaceParameters(customPageValues, content);
+                    var pageContent = contentGeneration.gluePage(page.layout, content);
+
+                    res.send(pageContent);
+                });
+            });
         });
     });
 

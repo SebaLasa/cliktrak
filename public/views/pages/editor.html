@@ -97,17 +97,17 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="qrGenerated">Generar código QR?</label>&nbsp;
-                    <input type="checkbox" id="qrGenerated" name="qrGenerated" ng-model="urlConfiguration.qrGenerated"
+                    <input type="checkbox" id="qrGenerated" name="qrGenerated" ng-model="page.qrGenerated"
                            disabled="disabled"/>
                 </div>
             </div>
         </div>
-        <div class="row" ng-show="urlConfiguration.qrGenerated">
+        <div class="row" ng-show="page.qrGenerated">
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="qrData">Valor</label>
-                    <input type="text" id="qrData" name="qrData" ng-model="urlConfiguration.qrData"
-                           ng-required="urlConfiguration.qrGenerated" class="form-control"/>
+                    <input type="text" id="qrData" name="qrData" ng-model="page.qrData"
+                           ng-required="page.qrGenerated" class="form-control"/>
                 </div>
             </div>
         </div>
@@ -116,18 +116,18 @@
                 <div></div>
                 <label for="barcodeGenerated">Generar código de barras?</label>&nbsp;
                 <input type="checkbox" id="barcodeGenerated" name="barcodeGenerated"
-                       ng-model="urlConfiguration.barcodeGenerated" disabled="disabled"/>
+                       ng-model="page.barcodeGenerated" disabled="disabled"/>
             </div>
         </div>
-        <div class="row" ng-show="urlConfiguration.barcodeGenerated">
+        <div class="row" ng-show="page.barcodeGenerated">
             <div class="col-md-6 form-group">
                 <label for="barcodeData">Valor</label>
-                <input type="text" id="barcodeData" name="barcodeData" ng-model="urlConfiguration.barcodeData"
-                       ng-required="urlConfiguration.barcodeGenerated" class="form-control"/>
+                <input type="text" id="barcodeData" name="barcodeData" ng-model="page.barcodeData"
+                       ng-required="page.barcodeGenerated" class="form-control"/>
             </div>
             <div class="col-md-6 form-group">
                 <label>Tamaño</label>
-                <barcode-size selected="urlConfiguration.barcodeSize"></barcode-size>
+                <barcode-size selected="page.barcodeSize"></barcode-size>
             </div>
         </div>
         <br/>
