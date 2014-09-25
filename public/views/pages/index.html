@@ -8,7 +8,6 @@
         <div class="col-md-3"><h4>Estado</h4></div>
         <div class="col-md-2"><h4>Modificado</h4></div>
         <div class="col-md-2"><h4>Editor</h4></div>
-        <div class="com-md-2"></div>
     </div>
     <div ng-repeat="page in pages">
         <div class="row" ng-class-odd="'row-odd'" ng-class-even="'row-even'">
@@ -36,11 +35,11 @@
                 <a href="#/pages/{{page._id}}" title="Editar página">
                     <span class="clickicon clickicon-pencil"></span>
                 </a>
-                <a ng-click="enable(page, false)" ng-show="page.enabled"
+                <a ng-click="enable(page, false)" ng-show="page.enabled"  role="button"
                    title="La página está activa. Haga click para desactivar.">
                     <span class="clickicon clickicon-bulb-on"></span>
                 </a>
-                <a ng-click="enable(page, true)" ng-hide="page.enabled"
+                <a ng-click="enable(page, true)" ng-hide="page.enabled" role="button"
                    title="La página está desactivada. Haga click para activar.">
                     <span class="clickicon clickicon-bulb-off"></span>
                 </a>
