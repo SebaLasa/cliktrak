@@ -84,6 +84,107 @@ footer .bottom div {
     padding-top: 80px;
 }
 
+h1 {
+    font-size: 46px;
+    color:#EA4F42;
+    text-align: right;
+    padding-right: 32px;
+    background: url('/images/arrowTitle.png') no-repeat right;
+}
+
+.navbar-clicks {
+    background-image: url("/images/home/bgHeader.jpg");
+}
+
+.navbar-nav a {
+    text-transform: uppercase;
+}
+
+.navbar-brand {
+    height: auto;
+}
+
+.btn-new{
+    display: inline-block;
+    background-color: #EA4F42;
+    font-size: 20px;
+    border-radius: 24px;
+    text-align: center;
+    color:white;
+    text-decoration: none;
+    padding: 5px 15px;
+    margin-bottom: 15px;
+}
+.row-header {
+    background-color: #333 !important;
+    border-radius: 7px 7px 0 0;
+    color: white;
+}
+
+.row-odd {
+    background-color: #EAEAEA;
+}
+
+.row-even {
+    background-color: #F6F6F6;
+}
+
+.clickicon {
+    margin-top:3px;
+    position: relative;
+    display: inline-block;
+    height: 32px;
+    width: 32px;
+}
+
+.clickicon-mouse-red {
+    background: url('/images/sprite.png') 0 0;
+}
+
+.clickicon-mouse-green {
+    background: url('/images/sprite.png') -40px 0;
+}
+
+.clickicon-bulb-off {
+    background: url('/images/sprite.png') -80px 0;
+}
+
+.clickicon-bulb-on {
+    background: url('/images/sprite.png') -120px 0;
+}
+
+.clickicon-qrcode {
+    background: url('/images/sprite.png') 0 -40px;
+}
+
+.clickicon-barcode {
+    background: url('/images/sprite.png') -40px -40px;
+}
+
+.clickicon-page {
+    background: url('/images/sprite.png') -80px -40px;
+}
+
+.clickicon-page-dynamic {
+    background: url('/images/sprite.png') -120px -40px;
+}
+
+.clickicon-pencil {
+    background: url('/images/sprite.png') 0 -80px;
+}
+
+.clickicon-cloud-upload {
+    background: url('/images/sprite.png') -40px -80px;
+}
+
+.clickicon-trash {
+    background: url('/images/sprite.png') -80px -80px;
+}
+
+.clickicon-signal {
+    background: url('/images/sprite.png') -120px -80px;
+}
+
 .fileinput-button {
     position: relative;
     overflow: hidden;

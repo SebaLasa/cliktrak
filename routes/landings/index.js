@@ -29,23 +29,23 @@ module.exports = function (router) {
             return renderInvalidCodePage(res);
         }
         var ids = req.params.id.split('.');
-        var idComp = ids[0];
-        var idPag = ids[1];
-        if (!idPag) {
+        var companyId = ids[0];
+        var pageId = ids[1];
+        if (!pageId) {
             return renderInvalidCodePage(res);
         }
-        model.Company.findOne({internalId: idComp}, function (err, comp) {
+        model.Company.findById(companyId, function (err, company) {
             if (err) {
-                return next(Error.create('An error occurred trying to find the company.', {companyId: idComp}, err));
+                return next(Error.create('An error occurred trying to find the company.', {companyId: companyId}, err));
             }
-            if (!comp) {
+            if (!company) {
                 return renderInvalidCodePage(res);
             }
-            model.Page.findOne({internalId: idPag, company: comp._id})
+            model.Page.findOne({_id: pageId, company: company._id})
                 .populate(['urlConfiguration', 'company', 'layout'])
                 .exec(function (err, page) {
                     if (err) {
-                        return next(Error.create('An error occurred trying to find the page.', {pageId: idPag}, err));
+                        return next(Error.create('An error occurred trying to find the page.', {pageId: pageId}, err));
                     }
                     if (!page) {
                         return renderInvalidCodePage(res);
@@ -110,7 +110,7 @@ module.exports = function (router) {
                     var content = page.html;
                     console.log(content);
                     content = contentGeneration.replaceStaticCodes(page, content);
-                    content = contentGeneration.replaceDynamicCodes(customPage,customPageValues, content);
+                    content = contentGeneration.replaceDynamicCodes(customPage, customPageValues, content);
 
                     content = contentGeneration.replaceParameters(customPageValues, content);
                     var pageContent = contentGeneration.gluePage(page.layout, content);

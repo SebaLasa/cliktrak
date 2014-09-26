@@ -1,26 +1,26 @@
 <div class="container">
-    <a href="#/contacts/new" class="btn btn-primary">Nuevo contacto</a>
+    <h1>Contactos</h1>
 
-    <h2>Contactos</h2>
+    <a href="#/contacts/new" class="btn btn-new">Nuevo contacto</a>
 
-    <div class="row">
+    <div class="row row-header">
         <div class="col-md-3"><h4>Nombre</h4></div>
         <div class="col-md-3"><h4>Apellido</h4></div>
         <div class="col-md-2"><h4>E-mail</h4></div>
         <div class="col-md-2"><h4>Móvil</h4></div>
     </div>
     <div ng-repeat="contact in contacts">
-        <div class="row">
+        <div class="row" ng-class-odd="'row-odd'" ng-class-even="'row-even'">
             <div class="col-md-3">{{contact.name}}</div>
             <div class="col-md-3">{{contact.surname}}</div>
             <div class="col-md-2">{{contact.email}}</div>
             <div class="col-md-2">{{contact.mobilePhone}}</div>
-            <div class="col-md-2 btn-group">
-                <a href="#/contacts/{{contact._id}}" class="btn btn-sm btn-primary" title="Editar contacto">
-                    <span class="glyphicon glyphicon-pencil"></span>
+            <div class="col-md-2">
+                <a href="#/contacts/{{contact._id}}" title="Editar contacto">
+                    <span class="clickicon clickicon-pencil"></span>
                 </a>
-                <a href="#/contacts/delete/{{contact._id}}" class="btn btn-sm btn-danger" title="Borrar contacto">
-                    <span class="glyphicon glyphicon-remove"></span>
+                <a href="#/contacts/delete/{{contact._id}}" title="Borrar contacto">
+                    <span class="clickicon clickicon-trash"></span>
                 </a>
             </div>
         </div>
