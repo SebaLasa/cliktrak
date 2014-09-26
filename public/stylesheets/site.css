@@ -92,10 +92,52 @@ h1 {
     background: url('/images/arrowTitle.png') no-repeat right;
 }
 
-.navbar-clicks {
+nav {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 11;
     background-image: url("/images/home/bgHeader.jpg");
 }
 
+.main-nav .container {
+    padding: 30px 0 0 0;
+}
+
+.main-nav ul.nav {
+    float: right;
+    list-style-type: none;
+    border: 0px;
+}
+
+.main-nav ul.nav > li {
+    vertical-align: top;
+    padding: 0 8px;
+}
+
+.main-nav ul.nav > li > a {
+    border: 0px;
+    line-height: 30px;
+    background-color: transparent;
+    padding: 5px;
+    color: #fff;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.main-nav ul.nav > li > a.active, .main-nav ul.nav > li > a:hover {
+    border: 0px;
+    padding: 5px;
+    margin: 0;
+}
+
+.logo {
+    float: left;
+    padding: 10px 0;
+}
+
+/*
 .navbar-nav a {
     text-transform: uppercase;
 }
@@ -103,6 +145,7 @@ h1 {
 .navbar-brand {
     height: auto;
 }
+*/
 
 .btn-new{
     display: inline-block;
