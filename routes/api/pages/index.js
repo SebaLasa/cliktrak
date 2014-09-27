@@ -35,29 +35,38 @@ module.exports = function (router) {
         });
     });
 
-    router.post('/pages', function (req, res, next) {
-        var urlConfiguration = new model.UrlConfiguration(req.body.urlConfiguration);
-        urlConfiguration.save(function (err, urlConfiguration) {
+    function savePage(req, next, page, res) {
+        model.Page.find({company: req.company._id}).sort('-internalId').findOne(function (err, lastPage) {
             if (err) {
-                return next(Error.create('An error occurred trying save the URL configuration.', { }, err));
+                return next(Error.create('An error occurred trying get the last Page.', { }, err));
             }
-            var page = new model.Page(req.body.page);
-            page.editor = req.user._id;
-            page.company = req.company._id;
-            page.urlConfiguration = urlConfiguration._id;
-            model.Page.find({company: req.company._id}).sort('-internalId').findOne(function (err, lastPage) {
+            page.internalId = lastPage ? lastPage.internalId + 1 : 1;
+            page.save(function (err, page) {
                 if (err) {
-                    return next(Error.create('An error occurred trying get the last Page.', { }, err));
+                    return next(Error.create('An error occurred trying save the Page.', { }, err));
                 }
-                page.internalId = lastPage ? lastPage.internalId + 1 : 1;
-                page.save(function (err, page) {
-                    if (err) {
-                        return next(Error.create('An error occurred trying save the Page.', { }, err));
-                    }
-                    res.status(201).end();
-                });
+                res.status(201).end();
             });
         });
+    }
+
+    router.post('/pages', function (req, res, next) {
+        var page = new model.Page(req.body.page);
+        page.editor = req.user._id;
+        page.company = req.company._id;
+
+        if(page.forCustomPages) {
+            savePage(req, next, page, res);
+        }else{
+            var urlConfiguration = new model.UrlConfiguration(req.body.urlConfiguration);
+            urlConfiguration.save(function (err, urlConfiguration) {
+                if (err) {
+                    return next(Error.create('An error occurred trying save the URL configuration.', { }, err));
+                }
+                page.urlConfiguration = urlConfiguration._id;
+                savePage(req, next, page, res);
+            });
+        }
     });
 
     router.put('/pages/:id', function (req, res, next) {
