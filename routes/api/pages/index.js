@@ -82,12 +82,16 @@ module.exports = function (router) {
             if (!page) {
                 return res.status(404).end();
             }
-            model.UrlConfiguration.findByIdAndUpdate(page.urlConfiguration, req.body.urlConfiguration, function (err, urlConfiguration) {
-                if (err) {
-                    return next(Error.create('An error occurred trying update the URL configuration.', { }, err));
-                }
+            if(page.forCustomPages) {
                 res.status(200).end();
-            });
+            } else {
+                model.UrlConfiguration.findByIdAndUpdate(page.urlConfiguration, req.body.urlConfiguration, function (err, urlConfiguration) {
+                    if (err) {
+                        return next(Error.create('An error occurred trying update the URL configuration.', { }, err));
+                    }
+                    res.status(200).end();
+                });
+            }
         });
     });
 
