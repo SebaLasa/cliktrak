@@ -45,7 +45,7 @@ module.exports = function (router) {
                 if (err) {
                     return next(Error.create('An error occurred trying save the Page.', { }, err));
                 }
-                res.status(201).end();
+                res.status(201).send({id : page._id});
             });
         });
     }

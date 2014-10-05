@@ -87,17 +87,27 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.page.html += '<img class="dynamicQr dynamicQr' + $scope.page.quantityDynamicQrCodes + '" src="/images/codes/qr' + $scope.page.quantityDynamicQrCodes + '.png"/>';
         $scope.page.quantityDynamicQrCodes++;
     };
-    $scope.save = function () {
+    //TODO devolver el ._id
+    $scope.personalizar = false;
+    $scope.save = function (personalizar) {
         var data = { page: $scope.page, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {
             return $http.put('/api/pages/' + $routeParams.id, data)
                 .success(function (data, status) {
-                    $location.path('pages');
+                    if ($scope.personalizar) {
+                        $location.path('/customPages/new/' + $routeParams.id);
+                    } else {
+                        $location.path('pages');
+                    }
                 });
         }
         $http.post('/api/pages/', data)
             .success(function (data, status) {
-                $location.path('pages');
+                if ($scope.personalizar) {
+                    $location.path('/customPages/new/' + data.id);
+                } else {
+                    $location.path('pages');
+                }
             });
     };
 });

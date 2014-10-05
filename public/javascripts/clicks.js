@@ -45,6 +45,10 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 controller: 'customPageEditorController',
                 templateUrl: '/views/customPages/editor.html'
             })
+            .when('/customPages/new/:staticId', {
+                controller: 'customPageEditorController',
+                templateUrl: '/views/customPages/editor.html'
+            })
             .when('/customPages/:id', {
                 controller: 'customPageEditorController',
                 templateUrl: '/views/customPages/editor.html'

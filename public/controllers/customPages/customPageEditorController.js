@@ -18,6 +18,10 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
             });
     } else {
         $scope.pageTitle = 'Nueva página personalizada';
+        if ($routeParams.staticId) {
+            $scope.customPage = { page: $routeParams.staticId };
+            $scope.desdeStatic = true;
+        }
     }
 
     $scope.pageSelected = function () {
