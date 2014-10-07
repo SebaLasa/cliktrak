@@ -14,7 +14,7 @@
             <h4>Editor</h4>
         </div>
     </div>
-    <div ng-repeat="layout in layouts | filter:nameSearch">
+    <div dir-paginate="layout in layouts | itemsPerPage: 10 | filter:nameSearch">
         <div class="row" ng-class-even="'row-even'" ng-class-odd="'row-odd'">
             <div class="col-md-3">
                 {{layout.name}}
@@ -35,4 +35,6 @@
             </div>
         </div>
     </div>
+    <dir-pagination-controls class="ng-isolate-scope"> </dir-pagination-controls>
+
 </div>

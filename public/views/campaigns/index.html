@@ -10,7 +10,7 @@
         <div class="col-md-2"><h4>Modificado</h4></div>
         <div class="col-md-2"><h4>Editor</h4></div>
     </div>
-    <div ng-repeat="campaign in campaigns | filter:nameSearch">
+    <div dir-paginate="campaign in campaigns | itemsPerPage: 10| filter:nameSearch">
         <div class="row" ng-class-odd="'row-odd'" ng-class-even="'row-even'">
             <div class="col-md-3">{{campaign.name}}</div>
             <div class="col-md-2"></div>
@@ -30,4 +30,6 @@
             </div>
         </div>
     </div>
+    <dir-pagination-controls class="ng-isolate-scope"> </dir-pagination-controls>
+
 </div>
