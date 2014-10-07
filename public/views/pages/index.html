@@ -2,14 +2,14 @@
     <h1>Páginas</h1>
 
     <a href="#/pages/new" class="btn btn-new">Nueva página</a>
-
+    <input type="text" ng-model="nameSearch.name" placeholder="Buscar por Nombre">
     <div class="row row-header">
         <div class="col-md-2"><h4>Nombre</h4></div>
         <div class="col-md-3"><h4>Estado</h4></div>
         <div class="col-md-2"><h4>Modificado</h4></div>
         <div class="col-md-2"><h4>Editor</h4></div>
     </div>
-    <div ng-repeat="page in pages">
+    <div ng-repeat="page in pages | filter:nameSearch">
         <div class="row" ng-class-odd="'row-odd'" ng-class-even="'row-even'">
             <div class="col-md-2">{{page.name}}</div>
             <div class="col-md-3">
