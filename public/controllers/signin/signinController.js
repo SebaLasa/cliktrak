@@ -1,9 +1,11 @@
 angular.module('signin').controller('signinController', function ($scope, $http) {
+    $scope.loginError=false;
     $scope.signin = function () {
         $scope.working = true;
         $scope.errorMessage = '';
 
         if (!$scope.email && !$scope.password) {
+            $scope.loginError=true;
             return;
         }
 
@@ -20,6 +22,7 @@ angular.module('signin').controller('signinController', function ($scope, $http)
             .error(function (data, status) {
                 $scope.errorMessage = data.message;
                 $scope.working = false;
+                $scope.loginError=true;
             });
     };
 
