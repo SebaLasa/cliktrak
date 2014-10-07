@@ -81,6 +81,10 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 controller: 'contactEditorController',
                 templateUrl: '/views/contacts/editor.html'
             })
+            .when('/contacts/upload', {
+                controller: 'contactUploadController',
+                templateUrl: '/views/contacts/upload.html'
+            })
             .when('/contacts/:id', {
                 controller: 'contactEditorController',
                 templateUrl: '/views/contacts/editor.html'

@@ -32,15 +32,70 @@ module.exports = function (router) {
     router.post('/contacts/upload', function (req, res, next) {
         //TODO: Validar si los contactos ya existe
         var form = new multiparty.Form();
-        var upload;
+        var upload = {options: ''};
         form.on('error', next);
         form.on('close', function () {
+            var options = JSON.parse(upload.options);
+            console.log(options);
             csvparse(upload.data, {columns: true}, function (err, output) {
                 async.each(output, function (data, callback) {
-                    var contact = new model.Contact(data);
-                    contact.editor = req.user._id;
-                    contact.company = req.company._id;
-                    contact.save(callback);
+                    if(options.uploadType=='new'){
+                        var contact = new model.Contact(data);
+                        contact.editor = req.user._id;
+                        contact.company = req.company._id;
+                        contact.save(callback);
+                    }
+                    var query = {deleted:false}; //TODO: Remove once unique fields are validated
+
+                    if(options.matchEmail){
+                        query.email = data.email
+                    }
+                    if(options.matchTelephone){
+                        query.telephone = data.telephone
+                    }
+                    if(options.matchMobile){
+                        query.mobilePhone = data.mobilePhone
+                    }
+
+                    if(options.uploadType=='remove') {
+                        model.Contact.findOne(query, function (err, contact) {
+                            if (err) {
+                                //TODO: Batch logging
+                                callback('An error occurred trying delete the Contact.')
+                                return;
+                            }
+
+
+                            if (!contact || contact.deleted || !req.company._id.equals(contact.company)) {
+                                callback();
+                                return;
+                            }
+                            contact.deleted = true;
+                            contact.save(function (err) {
+                                if (err) {
+                                    callback('An error occurred trying delete the Contact.')
+                                    return;
+                                }
+                                callback();
+                                return;
+                            });
+
+                        });
+                    }
+                    if(options.uploadType=='edit'){
+                        model.Contact.findOneAndUpdate(query,data,function (err, contact) {
+                            if (err) {
+                                //TODO: Batch logging
+                                callback('An error occurred trying update the Contact.');
+                                return;
+                            }
+
+                            callback();
+                        });
+                    }else{
+                        callback('No mode Specified')
+                    }
+
                 }, function (err) {
                     if (err) {
                         return next(Error.create('An error occurred trying save a Contact.', { }, err));
@@ -52,12 +107,17 @@ module.exports = function (router) {
 
         // listen on part event for image file
         form.on('part', function (part) {
-            if (!part.filename) return;
-            if (part.name != 'contacts-csv') return part.resume();
-            upload = { filename: part.filename, data: '' };
-            part.on('data', function (buffer) {
-                upload.data += buffer;
-            });
+            if (part.name == 'options') {
+                part.on('data', function (buffer) {
+                    upload.options += buffer;
+                });
+            }
+            if (part.name == 'file') {
+                upload.data='';
+                part.on('data', function (buffer) {
+                    upload.data += buffer;
+                });
+            }
         });
 
         // parse the form
