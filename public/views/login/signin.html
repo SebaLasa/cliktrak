@@ -1,12 +1,12 @@
 <div class="container">
     <form class="form-signin" ng-submit="signin()">
-        <h2 class="form-signin-heading">Por favor inicie sesión</h2>
-        <input type="email" ng-model="email" class="input-block-level" placeholder="Email address" required>
-        <input type="password" ng-model="password" class="input-block-level" placeholder="Password" required>
+        <div style="background-color: red;"><img src="/images/logoHeader.png"/></div>
+        <input type="email" ng-model="email" class="input-block-level" placeholder="Usuario" required>
+        <input type="password" ng-model="password" class="input-block-level" placeholder="Contraseña" required>
+        <input type="submit" class="btn btn-large btn-primary" value="Ingresar"/>
         <label class="checkbox">
-            <input type="checkbox" value="remember-me">Recordarme
+            <input type="checkbox" value="remember-me">Mantenerse Conectado
         </label>
-        <span ng-show="loginError" style="color:red;">Por favor corrija los errores e intente nuevamente. El nombre de Usuario o la Contraseña ingresados no son correctos</span><br/>
-        <input type="submit" class="btn btn-large btn-primary" value="Iniciar sesión"/>
+        <span ng-show="loginError" style="color:red; clear:both;">Por favor corrija los errores e intente nuevamente. El nombre de Usuario o la Contraseña ingresados no son correctos</span>
     </form>
 </div>
