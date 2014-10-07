@@ -10,7 +10,7 @@
         <div class="col-md-2"><h4>E-mail</h4></div>
         <div class="col-md-2"><h4>Móvil</h4></div>
     </div>
-    <div ng-repeat="contact in contacts | filter:nameSearch">
+    <div dir-paginate="contact in contacts | itemsPerPage: 5|  filter:nameSearch">
         <div class="row" ng-class-odd="'row-odd'" ng-class-even="'row-even'">
             <div class="col-md-3">{{contact.name}}</div>
             <div class="col-md-3">{{contact.surname}}</div>
@@ -27,6 +27,8 @@
         </div>
     </div>
     <br/>
+    <dir-pagination-controls class="ng-isolate-scope"> </dir-pagination-controls>
+
 
     <div>
         <form action="/api/contacts/upload" method="post" enctype="multipart/form-data">
