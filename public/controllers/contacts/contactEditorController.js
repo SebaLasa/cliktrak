@@ -16,6 +16,9 @@ angular.module('clicks').controller('contactEditorController', function ($scope,
     }
 
     $scope.save = function () {
+
+
+
         if ($routeParams.id) {
             return $http.put('/api/contacts/' + $routeParams.id, $scope.contact)
                 .success(function (data, status) {
