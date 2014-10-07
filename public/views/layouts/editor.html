@@ -6,7 +6,7 @@
     <form ng-submit="save()">
         <div class="input-group">
             <label for="name">Nombre</label>
-            <input type="text" id="name" ng-model="layout.name" class="form-control"/>
+            <input type="text" id="name" ng-model="layout.name" class="form-control" required maxlength="80" />
         </div>
         <div class="input-group">
             <label for="footerBackgroundColor">Color de fondo</label>
