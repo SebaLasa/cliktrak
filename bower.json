@@ -8,11 +8,11 @@
     "bootstrap": "^3.1.0",
     "angular-route": "1.2.x",
     "lodash": "~2.4.1",
-    "angular-ui-tinymce": "~0.0.5",
     "angular-bootstrap-colorpicker": "~3.0.7",
     "angular-ui-date": "~0.0.3",
     "angular-charts": "~0.2.4",
-    "ng-file-upload": "~1.6.6"
+    "ng-file-upload": "~1.6.6",
+    "angular-ui-tinymce": "git://github.com/angular-ui/ui-tinymce#c46b97622443bf5c0ba4e2e013f8721952b6124f"
   },
   "ignore": [
     "node_modules",
