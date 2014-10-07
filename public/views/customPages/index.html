@@ -2,7 +2,7 @@
     <h1>Páginas personalizadas</h1>
 
     <a href="#/customPages/new" class="btn btn-new">Nueva página personalizada</a>
-
+    <input type="text" ng-model="nameSearch.name" placeholder="Buscar por nombre">
     <div class="row row-header">
         <div class="col-md-2">
             <h4>Nombre</h4>
@@ -23,7 +23,7 @@
             <h4>Editor</h4>
         </div>
     </div>
-    <div ng-repeat="customPage in customPages">
+    <div ng-repeat="customPage in customPages | filter:nameSearch">
         <div class="row" ng-class-even="'row-even'" ng-class-odd="'row-odd'">
             <div class="col-md-2">
                 {{customPage.name}}
