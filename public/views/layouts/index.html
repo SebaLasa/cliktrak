@@ -2,7 +2,7 @@
     <h1>Diseños</h1>
 
     <a href="#/layouts/new" class="btn btn-new">Nuevo diseño</a>
-
+    <input type="text" ng-model="nameSearch.name" placeholder="Buscar por Nombre">
     <div class="row row-header">
         <div class="col-md-3">
             <h4>Nombre</h4>
@@ -14,7 +14,7 @@
             <h4>Editor</h4>
         </div>
     </div>
-    <div ng-repeat="layout in layouts">
+    <div dir-paginate="layout in layouts | itemsPerPage: 10 | filter:nameSearch">
         <div class="row" ng-class-even="'row-even'" ng-class-odd="'row-odd'">
             <div class="col-md-3">
                 {{layout.name}}
@@ -35,4 +35,6 @@
             </div>
         </div>
     </div>
+    <dir-pagination-controls class="ng-isolate-scope"> </dir-pagination-controls>
+
 </div>

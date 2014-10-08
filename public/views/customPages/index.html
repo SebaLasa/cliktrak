@@ -2,7 +2,7 @@
     <h1>Páginas personalizadas</h1>
 
     <a href="#/customPages/new" class="btn btn-new">Nueva página personalizada</a>
-
+    <input type="text" ng-model="nameSearch.name" placeholder="Buscar por nombre">
     <div class="row row-header">
         <div class="col-md-2">
             <h4>Nombre</h4>
@@ -23,7 +23,7 @@
             <h4>Editor</h4>
         </div>
     </div>
-    <div ng-repeat="customPage in customPages">
+    <div dir-paginate="customPage in customPages |itemsPerPage: 10| filter:nameSearch">
         <div class="row" ng-class-even="'row-even'" ng-class-odd="'row-odd'">
             <div class="col-md-2">
                 {{customPage.name}}
@@ -62,6 +62,7 @@
             </div>
         </div>
     </div>
+    <dir-pagination-controls class="ng-isolate-scope"> </dir-pagination-controls>
     <div ng-show="customPage">
         <form name="uploadValuesForm" action="{{'/api/customPages/upload/' + customPage._id}}" method="post"
               enctype="multipart/form-data">
