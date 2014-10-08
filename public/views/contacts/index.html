@@ -2,6 +2,7 @@
     <h1>Contactos</h1>
 
     <a href="#/contacts/new" class="btn btn-new">Nuevo contacto</a>
+    <a href="#/contacts/upload" class="btn btn-new">Importar Contactos</a>
 
     <div class="row row-header">
         <div class="col-md-3"><h4>Nombre</h4></div>
@@ -26,20 +27,4 @@
         </div>
     </div>
     <br/>
-
-    <div>
-        <form action="/api/contacts/upload" method="post" enctype="multipart/form-data">
-            <h3>Subir CSV</h3>
-
-            <div class="btn-group">
-                <span class="btn btn-default fileinput-button">
-                    <span class="glyphicon glyphicon-folder-open"></span>
-                    <input type="file" name="contacts-csv" fileread="csv">
-                    <span ng-hide="csv">&nbsp;Ningún archivo seleccionado.</span>
-                    <span ng-show="csv">&nbsp;Seleccionado: {{csv.name}}</span>
-                </span>
-                <input type="submit" value="Enviar" class="btn btn-success">
-            </div>
-        </form>
-    </div>
 </div>
