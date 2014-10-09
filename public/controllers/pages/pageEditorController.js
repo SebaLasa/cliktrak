@@ -87,13 +87,12 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.page.html += '<img class="dynamicQr dynamicQr' + $scope.page.quantityDynamicQrCodes + '" src="/images/codes/qr' + $scope.page.quantityDynamicQrCodes + '.png"/>';
         $scope.page.quantityDynamicQrCodes++;
     };
-    $scope.personalizar = false;
     $scope.save = function () {
         var data = { page: $scope.page, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {
             return $http.put('/api/pages/' + $routeParams.id, data)
                 .success(function (data, status) {
-                    if ($scope.personalizar) {
+                    if ($scope.customize) {
                         $location.path('/customPages/new/' + $routeParams.id);
                     } else {
                         $location.path('pages');
@@ -102,7 +101,7 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         }
         $http.post('/api/pages/', data)
             .success(function (data, status) {
-                if ($scope.personalizar) {
+                if ($scope.customize) {
                     $location.path('/customPages/new/' + data.id);
                 } else {
                     $location.path('pages');

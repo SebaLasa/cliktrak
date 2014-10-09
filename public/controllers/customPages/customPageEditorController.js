@@ -20,7 +20,6 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
         $scope.pageTitle = 'Nueva página personalizada';
         if ($routeParams.staticId) {
             $scope.customPage = { page: $routeParams.staticId };
-            $scope.desdeStatic = true;
         }
     }
 
