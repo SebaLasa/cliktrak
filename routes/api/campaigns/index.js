@@ -68,22 +68,36 @@ module.exports = function (router) {
 
 
      router.delete('/campaigns/:id', function (req, res, next) {
-        model.Campaign.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, campaign) {
+
+        var campaign = {
+            editor: req.user._id,
+            company: req.company._id,
+            status: false,
+            deleted: true
+        };
+        model.Campaign.findOneAndUpdate({_id: req.params.id, deleted: false, company: req.company._id}, campaign, function (err, campaign) {
             if (err) {
-                return next(Error.create('An error occurred trying get the Campaign.', { }, err));
+                return next(Error.create('An error occurred trying delete the Campaign.', { }, err));
             }
             if (!campaign) {
                 return res.status(404).end();
             }
-            campaign.deleted = true;
-            campaign.save(function (err) {
-                if (err) {
-                    return next(Error.create('An error occurred trying delete the Campaign.', { }, err));
-                }
-                res.status(200).end();
-            });
+            res.status(200).end();
         });
     });
 
+    router.post('/campaigns/enable/:id', function (req, res, next) {
+        var campaign = { status: req.body.enabled };
+        model.Campaign.findOneAndUpdate({_id: req.params.id, deleted: false, company: req.company._id}, campaign, function (err, campaign) {
+            if (err) {
+                return next(Error.create('An error occurred trying change the status.', { }, err));
+            }
+            if (!campaign) {
+                return res.status(404).end();
+            }
+            res.status(200).end();
+        });
+    });
+     
     return router;
 };
