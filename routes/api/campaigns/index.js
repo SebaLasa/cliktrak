@@ -66,12 +66,22 @@ module.exports = function (router) {
         });
     });
 
-    router.delete('/campaigns/:id', function (req, res, next) {
-        model.Campaign.findByIdAndUpdate(req.params.id, req.body, function (err, campaign) {
+
+     router.delete('/campaigns/:id', function (req, res, next) {
+        model.Campaign.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, campaign) {
             if (err) {
-                return next(Error.create('An error occurred trying delete the Campaign.', { }, err));
+                return next(Error.create('An error occurred trying get the Campaign.', { }, err));
             }
-            res.status(200).end();
+            if (!campaign) {
+                return res.status(404).end();
+            }
+            campaign.deleted = true;
+            campaign.save(function (err) {
+                if (err) {
+                    return next(Error.create('An error occurred trying delete the Campaign.', { }, err));
+                }
+                res.status(200).end();
+            });
         });
     });
 
