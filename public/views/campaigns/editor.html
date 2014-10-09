@@ -8,8 +8,7 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" ng-model="campaign.name" maxlength="80"
-                           class="form-control"/>
+                    <input type="text" id="name" name="name" ng-model="campaign.name" maxlength="80" required class="form-control"/>
                 </div>
             </div>
         </div>
@@ -47,19 +46,19 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <label for="subject">Asunto</label>
-                    <input type="text" id="subject" name="subject" ng-model="email.subject" maxlength="100"
+                    <input type="text" id="subject" name="subject" ng-model="email.subject" maxlength="100" required
                            class="form-control"/>
                 </div>
             </div>
             <div class="col-md-3">
-                <a ng-click="addFieldToMessage('url')" class="btn btn-primary">URL a la página</a>
+                <a ng-click="addFieldToMessage('url')" required class="btn btn-primary">URL a la página</a>
             </div>
         </div>
         <br/>
 
         <div class="row">
             <div class="col-md-9">
-                <textarea ng-model="email.message" ui-tinymce></textarea>
+                <textarea ng-model="email.message" required ui-tinymce></textarea>
             </div>
             <div class="col-md-3">
 
@@ -101,13 +100,13 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="start">Incio</label>
-                    <input type="text" id="start" name="start" ng-model="email.dateStart" ui-date class="form-control"/>
+                    <input type="text" id="start" name="start" ng-model="email.dateStart" ui-date required class="form-control"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="end">Finalización</label>
-                    <input type="text" id="end" name="end" ng-model="email.dateEnd" ui-date class="form-control"/>
+                    <input type="text" id="end" name="end" ng-model="email.dateEnd" ui-date required class="form-control"/>
                 </div>
             </div>
         </div>
@@ -148,7 +147,7 @@
         <div class="input-group">
             <label for="startTime">Hora de Inicio</label>
             <!--<input type="text" id="startTime" name="startTime" class="form-control"/> -->
-            <input type="text" id="startTime" name="startTime" class="form-control" ng-model="email.startTime" data-autoclose="1" placeholder="Hora de inicio" bs-timepicker>
+            <input type="text" id="startTime" name="startTime" class="form-control" ng-model="email.startTime" data-autoclose="1" placeholder="Hora de inicio" required bs-timepicker>
         </div>
         <hr>
         <div class="row">
@@ -157,7 +156,7 @@
                     Selección de Contactos
                     <small ng-show="pageType == 'page'">
                         <label for="allContacts">Todos los contactos</label>
-                        <input type="checkbox" id="allContacts" name="allContacts" ng-model="allContacts"
+                        <input type="checkbox" id="allContacts" name="allContacts" ng-model="allContacts" 
                                ng-change="selectAllContacts()"/>
                     </small>
                 </h3>
@@ -171,7 +170,7 @@
                 ->
             </div>
             <div class="col-md-3">
-                <select id="contactFieldMatch" name="contactFieldMatch" ng-model="email.contactFieldMatch"
+                <select id="contactFieldMatch" name="contactFieldMatch" ng-model="email.contactFieldMatch" 
                         class="form-control">
                     <option value="email">Email</option>
                     <option value="mobilePhone">Celular</option>
@@ -184,7 +183,7 @@
                 <div class="col-md-2"><h4>Nombre</h4></div>
                 <div class="col-md-2"><h4>Apellido</h4></div>
             </div>
-            <div ng-repeat="contact in contacts" ng-click="contact.selected = !contact.selected" class="row">
+            <div ng-repeat="contact in contacts" ng-click="contact.selected = !contact.selected"  class="row">
                 <div class="col-md-1"><input type="checkbox" ng-model="contact.selected"/></div>
                 <div class="col-md-2">{{contact.name}}</div>
                 <div class="col-md-2">{{contact.surname}}</div>

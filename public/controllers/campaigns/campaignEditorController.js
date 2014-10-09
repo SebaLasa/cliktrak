@@ -5,8 +5,11 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
     if ($routeParams.id) {
         $http.get('/api/campaigns/' + $routeParams.id)
             .success(function (data, status) {
-                $scope.campaign = data;
-                $scope.pageTitle = data.name;
+                $scope.campaign = data.campaign;
+                $scope.pageTitle = data.campaign.name;
+                $scope.page = data.campaign.page;
+                $scope.customPage = data.campaign.customPage;
+                $scope.email = data.email;
             }).error(function (data, status) {
                 $location.path('campaigns');
             });

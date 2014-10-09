@@ -19,12 +19,20 @@ module.exports = function (router) {
         if (!validate.objectId(req.params.id)) {
             return res.status(400).end();
         }
-        model.Campaign.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, campaign) {
+        model.Campaign.findOne({_id: req.params.id, deleted: false, company: req.company._id},function (err, campaign) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Campaign.', { }, err));
             }
-            res.json(campaign);
+            model.emailing.Task.findOne({campaign: req.params.id, deleted: false, company: req.company._id}).exec(function (err, emailing) {
+            if (err) {
+                return next(Error.create('An error occurred trying get the Email.', { }, err));
+            }
+            var data = { campaign: campaign, email: emailing };
+            console.log(data);
+            res.json(data);
+            });
         });
+
     });
 
     router.post('/campaigns', function (req, res, next) {
@@ -47,6 +55,7 @@ module.exports = function (router) {
                 email.page = campaign.page;
                 email.customPage = campaign.customPage;
                 email.state = model.enums.taskStates[0];
+                console.log(email);
                 email.save(function (err, email) {
                     if (err) {
                         return next(Error.create('An error occurred trying save the Email Task.', { }, err));
@@ -58,11 +67,23 @@ module.exports = function (router) {
     });
 
     router.put('/campaigns/:id', function (req, res, next) {
-        model.Campaign.findByIdAndUpdate(req.params.id, req.body, function (err, campaign) {
+       console.log(req.body); 
+
+        model.Campaign.findByIdAndUpdate(req.params.id, req.body.campaign, function (err, campaign) {
             if (err) {
                 return next(Error.create('An error occurred trying update the Campaign.', { }, err));
             }
+                req.body.email.editor = req.body.campaign.editor;
+                req.body.email.page = req.body.campaign.page;
+                req.body.email.customPage = req.body.campaign.customPage;
+
+            console.log(req.body.email);    
+            model.emailing.Task.findOneAndUpdate({campaign: req.params.id, deleted: false, company: req.company._id}, req.body.email ,function (err, emailing) {
+            if (err) {
+                return next(Error.create('An error occurred trying get the Email.', { }, err));
+            }
             res.status(200).end();
+            });
         });
     });
 
