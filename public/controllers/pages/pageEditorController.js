@@ -92,12 +92,20 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         if ($routeParams.id) {
             return $http.put('/api/pages/' + $routeParams.id, data)
                 .success(function (data, status) {
-                    $location.path('pages');
+                    if ($scope.customize) {
+                        $location.path('/customPages/new/' + $routeParams.id);
+                    } else {
+                        $location.path('pages');
+                    }
                 });
         }
         $http.post('/api/pages/', data)
             .success(function (data, status) {
-                $location.path('pages');
+                if ($scope.customize) {
+                    $location.path('/customPages/new/' + data.id);
+                } else {
+                    $location.path('pages');
+                }
             });
     };
 });

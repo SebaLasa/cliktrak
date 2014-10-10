@@ -133,6 +133,7 @@
             </div>
         </div>
         <br/>
-        <input type="submit" value="Guardar" class="btn btn-primary"/>
+        <input type="submit" value="Guardar" ng-click="customize=false;" class="btn btn-primary"/>
+        <input type="submit" value="Guardar y Personalizar" ng-click="customize=true;" class="btn btn-primary" ng-show="page.forCustomPages" />
     </form>
 </div>
