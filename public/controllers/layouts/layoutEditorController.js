@@ -4,9 +4,11 @@ angular.module('clicks').controller('layoutEditorController', function ($scope, 
                 .success(function (data, status) {
                     $scope.layout = data;
                     $scope.pageTitle = data.name;
+                    $scope.newLayout = false;
                 });
         } else {
             $scope.pageTitle = 'Nuevo diseño';
+            $scope.newLayout = true;
         }
 
         $scope.onFileSelect = function (files) {
