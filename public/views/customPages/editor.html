@@ -71,7 +71,7 @@
                 <div class="input-group">
                     <label for="page">Página</label>
                     <select id="page" name="page" ng-model="customPage.page" ng-change="pageSelected()"
-                            ng-options="page._id as page.name for page in pages" class="form-control"></select>
+                            ng-options="page._id as page.name for page in pages | filter:{forCustomPages:true}" class="form-control"></select>
                 </div>
             </div>
         </div>
