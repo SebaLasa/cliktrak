@@ -15,7 +15,7 @@
             <div class="input-group">
                 <label for="bodyBackgroundColor">Color de fondo general</label>
                 <input type="text" id="bodyBackgroundColor" colorpicker="hex" colorpicker-with-input="true"
-                       ng-model="layout.bodyBackgroundColor" class="form-control" required/>
+                       ng-model="layout.bodyBackgroundColor" class="form-control" />
             </div>
         </div>
         <div class="division">
@@ -28,7 +28,7 @@
                     <div class="controls">
                         <span class="btn btn-default fileinput-button">
                             <span class="glyphicon glyphicon-folder-open"></span>
-                            <input type="file" ng-file-select="onFileSelect($files)" accept="image/*" ng-required="newLayout"/>
+                            <input type="file" ng-file-select="onFileSelect($files)" accept="image/*" />
                             <span ng-hide="layout.file">&nbsp;Ningún archivo seleccionado.</span>
                             <span ng-show="layout.file">&nbsp;Seleccionado: {{layout.file.name}}</span>
                         </span>

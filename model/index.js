@@ -47,9 +47,9 @@ model.Layout = mongoose.model('layouts', new Schema({
     company: { type: ObjectId, ref: 'companies', required: true },
     editor: { type: ObjectId, ref: 'users', required: true },
     name: { type: String, required: true },
-    footer: { type: String, required: true },
-    image: { type: String, required: true },
-    bodyBackgroundColor: { type: String, required: true },
+    footer: { type: String },
+    image: { type: String },
+    bodyBackgroundColor: { type: String },
     headerBackgroundColor: { type: String },
     footerBackgroundColor: { type: String },
     deleted: { type: Boolean, required: true, default: false }
