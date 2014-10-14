@@ -1,8 +1,14 @@
 <div class="container">
     <h1>Diseños</h1>
 
-    <a href="#/layouts/new" class="btn btn-new">Nuevo diseño</a>
-    <input type="text" ng-model="nameSearch.name" placeholder="Buscar por Nombre">
+    <div class="row">
+        <div class="col-md-6">
+            <a href="#/layouts/new" class="btn btn-new">Nuevo diseño</a>
+        </div>
+        <div class="col-md-6">
+            <input type="text" ng-model="nameSearch.name" placeholder="Buscar por Nombre" class="form-control"/>
+        </div>
+    </div>
     <div class="row row-header">
         <div class="col-md-3">
             <h4>Nombre</h4>
@@ -35,6 +41,6 @@
             </div>
         </div>
     </div>
-    <dir-pagination-controls class="ng-isolate-scope"> </dir-pagination-controls>
+    <dir-pagination-controls class="ng-isolate-scope"></dir-pagination-controls>
 
 </div>
