@@ -4,10 +4,13 @@ var _ = require('lodash');
 var defaultSize = 70;
 
 module.exports.gluePage = function (layout, content) {
-    var page = '<html><body><div class="header"><img src="/' + layout.image + '"/></div>';
+    var page = '<html><head><link rel="stylesheet" href="/stylesheets/landing.css"></head>'
+        + '<body style="background-color:' + layout.bodyBackgroundColor
+        + ';"><div class="header" style="background-color:' + layout.headerBackgroundColor + ';"><img src="/'
+        + layout.image + '"/></div>';
     page += '<div class="content">';
     page += content;
-    page += '</div><div class="footer" style="background-color:' + layout.footerBackgroundColor + ';">' + layout.footer + '</div></body></html>';
+    page += '</div><div class="footer" style="background-color:' + layout.footerBackgroundColor + ';">'+ layout.footer + '</div></body></html>';
     return page;
 };
 
