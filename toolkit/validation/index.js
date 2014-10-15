@@ -10,7 +10,7 @@ validation.validate = {};
 validation.validate.required = function (obj, fields) {
     var result = [];
     fields.forEach(function (fieldName) {
-        if (fieldName.contains('.')) {
+        if (fieldName.indexOf('.') > -1) {
             var parent = fieldName.split('.')[0];
             var child = fieldName.split('.')[1];
 

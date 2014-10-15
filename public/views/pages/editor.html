@@ -3,7 +3,7 @@
 
     <h2>{{pageTitle}}</h2>
 
-    <form ng-submit="save()" class="form" role="form">
+    <form ng-submit="pageEditorForm.$valid && save()" name="pageEditorForm" role="form" class="form">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
