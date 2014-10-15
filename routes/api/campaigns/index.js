@@ -15,24 +15,24 @@ module.exports = function (router) {
         });
     });
 
-    router.get('/campaigns/:id', function (req, res, next) {    
-       
+    router.get('/campaigns/:id', function (req, res, next) {
+
         if (!validate.objectId(req.params.id)) {
             return res.status(400).end();
         }
 
-        model.Campaign.findOne({_id: req.params.id, deleted: false, company: req.company._id},function (err, campaign) {
+        model.Campaign.findOne({_id: req.params.id, deleted: false, company: req.company._id}, function (err, campaign) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Campaign.', { }, err));
             }
             model.emailing.Task.findOne({campaign: campaign._id}).exec(function (err, mail) {
-            if (err) {
-                return next(Error.create('An error occurred trying get the Email.', { }, err));
-            }
-            
-            var data = { campaign: campaign, email: mail };
-            
-            res.json(data);
+                if (err) {
+                    return next(Error.create('An error occurred trying get the Email.', { }, err));
+                }
+
+                var data = { campaign: campaign, email: mail };
+
+                res.json(data);
             });
         });
 
@@ -69,31 +69,32 @@ module.exports = function (router) {
     });
 
     router.put('/campaigns/:id', function (req, res, next) {
-       var idEmail = req.body.email._id;; 
-
-       delete req.body.campaign._id;
-       delete req.body.email._id;
+        delete req.body.campaign._id;
         model.Campaign.findByIdAndUpdate(req.params.id, req.body.campaign, function (err, campaign) {
             if (err) {
                 return next(Error.create('An error occurred trying update the Campaign.', { }, err));
             }
-                req.body.email.editor = req.body.campaign.editor;
-                req.body.email.page = req.body.campaign.page;
-                req.body.email.customPage = req.body.campaign.customPage;
-
-            console.log(req.params.id);    
-           model.emailing.Task.findByIdAndUpdate(idEmail, req.body.email ,function (err, emailing) {
-            if (err) {
-                return next(Error.create('An error occurred trying update the Email.', { }, err));
+            var id = req.body.email._id;
+            delete req.body.email._id;
+            req.body.email.campaign = campaign._id;
+            req.body.email.editor = campaign.editor;
+            if (campaign.page) {
+                req.body.email.page = campaign.page;
             }
-            console.log(emailing);
-            res.status(200).end();
-            }); 
+            if (campaign.customPage) {
+                req.body.email.customPage = campaign.customPage;
+            }
+            model.emailing.Task.findByIdAndUpdate(id, req.body.email, function (err, emailing) {
+                if (err) {
+                    return next(Error.create('An error occurred trying update the Email.', { }, err));
+                }
+                res.status(200).end();
+            });
         });
     });
 
 
-     router.delete('/campaigns/:id', function (req, res, next) {
+    router.delete('/campaigns/:id', function (req, res, next) {
 
         var campaign = {
             editor: req.user._id,
@@ -124,6 +125,6 @@ module.exports = function (router) {
             res.status(200).end();
         });
     });
-     
+
     return router;
 };
