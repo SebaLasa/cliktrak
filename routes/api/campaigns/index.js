@@ -15,20 +15,23 @@ module.exports = function (router) {
         });
     });
 
-    router.get('/campaigns/:id', function (req, res, next) {
+    router.get('/campaigns/:id', function (req, res, next) {    
+       
         if (!validate.objectId(req.params.id)) {
             return res.status(400).end();
         }
+
         model.Campaign.findOne({_id: req.params.id, deleted: false, company: req.company._id},function (err, campaign) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Campaign.', { }, err));
             }
-            model.emailing.Task.findOne({campaign: req.params.id, deleted: false, company: req.company._id}).exec(function (err, emailing) {
+            model.emailing.Task.findOne({campaign: campaign._id}).exec(function (err, mail) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Email.', { }, err));
             }
-            var data = { campaign: campaign, email: emailing };
-            console.log(data);
+            
+            var data = { campaign: campaign, email: mail };
+            
             res.json(data);
             });
         });
@@ -67,8 +70,9 @@ module.exports = function (router) {
     });
 
     router.put('/campaigns/:id', function (req, res, next) {
-       console.log(req.body); 
-
+       var id = req.body.campaign._id; 
+       delete req.body.campaign._id;
+       delete req.body.email._id;
         model.Campaign.findByIdAndUpdate(req.params.id, req.body.campaign, function (err, campaign) {
             if (err) {
                 return next(Error.create('An error occurred trying update the Campaign.', { }, err));
@@ -77,8 +81,7 @@ module.exports = function (router) {
                 req.body.email.page = req.body.campaign.page;
                 req.body.email.customPage = req.body.campaign.customPage;
 
-            console.log(req.body.email);    
-            model.emailing.Task.findOneAndUpdate({campaign: req.params.id, deleted: false, company: req.company._id}, req.body.email ,function (err, emailing) {
+            model.emailing.Task.findOneAndUpdate({campaign: id}, req.body.email ,function (err, emailing) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Email.', { }, err));
             }
