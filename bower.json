@@ -12,7 +12,8 @@
     "angular-ui-date": "~0.0.3",
     "angular-charts": "~0.2.4",
     "ng-file-upload": "~1.6.6",
-    "angular-ui-tinymce": "git://github.com/angular-ui/ui-tinymce#c46b97622443bf5c0ba4e2e013f8721952b6124f"
+    "angular-ui-tinymce": 
+"git://github.com/angular-ui/ui-tinymce#9a334628d6308c0f5919b501f0b0e4b2d9ff1f92"
   },
   "ignore": [
     "node_modules",
