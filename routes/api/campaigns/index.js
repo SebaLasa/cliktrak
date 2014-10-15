@@ -58,7 +58,6 @@ module.exports = function (router) {
                 email.page = campaign.page;
                 email.customPage = campaign.customPage;
                 email.state = model.enums.taskStates[0];
-                console.log(email);
                 email.save(function (err, email) {
                     if (err) {
                         return next(Error.create('An error occurred trying save the Email Task.', { }, err));
@@ -70,7 +69,8 @@ module.exports = function (router) {
     });
 
     router.put('/campaigns/:id', function (req, res, next) {
-       var id = req.body.campaign._id; 
+       var idEmail = req.body.email._id;; 
+
        delete req.body.campaign._id;
        delete req.body.email._id;
         model.Campaign.findByIdAndUpdate(req.params.id, req.body.campaign, function (err, campaign) {
@@ -81,12 +81,14 @@ module.exports = function (router) {
                 req.body.email.page = req.body.campaign.page;
                 req.body.email.customPage = req.body.campaign.customPage;
 
-            model.emailing.Task.findOneAndUpdate({campaign: id}, req.body.email ,function (err, emailing) {
+            console.log(req.params.id);    
+           model.emailing.Task.findByIdAndUpdate(idEmail, req.body.email ,function (err, emailing) {
             if (err) {
-                return next(Error.create('An error occurred trying get the Email.', { }, err));
+                return next(Error.create('An error occurred trying update the Email.', { }, err));
             }
+            console.log(emailing);
             res.status(200).end();
-            });
+            }); 
         });
     });
 
