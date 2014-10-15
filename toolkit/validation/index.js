@@ -17,10 +17,8 @@ validation.validate.required = function (obj, fields) {
             if (!obj[parent] || !obj[parent][child]) {
                 result.push(fieldName);
             }
-        } else {
-            if (!obj[fieldName]) {
-                result.push(fieldName);
-            }
+        } else if (!obj[fieldName]) {
+            result.push(fieldName);
         }
     });
 

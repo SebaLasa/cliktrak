@@ -8,7 +8,7 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" ng-model="campaign.name" maxlength="80"
+                    <input type="text" id="name" name="name" ng-model="campaign.name" required maxlength="80"
                            class="form-control"/>
                 </div>
             </div>
@@ -47,7 +47,7 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <label for="subject">Asunto</label>
-                    <input type="text" id="subject" name="subject" ng-model="email.subject" maxlength="100"
+                    <input type="text" id="subject" name="subject" ng-model="email.subject" required maxlength="100"
                            class="form-control"/>
                 </div>
             </div>
@@ -101,13 +101,14 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="start">Incio</label>
-                    <input type="text" id="start" name="start" ng-model="email.dateStart" ui-date class="form-control"/>
+                    <input type="date" id="start" name="start" ng-model="email.dateStart" required
+                           class="form-control"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="end">Finalización</label>
-                    <input type="text" id="end" name="end" ng-model="email.dateEnd" ui-date class="form-control"/>
+                    <input type="date" id="end" name="end" ng-model="email.dateEnd" required class="form-control"/>
                 </div>
             </div>
         </div>
@@ -147,8 +148,7 @@
         </div>
         <div class="input-group">
             <label for="startTime">Hora de Inicio</label>
-            <!--<input type="text" id="startTime" name="startTime" class="form-control"/> -->
-            <input type="text" id="startTime" name="startTime" class="form-control" ng-model="email.startTime" data-autoclose="1" placeholder="Hora de inicio" bs-timepicker>
+            <input type="time" id="startTime" name="startTime" ng-model="email.startTime" class="form-control"/>
         </div>
         <hr>
         <div class="row">

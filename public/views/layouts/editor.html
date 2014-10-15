@@ -3,6 +3,7 @@
 
     <h2>{{pageTitle}}</h2>
     <img ng-src='/{{layout.image}}' ng-show="layout.image">
+
     <form ng-submit="save()">
         <div class="division">
             Datos Generales
@@ -10,12 +11,12 @@
         <div class="section">
             <div class="input-group">
                 <label for="name">Nombre</label>
-                <input type="text" id="name" ng-model="layout.name" class="form-control" required/>
+                <input type="text" id="name" ng-model="layout.name" required maxlength="80" class="form-control"/>
             </div>
             <div class="input-group">
                 <label for="bodyBackgroundColor">Color de fondo general</label>
                 <input type="text" id="bodyBackgroundColor" colorpicker="hex" colorpicker-with-input="true"
-                       ng-model="layout.bodyBackgroundColor" class="form-control" />
+                       ng-model="layout.bodyBackgroundColor" class="form-control"/>
             </div>
         </div>
         <div class="division">
@@ -24,11 +25,12 @@
         <div class="section">
             <div class="input-group">
                 <label for="headerImage">Imagen de Cabecera</label>
+
                 <div class="control-group">
                     <div class="controls">
                         <span class="btn btn-default fileinput-button">
                             <span class="glyphicon glyphicon-folder-open"></span>
-                            <input type="file" ng-file-select="onFileSelect($files)" accept="image/*" />
+                            <input type="file" ng-file-select="onFileSelect($files)" accept="image/*"/>
                             <span ng-hide="layout.file">&nbsp;Ningún archivo seleccionado.</span>
                             <span ng-show="layout.file">&nbsp;Seleccionado: {{layout.file.name}}</span>
                         </span>
@@ -38,7 +40,7 @@
             <div class="input-group">
                 <label for="headerBackgroundColor">Color de fondo</label>
                 <input type="text" id="headerBackgroundColor" colorpicker="hex" colorpicker-with-input="true"
-                       ng-model="layout.headerBackgroundColor" class="form-control" />
+                       ng-model="layout.headerBackgroundColor" class="form-control"/>
             </div>
         </div>
         <div class="division">
@@ -51,7 +53,7 @@
             <div class="input-group">
                 <label for="footerBackgroundColor">Color de fondo</label>
                 <input type="text" id="footerBackgroundColor" colorpicker="hex" colorpicker-with-input="true"
-                       ng-model="layout.footerBackgroundColor" class="form-control" />
+                       ng-model="layout.footerBackgroundColor" class="form-control"/>
             </div>
         </div>
         <br/>

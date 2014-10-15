@@ -39,25 +39,25 @@ module.exports = function (router) {
             console.log(options);
             csvparse(upload.data, {columns: true}, function (err, output) {
                 async.each(output, function (data, callback) {
-                    if(options.uploadType=='new'){
+                    if (options.uploadType == 'new') {
                         var contact = new model.Contact(data);
                         contact.editor = req.user._id;
                         contact.company = req.company._id;
                         contact.save(callback);
                     }
-                    var query = {deleted:false}; //TODO: Remove once unique fields are validated
+                    var query = {deleted: false}; //TODO: Remove once unique fields are validated
 
-                    if(options.matchEmail){
+                    if (options.matchEmail) {
                         query.email = data.email
                     }
-                    if(options.matchTelephone){
+                    if (options.matchTelephone) {
                         query.telephone = data.telephone
                     }
-                    if(options.matchMobile){
+                    if (options.matchMobile) {
                         query.mobilePhone = data.mobilePhone
                     }
 
-                    if(options.uploadType=='remove') {
+                    if (options.uploadType == 'remove') {
                         model.Contact.findOne(query, function (err, contact) {
                             if (err) {
                                 //TODO: Batch logging
@@ -82,8 +82,8 @@ module.exports = function (router) {
 
                         });
                     }
-                    if(options.uploadType=='edit'){
-                        model.Contact.findOneAndUpdate(query,data,function (err, contact) {
+                    if (options.uploadType == 'edit') {
+                        model.Contact.findOneAndUpdate(query, data, function (err, contact) {
                             if (err) {
                                 //TODO: Batch logging
                                 callback('An error occurred trying update the Contact.');
@@ -92,7 +92,7 @@ module.exports = function (router) {
 
                             callback();
                         });
-                    }else{
+                    } else {
                         callback('No mode Specified')
                     }
 
@@ -113,7 +113,7 @@ module.exports = function (router) {
                 });
             }
             if (part.name == 'file') {
-                upload.data='';
+                upload.data = '';
                 part.on('data', function (buffer) {
                     upload.data += buffer;
                 });
@@ -125,6 +125,10 @@ module.exports = function (router) {
     });
 
     router.post('/contacts', function (req, res, next) {
+        var fields = validate.required(req.body, ['name', 'email']);
+        if (fields.length) {
+            return next(Error.http(400, 'Por favor complete todos los campos requeridos.', { fields: fields }));
+        }
         var contact = new model.Contact(req.body);
         contact.editor = req.user._id;
         contact.company = req.company._id;
@@ -138,6 +142,10 @@ module.exports = function (router) {
     });
 
     router.put('/contacts/:id', function (req, res, next) {
+        var fields = validate.required(req.body, ['name', 'email']);
+        if (fields.length) {
+            return next(Error.http(400, 'Por favor complete todos los campos requeridos.', { fields: fields }));
+        }
         delete req.body._id;
         req.body.editor = req.user._id;
         model.Contact.findByIdAndUpdate(req.params.id, req.body, function (err, contact) {

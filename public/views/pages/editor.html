@@ -8,13 +8,15 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" ng-model="page.name" required class="form-control"/>
+                    <input type="text" id="name" name="name" ng-model="page.name" required maxlength="80"
+                           class="form-control"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="title">Título</label>
-                    <input type="text" id="title" name="title" ng-model="page.title" required class="form-control"/>
+                    <input type="text" id="title" name="title" ng-model="page.title" required maxlength="80"
+                           class="form-control"/>
                 </div>
             </div>
         </div>
@@ -23,7 +25,7 @@
                 <div class="input-group">
                     <label for="layout">Diseño</label>
                     <select id="layout" name="layout" ng-model="page.layout"
-                            ng-options="layout._id as layout.name for layout in layouts" class="form-control">
+                            ng-options="layout._id as layout.name for layout in layouts" required class="form-control">
                     </select>
                 </div>
             </div>
@@ -54,7 +56,7 @@
                 <div class="input-group">
                     <label for="subdomain">Subdominio</label>
                     <input type="text" id="subdomain" name="subdomain" ng-model="urlConfiguration.subdomain"
-                           ng-required="!page.forCustomPages" class="form-control"/>
+                           ng-required="!page.forCustomPages" maxlength="20" class="form-control"/>
                     <span ng-show="urlConfiguration.subdomain">
                         http://{{urlConfiguration.subdomain}}.{{host}}
                     </span>
@@ -134,6 +136,7 @@
         </div>
         <br/>
         <input type="submit" value="Guardar" ng-click="customize=false;" class="btn btn-primary"/>
-        <input type="submit" value="Guardar y Personalizar" ng-click="customize=true;" class="btn btn-primary" ng-show="page.forCustomPages" />
+        <input type="submit" value="Guardar y Personalizar" ng-click="customize=true;" class="btn btn-primary"
+               ng-show="page.forCustomPages"/>
     </form>
 </div>

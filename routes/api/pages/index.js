@@ -51,6 +51,11 @@ module.exports = function (router) {
     }
 
     router.post('/pages', function (req, res, next) {
+        var fields = validate.required(req.body.page, ['name', 'title', 'layout', 'html']);
+        if (fields.length) {
+            return next(Error.http(400, 'Por favor complete todos los campos requeridos.', { fields: fields }));
+        }
+
         var page = new model.Page(req.body.page);
         page.editor = req.user._id;
         page.company = req.company._id;
@@ -70,6 +75,10 @@ module.exports = function (router) {
     });
 
     router.put('/pages/:id', function (req, res, next) {
+        var fields = validate.required(req.body.page, ['name', 'title', 'layout', 'html']);
+        if (fields.length) {
+            return next(Error.http(400, 'Por favor complete todos los campos requeridos.', { fields: fields }));
+        }
         delete req.body.page._id;
         delete req.body.page.urlConfiguration;
         delete req.body.urlConfiguration._id;

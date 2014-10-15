@@ -146,12 +146,12 @@ model.UrlConfiguration = mongoose.model('urlConfigurations', new Schema({
 
 model.Contact = mongoose.model('contacts', new Schema({
     name: { type: String, required: true },
-    surname: { type: String, required: true },
+    surname: { type: String },
     birthDate: { type: Date },
     gender: { type: String, enum: model.enums.gender },
     telephone: { type: String },
     mobilePhone: { type: String },
-    email: { type: String },
+    email: { type: String, required: true },
     address: { type: String },
     state: { type: String },
     city: { type: String },
