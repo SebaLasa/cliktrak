@@ -3,7 +3,7 @@
 
     <h2>{{pageTitle}}</h2>
 
-    <form ng-submit="save()">
+    <form ng-submit="campaignEditorForm.message.$valid && save()" name="campaignEditorForm" class="form" role="form">
         <div class="row">
             <div class="col-md-6">
                 <div class="input-group">
