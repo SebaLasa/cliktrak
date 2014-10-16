@@ -94,6 +94,10 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.page.html += '<img class="dynamicQr dynamicQr' + $scope.page.quantityDynamicQrCodes + '" src="/images/codes/qr' + $scope.page.quantityDynamicQrCodes + '.png"/>';
         $scope.page.quantityDynamicQrCodes++;
     };
+    $scope.setSubmitted = function (customize) {
+        $scope.customize = customize;
+        $scope.formSubmitted = true;
+    };
     $scope.save = function () {
         var data = { page: $scope.page, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {
