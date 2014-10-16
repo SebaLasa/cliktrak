@@ -94,10 +94,11 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.page.html += '<img class="dynamicQr dynamicQr' + $scope.page.quantityDynamicQrCodes + '" src="/images/codes/qr' + $scope.page.quantityDynamicQrCodes + '.png"/>';
         $scope.page.quantityDynamicQrCodes++;
     };
+    $scope.setSubmitted = function (customize) {
+        $scope.customize = customize;
+        $scope.formSubmitted = true;
+    };
     $scope.save = function () {
-        if (!$scope.page.html){
-            return alert('La página debe tener un contenido para poder guardarse.');
-        }
         var data = { page: $scope.page, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {
             return $http.put('/api/pages/' + $routeParams.id, data)

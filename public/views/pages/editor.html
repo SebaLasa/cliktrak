@@ -3,7 +3,7 @@
 
     <h2>{{pageTitle}}</h2>
 
-    <form ng-submit="pageEditorForm.$valid && save()" name="pageEditorForm" role="form" class="form">
+    <form ng-submit="save()" name="pageEditorForm" role="form" class="form">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -66,6 +66,9 @@
         <div class="row">
             <div class="col-md-8 form-group">
                 <label for="html">HTML</label>
+                <span ng-show="formSubmitted && !pageEditorForm.html.$valid" class="red">
+                    La página debe tener un contenido para poder guardarse.
+                </span>
                 <textarea id="html" name="html" ui-tinymce ng-model="page.html" required></textarea>
             </div>
             <div class="col-md-4 form-group">
@@ -135,8 +138,8 @@
             </div>
         </div>
         <br/>
-        <input type="submit" value="Guardar" ng-click="customize=false;" class="btn btn-primary"/>
-        <input type="submit" value="Guardar y Personalizar" ng-click="customize=true;" class="btn btn-primary"
-               ng-show="page.forCustomPages"/>
+        <input type="submit" ng-click="setSubmitted(false)" value="Guardar" class="btn btn-primary"/>
+        <input type="submit" ng-click="setSubmitted(true)" ng-show="page.forCustomPages" value="Guardar y Personalizar"
+               class="btn btn-primary"/>
     </form>
 </div>

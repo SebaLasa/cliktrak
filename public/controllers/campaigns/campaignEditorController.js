@@ -75,8 +75,11 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
         }
     }
 
+    $scope.setSubmitted = function () {
+        $scope.formSubmitted = true;
+    };
     $scope.save = function () {
-        if (!$scope.email.message){
+        if (!$scope.email.message) {
             return alert('El mail debe tener un mensaje para poder enviarse.');
         }
         if (!$scope.pageType || !$scope.page) {
@@ -113,7 +116,7 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
 
     $scope.addFieldToMessage = function (field) {
         $scope.email.message += '##' + field + '##';
-    }
+    };
 
     $scope.addCustomValue = function (customValue) {
         $scope.email.message += '##' + customValue + '##';
