@@ -3,12 +3,13 @@
 
     <h2>{{pageTitle}}</h2>
 
-    <form ng-submit="save()">
+    <form ng-submit="save()" name="campaignEditorForm" class="form" role="form">
         <div class="row">
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" ng-model="campaign.name" maxlength="80" required class="form-control"/>
+                    <input type="text" id="name" name="name" ng-model="campaign.name" required maxlength="80"
+                           class="form-control"/>
                 </div>
             </div>
         </div>
@@ -46,7 +47,7 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <label for="subject">Asunto</label>
-                    <input type="text" id="subject" name="subject" ng-model="email.subject" maxlength="100" required
+                    <input type="text" id="subject" name="subject" ng-model="email.subject" required maxlength="100"
                            class="form-control"/>
                 </div>
             </div>
@@ -58,7 +59,10 @@
 
         <div class="row">
             <div class="col-md-9">
-                <textarea ng-model="email.message" required ui-tinymce></textarea>
+                 <span ng-show="formSubmitted && !campaignEditorForm.message.$valid" class="red">
+                    El e-mail debe tener un contenido para poder enviarse.
+                </span>
+                <textarea id="message" name="message" ng-model="email.message" required ui-tinymce></textarea>
             </div>
             <div class="col-md-3">
 
@@ -100,13 +104,14 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="start">Incio</label>
-                    <input type="text" id="start" name="start" ng-model="email.dateStart" ui-date required class="form-control"/>
+                    <input type="date" id="start" name="start" ng-model="email.dateStart" required
+                           class="form-control"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="end">Finalización</label>
-                    <input type="text" id="end" name="end" ng-model="email.dateEnd" ui-date required class="form-control"/>
+                    <input type="date" id="end" name="end" ng-model="email.dateEnd" required class="form-control"/>
                 </div>
             </div>
         </div>
@@ -146,8 +151,7 @@
         </div>
         <div class="input-group">
             <label for="startTime">Hora de Inicio</label>
-            <!--<input type="text" id="startTime" name="startTime" class="form-control"/> -->
-            <input type="text" id="startTime" name="startTime" class="form-control" ng-model="email.startTime" data-autoclose="1" placeholder="Hora de inicio" required bs-timepicker>
+            <input type="time" id="startTime" name="startTime" ng-model="email.startTime" class="form-control"/>
         </div>
         <hr>
         <div class="row">
@@ -190,6 +194,6 @@
             </div>
         </div>
         <hr>
-        <input type="submit" value="Programar Envio" class="btn btn-primary"/>
+        <input type="submit" ng-click="setSubmitted()" value="Programar Envio" class="btn btn-primary"/>
     </form>
 </div>

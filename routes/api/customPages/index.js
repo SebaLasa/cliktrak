@@ -28,6 +28,10 @@ module.exports = function (router) {
     });
 
     router.post('/customPages', function (req, res, next) {
+        var fields = validate.required(req.body.customPage, ['name', 'dateStart', 'dateEnd', 'page']);
+        if (fields.length) {
+            return next(Error.http(400, 'Por favor complete todos los campos requeridos.', { fields: fields }));
+        }
         var urlConfiguration = new model.UrlConfiguration(req.body.urlConfiguration);
         urlConfiguration.save(function (err, urlConfiguration) {
             if (err) {
@@ -53,6 +57,10 @@ module.exports = function (router) {
     });
 
     router.put('/customPages/:id', function (req, res, next) {
+        var fields = validate.required(req.body.customPage, ['name', 'dateStart', 'dateEnd', 'page']);
+        if (fields.length) {
+            return next(Error.http(400, 'Por favor complete todos los campos requeridos.', { fields: fields }));
+        }
         delete req.body.customPage._id;
         delete req.body.customPage.urlConfiguration;
         delete req.body.urlConfiguration._id;

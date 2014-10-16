@@ -3,8 +3,8 @@ angular.module('clicks').controller('contactEditorController', function ($scope,
         $http.get('/api/contacts/' + $routeParams.id)
             .success(function (data, status) {
                 $scope.contact = data;
-                if ($scope.contact.birthDate && !angular.isDate($scope.contact.birthDate)) {
-                    $scope.contact.birthDate = new Date($scope.contact.birthDate);
+                if ($scope.contact.birthDate) {
+                    $scope.contact.birthDate = $scope.contact.birthDate.substr(0, 10);
                 }
 
                 $scope.pageTitle = data.name + ' ' + data.surname;

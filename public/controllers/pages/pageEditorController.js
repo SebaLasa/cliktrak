@@ -40,9 +40,6 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
     }
 
     $scope.host = $window.location.host;
-    $http.get('/api/layouts/').success(function (data, status) {
-        $scope.layouts = data;
-    });
     if ($routeParams.id) {
         $http.get('/api/pages/' + $routeParams.id)
             .success(function (data, status) {
@@ -59,6 +56,16 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.urlConfiguration = {};
         registerWatchers();
     }
+    $http.get('/api/layouts/').success(function (data, status) {
+        if (!data.length) {
+            alert('Debe dar de alta un diseño para poder crear una página.');
+            return $location.path('layouts/new');
+        }
+        $scope.layouts = data;
+        if (!$scope.page.layout) {
+            $scope.page.layout = data[0]._id;
+        }
+    });
     $scope.addBarcode = function () {
         if ($($scope.page.html).find('.staticBarcode').length) {
             return alert('Un código de barras estático ya ha sido agregado.');
@@ -87,17 +94,29 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.page.html += '<img class="dynamicQr dynamicQr' + $scope.page.quantityDynamicQrCodes + '" src="/images/codes/qr' + $scope.page.quantityDynamicQrCodes + '.png"/>';
         $scope.page.quantityDynamicQrCodes++;
     };
+    $scope.setSubmitted = function (customize) {
+        $scope.customize = customize;
+        $scope.formSubmitted = true;
+    };
     $scope.save = function () {
         var data = { page: $scope.page, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {
             return $http.put('/api/pages/' + $routeParams.id, data)
                 .success(function (data, status) {
-                    $location.path('pages');
+                    if ($scope.customize) {
+                        $location.path('/customPages/new/' + $routeParams.id);
+                    } else {
+                        $location.path('pages');
+                    }
                 });
         }
         $http.post('/api/pages/', data)
             .success(function (data, status) {
-                $location.path('pages');
+                if ($scope.customize) {
+                    $location.path('/customPages/new/' + data.id);
+                } else {
+                    $location.path('pages');
+                }
             });
     };
 });

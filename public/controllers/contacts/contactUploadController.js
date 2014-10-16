@@ -10,7 +10,7 @@ angular.module('clicks').controller('contactUploadController', function ($scope,
             data: {options: $scope.options},
             file: $scope.file // or list of files ($files) for html5 only
         }).progress(function (evt) {
-            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+            console.log('percent:', parseInt(100.0 * evt.loaded / evt.total));
         }).success(function (data, status, headers, config) {
             // file is uploaded successfully
             $location.path('contacts');

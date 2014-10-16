@@ -8,14 +8,15 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="name">Nombre</label>
-                    <input type="text" id="name" ng-model="customPage.name" class="form-control"/>
+                    <input type="text" id="name" ng-model="customPage.name" required maxlength="80"
+                           class="form-control"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="dateStart">Inicio</label>
-                    <input type="text" id="dateStart" name="dateStart" ng-model="customPage.dateStart" ui-date
-                           class="form-control"/>
+                    <input type="date" id="dateStart" name="dateStart" ng-model="customPage.dateStart" required
+                           placeholder="yyyy-mm-dd" min="2014-01-01" max="2015-12-31" class="form-control"/>
                 </div>
             </div>
         </div>
@@ -32,8 +33,8 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="dateEnd">Finalización</label>
-                    <input type="text" id="dateEnd" name="dateEnd" ng-model="customPage.dateEnd" ui-date
-                           class="form-control"/>
+                    <input type="date" id="dateEnd" name="dateEnd" ng-model="customPage.dateEnd" required
+                           placeholder="yyyy-mm-dd" min="2014-01-01" max="2015-12-31" class="form-control"/>
                 </div>
             </div>
         </div>
@@ -50,8 +51,8 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <label for="subdomain">Subdomain</label>
-                    <input type="text" id="subdomain" name="subdomain" ng-model="urlConfiguration.subdomain"
-                           class="form-control"/>
+                    <input type="text" id="subdomain" name="subdomain" ng-model="urlConfiguration.subdomain" required
+                           maxlength="20" class="form-control"/>
                     <span ng-show="urlConfiguration.subdomain">
                         http://{{urlConfiguration.subdomain}}.{{host}}
                     </span>
@@ -71,7 +72,8 @@
                 <div class="input-group">
                     <label for="page">Página</label>
                     <select id="page" name="page" ng-model="customPage.page" ng-change="pageSelected()"
-                            ng-options="page._id as page.name for page in pages" class="form-control"></select>
+                            ng-options="page._id as page.name for page in pages | filter:{forCustomPages:true}"
+                            class="form-control"></select>
                 </div>
             </div>
         </div>

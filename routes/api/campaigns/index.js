@@ -39,6 +39,11 @@ module.exports = function (router) {
     });
 
     router.post('/campaigns', function (req, res, next) {
+        var fields = validate.required(req.body.campaign, ['name']);
+        fields.concat(validate.required(req.body.email, ['subject', 'message', 'dateStart', 'dateEnd']));
+        if (fields.length) {
+            return next(Error.http(400, 'Por favor complete todos los campos requeridos.', { fields: fields }));
+        }
         var campaign = new model.Campaign(req.body.campaign);
         campaign.company = req.company._id;
         campaign.editor = req.user._id;

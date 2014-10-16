@@ -78,16 +78,22 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
         }
     }
 
+    $scope.setSubmitted = function () {
+        $scope.formSubmitted = true;
+    };
     $scope.save = function () {
+        if (!$scope.email.message) {
+            return alert('El mail debe tener un mensaje para poder enviarse.');
+        }
         if (!$scope.pageType || !$scope.page) {
-            return alert('Please, select a page for the campaign.');
+            return alert('Por favor, seleccione una página para la campaña.');
         }
         $scope.campaign[$scope.pageType] = $scope.page._id;
         $scope.email.contacts = _($scope.contacts).filter(function (contact) {
             return contact.selected;
         }).pluck('_id').value();
-        if (!$scope.email.contacts.length && $scope.pageType=="page") {
-            return alert('Plase, select a contact for the campaign.');
+        if (!$scope.email.contacts.length && $scope.pageType == 'page') {
+            return alert('Por favor, seleccione al menos un contacto para la campaña.');
         }
         $scope.email.triggers = [
             { days: getDays() }
@@ -113,7 +119,7 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
 
     $scope.addFieldToMessage = function (field) {
         $scope.email.message += '##' + field + '##';
-    }
+    };
 
     $scope.addCustomValue = function (customValue) {
         $scope.email.message += '##' + customValue + '##';

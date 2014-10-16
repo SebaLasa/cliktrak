@@ -1,5 +1,5 @@
-angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.date', 'angularCharts','click-interceptor','angularFileUpload','angularUtils.directives.dirPagination'])
-    .config(function ($routeProvider, $httpProvider) {
+angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.date', 'angularCharts', 'click-interceptor', 'angularFileUpload', 'angularUtils.directives.dirPagination'])
+    .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/', {
                 controller: 'homeController',
@@ -41,7 +41,7 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 controller: 'customPagesController',
                 templateUrl: '/views/customPages/index.html'
             })
-            .when('/customPages/new', {
+            .when('/customPages/new/:staticId?', {
                 controller: 'customPageEditorController',
                 templateUrl: '/views/customPages/editor.html'
             })
@@ -94,11 +94,11 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 templateUrl: '/views/contacts/delete.html'
             })
             .otherwise({ redirectTo: '/' });
-
-        // Interceptors
+    }])
+    .config(['$httpProvider', function ($httpProvider) {
         $httpProvider.responseInterceptors.push('httpInterceptor');
-        $httpProvider.defaults.transformRequest.push(function (data, headersGetter) {
+        $httpProvider.defaults.transformRequest.push(function (data) {
             $('#loading').show();
             return data;
         });
-    });
+    }]);
