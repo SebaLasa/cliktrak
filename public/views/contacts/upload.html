@@ -1,25 +1,28 @@
-<div>
+<div class="container">
     <form ng-submit="save()">
         <span>Metodo de Actualizacion</span>
-        <select ng-model="options.uploadType">
+        <select ng-model="options.uploadType" required>
+            <option value="">Seleccione uno</option>
             <option value="new">Agregar nuevos</option>
             <option value="edit">Actualizar Existentes</option>
             <option value="remove">Borrar</option>
         </select>
 
+        <br/>
         <span> Seleccione los campos a matchear </span>
         <div>
             <input type="checkbox" ng-model="options.matchEmail"/>Email<br/>
             <input type="checkbox" ng-model="options.matchTelephone"/>Telefono<br/>
-            <input type="checkbox"ng-model="options.matchMobile"/>Celular<br/>
+            <input type="checkbox" ng-model="options.matchMobile"/>Celular<br/>
         </div>
         <h3>Subir CSV</h3> <a href="/examplefiles/contacts.csv">Ejemplo</a>
 
         <div class="btn-group">
                 <span class="btn btn-default fileinput-button">
                     <span class="glyphicon glyphicon-folder-open"></span>
-                    <input type="file" name="contacts-csv" fileread="csv">
-                    <input type="file" ng-file-select="onFileSelect($files)" accept="text/csv">
+                    <input type="file" ng-file-select="onFileSelect($files)" accept="text/csv" required>
+                    <span ng-hide="file">&nbsp;Ningún archivo seleccionado.</span>
+                    <span ng-show="file">&nbsp;Seleccionado: {{file.name}}</span>
                 </span>
             <input type="submit" value="Guardar" class="btn btn-primary"/>
         </div>

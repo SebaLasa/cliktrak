@@ -36,44 +36,56 @@ module.exports = function (router) {
         form.on('error', next);
         form.on('close', function () {
             var options = JSON.parse(upload.options);
-            console.log(options);
             csvparse(upload.data, {columns: true}, function (err, output) {
                 async.each(output, function (data, callback) {
+                    if (!options.uploadType) {
+                        callback('No se especificó un método de actualización');
+                    }
                     if (options.uploadType == 'new') {
-                        var contact = new model.Contact(data);
-                        contact.editor = req.user._id;
-                        contact.company = req.company._id;
-                        contact.save(callback);
+                        model.Contact.findOne({email: data.email, company: req.company._id, deleted: false}, function (err, contactDuplicate) {
+                            if (err) {
+                                callback('Ocurrió un error tratando de crear un contacto.');
+                                return;
+                            }
+                            if (contactDuplicate) {
+                                callback('Ya existe un contacto con ese mail.');
+                                return;
+                            }
+                            var contact = new model.Contact(data);
+                            contact.editor = req.user._id;
+                            contact.company = req.company._id;
+                            contact.save(callback);
+                        });
                     }
                     var query = {deleted: false}; //TODO: Remove once unique fields are validated
 
                     if (options.matchEmail) {
-                        query.email = data.email
+                        query.email = data.email;
                     }
                     if (options.matchTelephone) {
-                        query.telephone = data.telephone
+                        query.telephone = data.telephone;
                     }
                     if (options.matchMobile) {
-                        query.mobilePhone = data.mobilePhone
+                        query.mobilePhone = data.mobilePhone;
                     }
+                    query.company = req.company._id;
 
                     if (options.uploadType == 'remove') {
                         model.Contact.findOne(query, function (err, contact) {
                             if (err) {
                                 //TODO: Batch logging
-                                callback('An error occurred trying delete the Contact.')
+                                callback('Ocurrió un error tratando de borrar un contacto.');
                                 return;
                             }
 
-
-                            if (!contact || contact.deleted || !req.company._id.equals(contact.company)) {
+                            if (!contact || contact.deleted) {
                                 callback();
                                 return;
                             }
                             contact.deleted = true;
                             contact.save(function (err) {
                                 if (err) {
-                                    callback('An error occurred trying delete the Contact.')
+                                    callback('Ocurrió un error tratando de borrar un contacto.');
                                     return;
                                 }
                                 callback();
@@ -86,19 +98,17 @@ module.exports = function (router) {
                         model.Contact.findOneAndUpdate(query, data, function (err, contact) {
                             if (err) {
                                 //TODO: Batch logging
-                                callback('An error occurred trying update the Contact.');
+                                callback('Ocurrió un error tratando de actualizar un contacto.');
                                 return;
                             }
 
                             callback();
                         });
-                    } else {
-                        callback('No mode Specified')
                     }
 
                 }, function (err) {
                     if (err) {
-                        return next(Error.create('An error occurred trying save a Contact.', { }, err));
+                        return next(Error.create('Ocurrió un error tratando de guardar un contacto.', { }, err));
                     }
                     res.redirect('/back#/contacts');
                 });
