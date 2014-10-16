@@ -40,6 +40,7 @@ module.exports = function (router) {
                 async.each(output, function (data, callback) {
                     if (!options.uploadType) {
                         callback('No se especificó un método de actualización');
+                        return;
                     }
                     if (options.uploadType == 'new') {
                         model.Contact.findOne({email: data.email, company: req.company._id, deleted: false}, function (err, contactDuplicate) {
@@ -101,7 +102,13 @@ module.exports = function (router) {
                                 callback('Ocurrió un error tratando de actualizar un contacto.');
                                 return;
                             }
-
+                            if (!contact) {
+                                var newContact = new model.Contact(data);
+                                newContact.editor = req.user._id;
+                                newContact.company = req.company._id;
+                                newContact.save(callback);
+                                return;
+                            }
                             callback();
                         });
                     }
