@@ -76,6 +76,9 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
     }
 
     $scope.save = function () {
+        if (!$scope.email.message){
+            return alert('El mail debe tener un mensaje para poder enviarse.');
+        }
         if (!$scope.pageType || !$scope.page) {
             return alert('Por favor, seleccione una página para la campaña.');
         }

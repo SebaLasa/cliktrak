@@ -95,6 +95,9 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.page.quantityDynamicQrCodes++;
     };
     $scope.save = function () {
+        if (!$scope.page.html){
+            return alert('La página debe tener un contenido para poder guardarse.');
+        }
         var data = { page: $scope.page, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {
             return $http.put('/api/pages/' + $routeParams.id, data)
