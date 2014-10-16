@@ -5,26 +5,43 @@
 
     <form ng-submit="save()">
         <label for="uploadType">Método de Actualización</label>
-        <select ng-model="options.uploadType" name="uploadType" required>
-            <option value="">Seleccione uno</option>
-            <option value="new">Agregar nuevos</option>
-            <option value="edit">Actualizar Existentes</option>
-            <option value="remove">Borrar</option>
-        </select>
 
-        <br/>
-        <label for="options"> Seleccione los campos a matchear </label>
-        <div name="options" class="container">
-            <input type="checkbox" ng-model="options.matchEmail"/>Email<br/>
-            <input type="checkbox" ng-model="options.matchTelephone"/>Telefono<br/>
-            <input type="checkbox" ng-model="options.matchMobile"/>Celular<br/>
+        <div class="row">
+            <div class="col-md-4">
+                <select id="uploadType" name="uploadType" ng-model="options.uploadType" required class="form-control">
+                    <option value="">Seleccione uno</option>
+                    <option value="new">Agregar nuevos</option>
+                    <option value="edit">Actualizar Existentes</option>
+                    <option value="remove">Borrar</option>
+                </select>
+            </div>
         </div>
-        <h3>Subir CSV</h3> [<a href="/examplefiles/contacts.csv">Ejemplo</a>]
+        <br/>
+        <h4> Seleccione los campos a matchear </h4>
 
+        <div class="container">
+            <label for="matchEmail">
+                <input type="checkbox" id="matchEmail" name="matchEmail" ng-model="options.matchEmail"/>
+                &nbsp;Email
+            </label>
+            <br/>
+            <label for="matchTelephone">
+                <input type="checkbox" id="matchTelephone" name="matchTelephone" ng-model="options.matchTelephone"/>
+                &nbsp;Telefono
+            </label>
+            <br/>
+            <label for="matchMobile">
+                <input type="checkbox" id="matchMobile" name="matchMobile" ng-model="options.matchMobile"/>
+                &nbsp;Celular
+            </label>
+            <br/>
+        </div>
+        <h3>Subir CSV</h3>
+        [<a href="/examplefiles/contacts.csv">Ejemplo</a>]
         <div class="btn-group">
                 <span class="btn btn-default fileinput-button">
                     <span class="glyphicon glyphicon-folder-open"></span>
-                    <input type="file" ng-file-select="onFileSelect($files)" accept="text/csv" required>
+                    <input type="file" ng-file-select="onFileSelect($files)" accept="text/csv" required/>
                     <span ng-hide="file">&nbsp;Ningún archivo seleccionado.</span>
                     <span ng-show="file">&nbsp;Seleccionado: {{file.name}}</span>
                 </span>
