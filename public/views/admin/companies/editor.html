@@ -4,14 +4,21 @@
     <h2>Company</h2>
 
     <form ng-submit="save()">
-        <div class="input-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" ng-model="company.name"/>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" ng-model="company.name" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" ng-model="company.email" class="form-control"/>
+                </div>
+            </div>
         </div>
-        <div class="input-group">
-            <label for="email">email</label>
-            <input type="email" id="email" ng-model="company.email"/>
-        </div>
+        <br/>
         <input type="submit" value="save" class="btn btn-primary"/>
     </form>
 </div>

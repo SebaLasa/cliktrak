@@ -4,24 +4,37 @@
     <h2>User</h2>
 
     <form ng-submit="save()">
-        <div class="input-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" ng-model="user.name"/>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" ng-model="user.name" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" ng-model="user.email" class="form-control"/>
+                </div>
+            </div>
         </div>
-        <div class="input-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" ng-model="user.email"/>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" ng-model="user.password" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <label for="company">Company</label>
+                    <select id="company" name="company" ng-model="user.company"
+                            ng-options="company._id as company.name for company in companies" class="form-control">
+                    </select>
+                </div>
+            </div>
         </div>
-        <div class="input-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" ng-model="user.password"/>
-        </div>
-        <div class="input-group">
-            <label for="company">Company</label>
-            <select id="company" name="company" ng-model="user.company"
-                    ng-options="company._id as company.name for company in companies">
-            </select>
-        </div>
+        <br/>
         <input type="submit" value="save" class="btn btn-primary"/>
     </form>
 </div>
