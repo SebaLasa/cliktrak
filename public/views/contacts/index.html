@@ -7,7 +7,7 @@
             <a href="#/contacts/upload" class="btn btn-new">Importar Contactos</a>
         </div>
         <div class="col-md-6">
-            <input type="text" ng-model="nameSearch.email" placeholder="Buscar por mail" class="form-control"/>
+            <input type="text" ng-model="searchValue" placeholder="Buscar por nombre y apellido" class="form-control"/>
         </div>
     </div>
     <div class="row row-header">
@@ -16,7 +16,7 @@
         <div class="col-md-2"><h4>E-mail</h4></div>
         <div class="col-md-2"><h4>Móvil</h4></div>
     </div>
-    <div dir-paginate="contact in contacts | itemsPerPage: 10|  filter:nameSearch">
+    <div dir-paginate="contact in contacts | itemsPerPage: 10 |  filter: filterContacts">
         <div class="row" ng-class-odd="'row-odd'" ng-class-even="'row-even'">
             <div class="col-md-3">{{contact.name}}</div>
             <div class="col-md-3">{{contact.surname}}</div>
