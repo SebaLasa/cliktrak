@@ -15,6 +15,8 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
                     $scope.pageType = 'customPage';
                     $scope.customPage = data.campaign.customPage;
                 };
+                data.email.dateStart = data.email.dateStart.substr(0, 10);
+                data.email.dateEnd = data.email.dateEnd.substr(0, 10);
                 $scope.email = data.email;
                 $scope.contacts = data.email.contacts;
             }).error(function (data, status) {
