@@ -7,9 +7,16 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
             .success(function (data, status) {
                 $scope.campaign = data.campaign;
                 $scope.pageTitle = data.campaign.name;
-                $scope.page = data.campaign.page;
-                $scope.customPage = data.campaign.customPage;
+                if(data.campaign.page){
+                    $scope.pageType = 'page';
+                    $scope.page = data.campaign.page;
+                };
+                if(data.campaign.customPage){
+                    $scope.pageType = 'customPage';
+                    $scope.customPage = data.campaign.customPage;
+                };
                 $scope.email = data.email;
+                $scope.contacts = data.email.contacts;
             }).error(function (data, status) {
                 $location.path('campaigns');
             });
