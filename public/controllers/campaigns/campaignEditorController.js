@@ -22,7 +22,6 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
                 if(data.campaign.page){
                     $scope.pageType = 'page';
                     $scope.page = data.campaign.page;
-                    $scope.page._id = data.campaign.page._id;
                 };
                 if(data.campaign.customPage){
                     $scope.pageType = 'customPage';
