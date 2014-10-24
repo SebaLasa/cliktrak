@@ -2,6 +2,18 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
     $scope.allContacts = false;
     $scope.campaign = {};
     $scope.days = {};
+    
+     // TODO AN make this in one ajax call.
+    $http.get('/api/pages/active').success(function (data, status) {
+        $scope.pages = data;
+    });
+    $http.get('/api/customPages').success(function (data, status) {
+        $scope.customPages = data;
+    });
+     $http.get('/api/contacts').success(function (data, status) {
+        $scope.contacts = data;
+    });
+
     if ($routeParams.id) {
         $http.get('/api/campaigns/' + $routeParams.id)
             .success(function (data, status) {
@@ -18,24 +30,20 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
                 data.email.dateStart = data.email.dateStart.substr(0, 10);
                 data.email.dateEnd = data.email.dateEnd.substr(0, 10);
                 $scope.email = data.email;
-                $scope.contacts = data.email.contacts;
+                
+                _($scope.contacts).forEach(function (contact) {
+                    if(_.find(data.email.contacts, { '_id': contact._id })){
+                        contact.selected = true;
+                    }
+                });
+
+                $scope.days = data.email.triggers;
             }).error(function (data, status) {
                 $location.path('campaigns');
             });
     } else {
         $scope.pageTitle = 'Nueva campaña';
-    }
-
-    // TODO AN make this in one ajax call.
-    $http.get('/api/pages/active').success(function (data, status) {
-        $scope.pages = data;
-    });
-    $http.get('/api/customPages').success(function (data, status) {
-        $scope.customPages = data;
-    });
-    $http.get('/api/contacts').success(function (data, status) {
-        $scope.contacts = data;
-    });
+    };
 
     function getDays() {
         var days = 0;
@@ -122,7 +130,7 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
 
     $scope.selectAllContacts = function () {
         _.each($scope.contacts, function (contact) {
-            contact.selected = $scope.allContacts;
+            contact.selected = true;
         });
     };
 

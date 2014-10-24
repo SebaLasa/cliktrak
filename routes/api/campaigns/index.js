@@ -21,11 +21,11 @@ module.exports = function (router) {
             return res.status(400).end();
         }
 
-        model.Campaign.findOne({_id: req.params.id, deleted: false, company: req.company._id}).populate('editor').exec( function (err, campaign) {
+        model.Campaign.findOne({_id: req.params.id, deleted: false, company: req.company._id}).populate('page').exec( function (err, campaign) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Campaign.', { }, err));
             }
-            model.emailing.Task.findOne({campaign: campaign._id}).exec(function (err, mail) {
+            model.emailing.Task.findOne({campaign: campaign._id}).populate('contacts').exec(function (err, mail) {
                 if (err) {
                     return next(Error.create('An error occurred trying get the Email.', { }, err));
                 }
