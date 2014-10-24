@@ -2,15 +2,15 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
     $scope.allContacts = false;
     $scope.campaign = {};
     $scope.days = {};
-    
-     // TODO AN make this in one ajax call.
+
+    // TODO AN make this in one ajax call.
     $http.get('/api/pages/active').success(function (data, status) {
         $scope.pages = data;
     });
     $http.get('/api/customPages').success(function (data, status) {
         $scope.customPages = data;
     });
-     $http.get('/api/contacts').success(function (data, status) {
+    $http.get('/api/contacts').success(function (data, status) {
         $scope.contacts = data;
     });
 
@@ -19,20 +19,20 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
             .success(function (data, status) {
                 $scope.campaign = data.campaign;
                 $scope.pageTitle = data.campaign.name;
-                if(data.campaign.page){
+                if (data.campaign.page) {
                     $scope.pageType = 'page';
                     $scope.page = data.campaign.page;
-                };
-                if(data.campaign.customPage){
+                }
+                if (data.campaign.customPage) {
                     $scope.pageType = 'customPage';
                     $scope.customPage = data.campaign.customPage;
-                };
+                }
                 data.email.dateStart = data.email.dateStart.substr(0, 10);
                 data.email.dateEnd = data.email.dateEnd.substr(0, 10);
                 $scope.email = data.email;
-                
-                _($scope.contacts).forEach(function (contact) {
-                    if(_.find(data.email.contacts, { '_id': contact._id })){
+
+                _.forEach($scope.contacts, function (contact) {
+                    if (_.find(data.email.contacts, { '_id': contact._id })) {
                         contact.selected = true;
                     }
                 });
@@ -43,7 +43,7 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
             });
     } else {
         $scope.pageTitle = 'Nueva campaña';
-    };
+    }
 
     function getDays() {
         var days = 0;
