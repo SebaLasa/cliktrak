@@ -26,12 +26,21 @@
                 {{campaign.editor.name}}
             </div>
             <div class="col-md-2">
+                <a ng-click="enable(campaign, false)" ng-show="campaign.status"  role="button"
+                    title="La campaña está activa. Haga click para desactivar.">
+                <span class="clickicon clickicon-bulb-on"></span>
+                </a>
+                <a ng-click="enable(campaign, true)" ng-hide="campaign.status" role="button"
+                   title="La campaña está desactivada. Haga click para activar.">
+                    <span class="clickicon clickicon-bulb-off"></span>
+                </a>
                 <a href="#/campaigns/{{campaign._id}}" title="Editar campaña">
                     <span class="clickicon clickicon-pencil"></span>
                 </a>
                 <a href="#/campaigns/delete/{{campaign._id}}" title="Borrar campaña">
                     <span class="clickicon clickicon-trash"></span>
                 </a>
+
             </div>
         </div>
     </div>

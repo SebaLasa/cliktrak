@@ -6,12 +6,12 @@
     <h3>Está seguro que desea eliminar esta campaña?</h3>
 
     <div>
-        <b>Inicio</b>
-        <span>{{campaign.dateStart | dateFormat}}</span>
+        <b>ID</b>
+        <span>{{campaign.internalId}}</span>
     </div>
     <div>
-        <b>Fin</b>
-        <span>{{campaign.dateEnd | dateFormat}}</span>
+        <b>Status</b>
+        <span>{{campaign.status}}</span>
     </div>
     <form ng-submit="delete()">
         <input type="submit" value="Borrar" class="btn btn-danger"/>
