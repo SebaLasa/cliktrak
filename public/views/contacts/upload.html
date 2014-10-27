@@ -17,24 +17,32 @@
             </div>
         </div>
         <br/>
-        <h4> Seleccione los campos a matchear </h4>
+        <div class="division">
+            Campos de comparación en importación
+        </div>
+        <div class="section">
+            Seleccione los campos a comparar en el sistema por los cuales se realizará la importación
 
-        <div class="container">
-            <label for="matchEmail">
-                <input type="checkbox" id="matchEmail" name="matchEmail" ng-model="options.matchEmail"/>
-                &nbsp;Email
-            </label>
-            <br/>
-            <label for="matchTelephone">
-                <input type="checkbox" id="matchTelephone" name="matchTelephone" ng-model="options.matchTelephone"/>
-                &nbsp;Teléfono
-            </label>
-            <br/>
-            <label for="matchMobile">
-                <input type="checkbox" id="matchMobile" name="matchMobile" ng-model="options.matchMobile"/>
-                &nbsp;Celular
-            </label>
-            <br/>
+            <div class="container">
+                <label for="matchEmail">
+                    <input type="checkbox" id="matchEmail" name="matchEmail" ng-model="options.matchEmail"/>
+                    &nbsp;Email
+                </label>
+                <br/>
+                <label for="matchTelephone">
+                    <input type="checkbox" id="matchTelephone" name="matchTelephone" ng-model="options.matchTelephone"/>
+                    &nbsp;Teléfono
+                </label>
+                <br/>
+                <label for="matchMobile">
+                    <input type="checkbox" id="matchMobile" name="matchMobile" ng-model="options.matchMobile"/>
+                    &nbsp;Celular
+                </label>
+                <br/>
+            </div>
+            <span ng-show="formSubmitted && !(options.matchEmail || options.matchTelephone || options.matchMobile)" class="red">
+                    Se debe seleccionar por lo menos un campo.
+            </span>
         </div>
         <h3>Subir CSV</h3>
         [<a href="/examplefiles/contacts.csv">Ejemplo</a>]
@@ -45,7 +53,7 @@
                     <span ng-hide="file">&nbsp;Ningún archivo seleccionado.</span>
                     <span ng-show="file">&nbsp;Seleccionado: {{file.name}}</span>
                 </span>
-            <input type="submit" value="Enviar" class="btn btn-primary"/>
+            <input type="submit" ng-click="setSubmitted()" value="Enviar" class="btn btn-primary"/>
         </div>
     </form>
 </div>
