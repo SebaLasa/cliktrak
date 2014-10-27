@@ -1,9 +1,5 @@
 <div class="container">
     <a href="#/layouts" class="btn btn-default">Volver</a>
-
-    <h2>{{pageTitle}}</h2>
-    <img ng-src='/{{layout.image}}' ng-show="layout.image">
-
     <form ng-submit="save()">
         <div class="division">
             Datos Generales
@@ -34,6 +30,7 @@
                             <span ng-hide="layout.file">&nbsp;Ningún archivo seleccionado.</span>
                             <span ng-show="layout.file">&nbsp;Seleccionado: {{layout.file.name}}</span>
                         </span>
+                       <img ng-src='/{{layout.image}}' ng-show="layout.image">
                     </div>
                 </div>
             </div>
