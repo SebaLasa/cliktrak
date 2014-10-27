@@ -7,7 +7,7 @@ module.exports = function (router) {
         res.status(200).send();
     });
     router.get('/campaigns', function (req, res, next) {
-        model.Campaign.find({company: req.company._id, deleted: false}).populate('editor').exec(function (err, campaigns) {
+        model.Campaign.find({company: req.company._id, deleted: false}).sort('-updated_at').populate('editor').exec(function (err, campaigns) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Campaign.', { }, err));
             }

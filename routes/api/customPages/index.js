@@ -7,7 +7,7 @@ var model = app.model,
 
 module.exports = function (router) {
     router.get('/customPages', function (req, res, next) {
-        model.CustomPage.find({ company: req.company._id, deleted: false }).populate('editor').exec(function (err, customPages) {
+        model.CustomPage.find({ company: req.company._id, deleted: false }).sort('-updated_at').populate('editor').exec(function (err, customPages) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Custom Pages.', { }, err));
             }
