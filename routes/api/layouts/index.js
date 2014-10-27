@@ -30,6 +30,13 @@ module.exports = function (router) {
     });
 
     router.post('/layouts', function (req, res, next) {
+
+        if(!fs.existsSync('public/images/layouts')){
+                fs.mkdir('public/images/layouts', function(error) {
+                    console.log(error);
+                });
+        }
+        
         var form = new multiparty.Form();
         var upload = {layout: ''};
         form.on('error', next);
@@ -63,6 +70,13 @@ module.exports = function (router) {
     });
 
     router.put('/layouts/:id', function (req, res, next) {
+                
+        if(!fs.existsSync('public/images/layouts')){
+                fs.mkdir('public/images/layouts', function(error) {
+                    console.log(error);
+                });
+        }
+        
         var form = new multiparty.Form();
         var upload = {layout: ''};
         form.on('error', next);
