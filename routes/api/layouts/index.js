@@ -31,7 +31,7 @@ module.exports = function (router) {
 
     router.post('/layouts', function (req, res, next) {
 
-        if(!fs.existsSync('public/images/layouts')){
+        if(!fs.exists('public/images/layouts')){
                 fs.mkdir('public/images/layouts', function(error) {
                     console.log(error);
                 });
@@ -71,7 +71,7 @@ module.exports = function (router) {
 
     router.put('/layouts/:id', function (req, res, next) {
                 
-        if(!fs.existsSync('public/images/layouts')){
+        if(!fs.exists('public/images/layouts')){
                 fs.mkdir('public/images/layouts', function(error) {
                     console.log(error);
                 });
