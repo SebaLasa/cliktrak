@@ -6,7 +6,7 @@ var model = app.model,
 
 module.exports = function (router) {
     router.get('/layouts', function (req, res, next) {
-        model.Layout.find({ company: req.company._id, deleted: false }).populate('editor').exec(function (err, layouts) {
+        model.Layout.find({ company: req.company._id, deleted: false }).sort('-updated_at').populate('editor').exec(function (err, layouts) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Layouts.', { }, err));
             }

@@ -6,7 +6,7 @@ var model = app.model,
 
 module.exports = function (router) {
     router.get('/contacts', function (req, res, next) {
-        model.Contact.find({ company: req.company._id, deleted: false}, function (err, contacts) {
+        model.Contact.find({ company: req.company._id, deleted: false}).sort('name').sort('surname').exec(function (err, contacts) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Contacts.', { }, err));
             }
