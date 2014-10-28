@@ -16,4 +16,7 @@ angular.module('clicks').controller('contactUploadController', function ($scope,
             $location.path('contacts');
         });
     };
+    $scope.setSubmitted = function () {
+        $scope.formSubmitted = true;
+    };
 });

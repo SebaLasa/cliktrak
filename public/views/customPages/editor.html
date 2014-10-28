@@ -4,93 +4,106 @@
     <h2>{{pageTitle}}</h2>
 
     <form ng-submit="save()">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <label for="name">Nombre</label>
-                    <input type="text" id="name" ng-model="customPage.name" required maxlength="80"
-                           class="form-control"/>
+        <div class="division">
+            General
+        </div>
+        <div class="section">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" id="name" ng-model="customPage.name" required maxlength="80"
+                               class="form-control"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label for="dateStart">Inicio</label>
+                        <input type="date" id="dateStart" name="dateStart" ng-model="customPage.dateStart" required
+                               placeholder="yyyy-mm-dd" min="2014-01-01" max="2015-12-31" class="form-control"/>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="input-group">
-                    <label for="dateStart">Inicio</label>
-                    <input type="date" id="dateStart" name="dateStart" ng-model="customPage.dateStart" required
-                           placeholder="yyyy-mm-dd" min="2014-01-01" max="2015-12-31" class="form-control"/>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label for="type">Tipo</label>
+                        <select id="type" name="type" ng-model="customPage.type" class="form-control">
+                            <option value="withLoad">Con carga de dato</option>
+                            <option value="withoutLoad">Sin carga de datos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label for="dateEnd">Finalización</label>
+                        <input type="date" id="dateEnd" name="dateEnd" ng-model="customPage.dateEnd" required
+                               placeholder="yyyy-mm-dd" min="2014-01-01" max="2015-12-31" class="form-control"/>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <label for="type">Tipo</label>
-                    <select id="type" name="type" ng-model="customPage.type" class="form-control">
-                        <option value="withLoad">With load</option>
-                        <option value="withoutLoad">Without load</option>
-                    </select>
+        <div class="division">
+            Configuración
+        </div>
+        <div class="section">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label for="keywords">Keywords SEO</label>
+                        <input type="text" id="keywords" name="keywords" ng-model="urlConfiguration.keywords"
+                               class="form-control"/>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="input-group">
-                    <label for="dateEnd">Finalización</label>
-                    <input type="date" id="dateEnd" name="dateEnd" ng-model="customPage.dateEnd" required
-                           placeholder="yyyy-mm-dd" min="2014-01-01" max="2015-12-31" class="form-control"/>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label for="subdomain">Subdominio</label>
+                        <input type="text" id="subdomain" name="subdomain" ng-model="urlConfiguration.subdomain" required
+                               maxlength="20" class="form-control"/>
+                        <span ng-show="urlConfiguration.subdomain">
+                            http://{{urlConfiguration.subdomain}}.{{host}}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label for="isTracked">Activar seguimiento</label>&nbsp;
+                        <input type="checkbox" id="isTracked" name="isTracked" ng-model="urlConfiguration.isTracked"/>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <label for="keywords">Keywords SEO</label>
-                    <input type="text" id="keywords" name="keywords" ng-model="urlConfiguration.keywords"
-                           class="form-control"/>
+        <div class="division">
+            Contenido
+        </div>
+        <div class="section">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <label for="page">Página</label>
+                        <select id="page" name="page" ng-model="customPage.page" ng-change="pageSelected()"
+                                ng-options="page._id as page.name for page in pages | filter:{forCustomPages:true}"
+                                class="form-control"></select>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <label for="subdomain">Subdomain</label>
-                    <input type="text" id="subdomain" name="subdomain" ng-model="urlConfiguration.subdomain" required
-                           maxlength="20" class="form-control"/>
-                    <span ng-show="urlConfiguration.subdomain">
-                        http://{{urlConfiguration.subdomain}}.{{host}}
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <label for="isTracked">Activar seguimiento</label>&nbsp;
-                    <input type="checkbox" id="isTracked" name="isTracked" ng-model="urlConfiguration.isTracked"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <label for="page">Página</label>
-                    <select id="page" name="page" ng-model="customPage.page" ng-change="pageSelected()"
-                            ng-options="page._id as page.name for page in pages | filter:{forCustomPages:true}"
-                            class="form-control"></select>
-                </div>
-            </div>
-        </div>
-        <div ng-show="customPage.barcodes && customPage.barcodes.length > 0">
-            <h4>Códigos de barras</h4>
+            <div ng-show="customPage.barcodes && customPage.barcodes.length > 0">
+                <h4>Códigos de barras</h4>
 
-            <div class="row" ng-repeat="barcode in customPage.barcodes track by $index">
-                <label>Código de barras {{$index + 1}}</label>
-                <custom-values selected="barcode.value"></custom-values>
+                <div class="section" ng-repeat="barcode in customPage.barcodes track by $index">
+                    <label>Código de barras {{$index + 1}}</label>
+                    <custom-values selected="barcode.value"></custom-values>
+                </div>
             </div>
-        </div>
-        <div ng-show="customPage.qrCodes && customPage.qrCodes.length > 0">
-            <h4>Códigos QR</h4>
+            <div ng-show="customPage.qrCodes && customPage.qrCodes.length > 0">
+                <h4>Códigos QR</h4>
 
-            <div class="row" ng-repeat="qrCode in customPage.qrCodes track by $index">
-                <label>Código QR {{$index + 1}}</label>
-                <custom-values selected="qrCode.value"></custom-values>
+                <div class="section" ng-repeat="qrCode in customPage.qrCodes track by $index">
+                    <label>Código QR {{$index + 1}}</label>
+                    <custom-values selected="qrCode.value"></custom-values>
+                </div>
             </div>
         </div>
         <br/>

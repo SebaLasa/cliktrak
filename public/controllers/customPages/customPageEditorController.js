@@ -15,9 +15,6 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
     } else {
         $scope.pageTitle = 'Nueva página personalizada';
         $scope.customPage = { };
-        if ($routeParams.staticId) {
-            $scope.customPage.page = $routeParams.staticId;
-        }
     }
     $http.get('/api/pages/active')
         .success(function (data, status) {
@@ -28,6 +25,11 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
             $scope.pages = data;
             if (!$scope.customPage.page) {
                 $scope.customPage.page = data[0]._id;
+            }
+
+            if ($routeParams.staticId) {
+                $scope.customPage.page = $routeParams.staticId;
+                $scope.pageSelected();
             }
         });
 
