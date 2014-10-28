@@ -12,6 +12,12 @@ function loadModules(folder, router) {
         });
 }
 
+if(!fs.exists('public/images/layouts')){
+    fs.mkdir('public/images/layouts', function(error) {
+        console.log(error);
+    });
+}
+
 module.exports = function (router) {
     loadModules('./routes/api', router);
     return router;

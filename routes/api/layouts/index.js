@@ -4,6 +4,7 @@ var model = app.model,
     path = require('path'),
     validate = app.validation.validate;
 
+
 module.exports = function (router) {
     router.get('/layouts', function (req, res, next) {
         model.Layout.find({ company: req.company._id, deleted: false }).sort('-updated_at').populate('editor').exec(function (err, layouts) {
@@ -30,6 +31,7 @@ module.exports = function (router) {
     });
 
     router.post('/layouts', function (req, res, next) {
+       
         var form = new multiparty.Form();
         var upload = {layout: ''};
         form.on('error', next);
@@ -63,6 +65,7 @@ module.exports = function (router) {
     });
 
     router.put('/layouts/:id', function (req, res, next) {
+
         var form = new multiparty.Form();
         var upload = {layout: ''};
         form.on('error', next);
