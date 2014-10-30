@@ -4,6 +4,9 @@ var model = app.model,
     path = require('path'),
     validate = app.validation.validate;
 
+if (!fs.existsSync('public/images/layouts')) {
+    fs.mkdirSync('public/images/layouts');
+}
 
 module.exports = function (router) {
     router.get('/layouts', function (req, res, next) {
