@@ -10,16 +10,18 @@ angular.module('signin').controller('signinController', function ($scope, $http)
         $http.post('/public-api/sign-in', { email: $scope.email, password: $scope.password })
             .success(function (data, status) {
                 $scope.working = false;
-                if (data.admin){
+                if (data.admin) {
                     window.location = '/admin';
-                }else{
+                } else {
                     window.location = '/back';
                 }
-
             })
             .error(function (data, status) {
-                $scope.errorMessage = data.message;
                 $scope.working = false;
+                if (status == 403){
+                    return $scope.errorMessage = 'Usuario o password no válidos.';
+                }
+                $scope.errorMessage = data.message;
             });
     };
 

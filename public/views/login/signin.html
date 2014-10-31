@@ -7,5 +7,9 @@
             <input type="checkbox" value="remember-me">Recordarme
         </label>
         <input type="submit" class="btn btn-large btn-primary" value="Iniciar sesión"/>
+
+        <p>
+            <span ng-show="errorMessage" style="color: red;">{{errorMessage}}</span>
+        </p>
     </form>
 </div>
