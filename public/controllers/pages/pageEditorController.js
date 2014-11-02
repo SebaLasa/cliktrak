@@ -26,6 +26,19 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         });
     }
 
+    function loadLayouts(){
+        $http.get('/api/layouts/').success(function (data, status) {
+            if (!data.length) {
+                alert('Debe dar de alta un diseño para poder crear una página.');
+                return $location.path('layouts/new');
+            }
+            $scope.layouts = data;
+            if (!$scope.page.layout) {
+                $scope.page.layout = data[0]._id;
+            }
+        });
+    }
+
     function arrangeDynamicCodes(cssClass, img) {
         var html = $('<div>' + $scope.page.html + '</div>');
         var dynamics = html.find('.' + cssClass);
@@ -47,6 +60,7 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
                 $scope.urlConfiguration = data.urlConfiguration || {};
                 $scope.pageTitle = data.name;
                 registerWatchers();
+                loadLayouts();
             }).error(function (data, status) {
                 $location.path('pages');
             });
@@ -55,17 +69,9 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.page = { forCustomPages: false, quantityDynamicBarcodes: 0, quantityDynamicQrCodes: 0 };
         $scope.urlConfiguration = {};
         registerWatchers();
+        loadLayouts();
     }
-    $http.get('/api/layouts/').success(function (data, status) {
-        if (!data.length) {
-            alert('Debe dar de alta un diseño para poder crear una página.');
-            return $location.path('layouts/new');
-        }
-        $scope.layouts = data;
-        if (!$scope.page.layout) {
-            $scope.page.layout = data[0]._id;
-        }
-    });
+
     $scope.addBarcode = function () {
         if ($($scope.page.html).find('.staticBarcode').length) {
             return alert('Un código de barras estático ya ha sido agregado.');
