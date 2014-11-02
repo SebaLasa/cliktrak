@@ -45,6 +45,53 @@ module.exports = function (router) {
         });
     });
 
+    router.get('/reports/campaign/:id', function (req, res, next) {
+
+        model.emailing.Task.findOne({campaign: req.params.id, company: req.company._id},function (err, task){
+            if (err) {
+                return next(Error.create('An error occurred trying get the Campaign', { id: req.params.id }, err));
+            }
+
+            model.TrackedClick.find({customPage: task.customPage})
+            .populate(['customPage',"customPageValue"])
+            .exec(function(err, clicks){
+                var stats= {};
+                _.forEach(clicks,function(click){
+                    if(!click.customPageValue) return;
+                    if(!stats[click.customPageValue[task.paramToMatchWithContacts]]){
+                        stats[click.customPageValue[task.paramToMatchWithContacts]]=[click];
+                    }else{
+                        stats[click.customPageValue._id].push(click);
+                    }
+                });
+                var reports = {};
+                _.forEach(stats,function(stat,ix){
+                    console.log(ix);
+                    console.log(stat);
+
+                    reports[ix]=getReport(stat);
+
+                });
+                res.json({
+                    data: reports,
+                    attribute: task.contactFieldMatch
+                });
+            });
+
+
+
+        });
+    });
+
+    router.get('/reports/customPage/:id', function (req, res, next) {
+        model.TrackedClick.find({ customPage: req.params.id }, function (err, clicks) {
+            if (err) {
+                return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
+            }
+            res.json(getReport(clicks));
+        });
+    });
+
     router.get('/reports/page/:id/download', function (req, res, next) {
         model.TrackedClick.find({ page: req.params.id })
         .populate(['page'])

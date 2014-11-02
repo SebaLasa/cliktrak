@@ -1,0 +1,75 @@
+<div class="container">
+    <a href="#{{backLink}}" class="btn btn-default">Volver</a>
+
+    <h2>Report</h2>
+
+    <div class="row row-header">
+        <div class="col-md-2"><h4>{{attribute}}</h4></div>
+        <div class="col-md-3"><h4>Estado</h4></div>
+        <div class="col-md-2"><h4>Modificado</h4></div>
+        <div class="col-md-2"><h4>Editor</h4></div>
+    </div>
+    <div dir-paginate="page in pages | itemsPerPage: 10 | filter: nameSearch">
+        <div class="row" ng-class-odd="'row-odd'" ng-class-even="'row-even'">
+            <div class="col-md-2">{{page.name}}</div>
+            <div class="col-md-3">
+                <span ng-hide="page.forCustomPages" class="clickicon clickicon-page"
+                      title="Sólo puede ser usada como página estática."></span>
+                <span ng-show="page.forCustomPages" class="clickicon clickicon-page-dynamic"
+                      title="Sólo puede ser usada en páginas dinámicas."></span>
+                <span ng-show="page.urlConfiguration.isTracked" class="clickicon clickicon-mouse-green"
+                      title="Seguimiento de clicks activado."></span>
+                <span ng-hide="page.urlConfiguration.isTracked" class="clickicon clickicon-mouse-red"
+                      title="Seguimiento de clicks desactivado."></span>
+                <span ng-show="page.barcodeGenerated" class="clickicon clickicon-barcode"
+                      title="Tiene código de barras."></span>
+                <span ng-show="page.qrGenerated" class="clickicon clickicon-qrcode" title="Tiene código QR."></span>
+            </div>
+            <div class="col-md-2">
+                {{page.updated_at | dateTimeFormat}}
+            </div>
+            <div class="col-md-2">
+                {{page.editor.name}}
+            </div>
+            <div class="col-md-3">
+                <a href="#/pages/{{page._id}}" title="Editar página">
+                    <span class="clickicon clickicon-pencil"></span>
+                </a>
+                <a ng-click="enable(page, false)" ng-show="page.enabled" role="button"
+                   title="La página está activa. Haga click para desactivar.">
+                    <span class="clickicon clickicon-bulb-on"></span>
+                </a>
+                <a ng-click="enable(page, true)" ng-hide="page.enabled" role="button"
+                   title="La página está desactivada. Haga click para activar.">
+                    <span class="clickicon clickicon-bulb-off"></span>
+                </a>
+                <a href="#/pages/delete/{{page._id}}" title="Borrar página">
+                    <span class="clickicon clickicon-trash"></span>
+                </a>
+                <a href="#/reports/page/{{page._id}}" title="Estadísticas">
+                    <span class="clickicon clickicon-signal"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!--
+    <div class="row">
+        <div class="col-md-3">
+            <h4>Clicks</h4>
+        </div>
+        <div class="col-md-3">
+            <h4>{{report.clicksCount}}</h4>
+        </div>
+        <div class="col-md-3">
+            <a href="{{downloadLink}}/" class="btn btn-primary btn-lg">Descargar clicks</a>
+        </div>
+    </div>
+    <h3>Clicks en los últimos 30 días</h3>
+
+    <div ac-chart="daysChartType" ac-data="daysData" ac-config="daysConfig" class="daysReport"></div>
+    <h3>Clicks por dispositivo</h3>
+
+    <div ac-chart="deviceChartType" ac-data="deviceData" ac-config="deviceConfig" class="deviceReport"></div>-->
+</div>

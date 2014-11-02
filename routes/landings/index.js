@@ -91,6 +91,7 @@ module.exports = function (router) {
                 }
 
                 req.trackedClick.customPage = customPage;
+                req.trackedClick.customPageValue = req.params.id;
                 req.trackedClick.save(function (err) {
                     if (err) {
                         console.log(err);

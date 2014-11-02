@@ -110,6 +110,7 @@ model.TrackedClick = mongoose.model('trackedClicks', new Schema({
     menu: { type: ObjectId, ref: 'menus' },
     page: { type: ObjectId, ref: 'pages' },
     customPage: { type: ObjectId, ref: 'customPages' },
+    customPageValue: { type: ObjectId, ref: 'customPageValues' },
     valueReference: { type: String },
     agent: { type: String }
 }));

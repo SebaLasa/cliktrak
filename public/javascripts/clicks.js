@@ -53,6 +53,10 @@ angular.module('clicks', ['ngRoute', 'ui.tinymce', 'colorpicker.module', 'ui.dat
                 controller: 'customPageDeleteController',
                 templateUrl: '/views/customPages/delete.html'
             })
+            .when('/reports/campaign/:id', {
+                controller: 'reportsCampaignController',
+                templateUrl: '/views/reports/campaign.html'
+            })
             .when('/reports/:pageType/:id', {
                 controller: 'reportsController',
                 templateUrl: '/views/reports/index.html'
