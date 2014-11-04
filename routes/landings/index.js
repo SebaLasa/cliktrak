@@ -24,7 +24,7 @@ module.exports = function (router) {
     }
 
     //landing static page
-    router.get('/p/:id', function (req, res, next) {
+    router.get('/p/:id/:valueReference?', function (req, res, next) {
         if (!req.params.id) {
             return renderInvalidCodePage(res);
         }
@@ -52,15 +52,18 @@ module.exports = function (router) {
                     }
 
                     req.trackedClick.page = page;
+                    console.log('refval:', req.trackedClick.valueReference = req.params.valueReference);
                     req.trackedClick.save(function (err) {
                         if (err) {
                             console.log(err);
                         }
                     });
 
+                    if (page.deleted || !page.enabled) {
+                        return renderInvalidCodePage(res);
+                    }
+
                     // TODO AN add validation subdomain.
-                    // TODO AN add validation page disabled.
-                    // TODO AN add validation page deleted.
                     var content = page.html;
                     content = contentGeneration.replaceStaticCodes(page, content);
                     var pageContent = contentGeneration.gluePage(page.layout, content);
