@@ -229,6 +229,10 @@ nav {
     background: url('/images/sprite.png') -120px -80px;
 }
 
+.clickicon-eye {
+    background: url('/images/sprite.png') 0 -120px;
+}
+
 .fileinput-button {
     position: relative;
     overflow: hidden;
