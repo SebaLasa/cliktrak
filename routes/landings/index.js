@@ -66,6 +66,7 @@ module.exports = function (router) {
                     // TODO AN add validation subdomain.
                     var content = page.html;
                     content = contentGeneration.replaceStaticCodes(page, content);
+                    content = contentGeneration.replaceDynamicCodesPreviewMode(content);
                     var pageContent = contentGeneration.gluePage(page.layout, content);
 
                     res.send(pageContent);

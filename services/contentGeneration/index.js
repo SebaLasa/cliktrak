@@ -40,6 +40,15 @@ module.exports.replaceDynamicCodes = function (customPage,customValues, content)
     return content;
 };
 
+module.exports.replaceDynamicCodesPreviewMode = function (content) {
+
+
+    content = content.replace('src="images/codes/', 'src="/images/codes/');
+
+    return content;
+
+};
+
 module.exports.replaceParameters = function (customValues, content) {
     var columns = _.map(_.range(15), function (x) {
         return 'parameter' + x;
