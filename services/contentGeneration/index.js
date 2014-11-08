@@ -24,12 +24,10 @@ module.exports.gluePage = function (layout, content, template) {
 
 module.exports.replaceStaticCodes = function (page, content) {
     if (page.qrGenerated) {
-        content = content.replace('<img class="staticQr" src="images/codes/qrS.png" alt="" />', '<img src="/public-api/qr/' + (page.qrSize ? page.qrSize : defaultSize) + '/'
-            + new Buffer(page.qrData).toString('base64') + '" />');
+        content = content.replace('src="images/codes/qrS.png"', 'src="/public-api/qr/' + (page.qrSize ? page.qrSize : defaultSize) + '/'+ Buffer(page.qrData).toString('base64') + '"');
     }
     if (page.barcodeGenerated) {
-        content = content.replace('<img class="staticBarcode" src="images/codes/bcS.png" alt="" />', '<img src="/public-api/barcode/' + page.barcodeSize + '/'
-            + page.barcodeData + '" />');
+        content = content.replace('src="images/codes/bcS.png"', '<img src="/public-api/barcode/' + page.barcodeSize + '/' + page.barcodeData + '"');
     }
     return content;
 };
@@ -37,13 +35,11 @@ module.exports.replaceStaticCodes = function (page, content) {
 
 module.exports.replaceDynamicCodes = function (customPage,customValues, content) {
     _.forEach(customPage.barcodes,function (data,index){
-        content = content.replace('<img class="dynamicBarcode dynamicBarcode'+index+'" src="images/codes/bc'+index+'.png" alt="" />', '<img src="/public-api/barcode/' + defaultSize + '/'
-            + customValues[data.value] + '" />');
+        content = content.replace('src="images/codes/bc'+index+'.png"', 'src="/public-api/barcode/' + defaultSize + '/' + customValues[data.value] + '"');
     });
 
     _.forEach(customPage.qrCodes,function (data,index){
-        content = content.replace('<img class="dynamicQr dynamicQr'+index+'" src="images/codes/qr'+index+'.png" alt="" />', '<img src="/public-api/qr/' + defaultSize + '/'
-            + new Buffer(customValues[data.value]).toString('base64') + '" />');
+        content = content.replace('src="images/codes/qr'+index+'.png"', 'src="/public-api/qr/' + defaultSize + '/' + new Buffer(customValues[data.value]).toString('base64') + '"');
     });
     return content;
 };
