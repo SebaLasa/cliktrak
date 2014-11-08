@@ -3,15 +3,23 @@ var _ = require('lodash');
 
 var defaultSize = 70;
 
-module.exports.gluePage = function (layout, content) {
-    var page = '<html><head><link rel="stylesheet" href="/stylesheets/landing.css"></head>'
+module.exports.gluePage = function (layout, content, template) {
+    /*var page = '<html><head><link rel="stylesheet" href="/stylesheets/landing.css"></head>'
         + '<body style="background-color:' + layout.bodyBackgroundColor
         + ';"><div class="header" style="background-color:' + layout.headerBackgroundColor + ';"><img src="/'
         + layout.image + '"/></div>';
     page += '<div class="content">';
     page += content;
     page += '</div><div class="footer" style="background-color:' + layout.footerBackgroundColor + ';">'+ layout.footer + '</div></body></html>';
-    return page;
+    return page;*/
+    template = template.replace('{{bodyBackgroundColor}}',layout.bodyBackgroundColor);
+    template = template.replace('{{headerBackgroundColor}}',layout.headerBackgroundColor);
+    template = template.replace('{{footerBackgroundColor}}',layout.footerBackgroundColor);
+    template = template.replace('{{headerImage}}',layout.image);
+    template = template.replace('{{content}}',content);
+    template = template.replace('{{footer}}',layout.footer);
+    return template;
+
 };
 
 module.exports.replaceStaticCodes = function (page, content) {
