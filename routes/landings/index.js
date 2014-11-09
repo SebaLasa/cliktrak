@@ -11,8 +11,8 @@ function renderInvalidCodePage(res) {
     res.render('invalidCode');
 }
 
-function validateSubdomain(req, page){
-    if (req.hostname == 'localhost' || req.hostname == '127.0.0.1'){
+function validateSubdomain(req, page) {
+    if (!page.urlConfiguration || req.hostname == 'localhost' || req.hostname == '127.0.0.1') {
         return true;
     }
     var subdomain = req.hostname.split('.')[0];
@@ -71,7 +71,7 @@ module.exports = function (router) {
                     if (page.deleted || !page.enabled) {
                         return renderInvalidCodePage(res);
                     }
-                    if (!validateSubdomain(req,page)) {
+                    if (!validateSubdomain(req, page)) {
                         return renderInvalidCodePage(res);
                     }
                     fs.readFile('./public/views/landings/template.html', 'utf-8', function (err, template) {
