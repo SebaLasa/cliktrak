@@ -12,8 +12,16 @@ function renderInvalidCodePage(res) {
 }
 
 function validateSubdomain(req, page){
-    return ['localhost', '127.0.0.1'].contains(req.hostname)
-        || req.subdomains.length == 1 && req.subdomains[0] == page.urlConfiguration.subdomain;
+    console.log(req.hostname);
+    if (req.hostname == 'localhost' || req.hostname == '127.0.0.1')
+        return true;
+
+    var subdomain = req.hostname.split('.')[0];
+    if (subdomain == page.urlConfiguration.subdomain)
+        return true;
+
+    return false;
+    
 }
 
 module.exports = function (router) {
@@ -68,7 +76,7 @@ module.exports = function (router) {
                     if (page.deleted || !page.enabled) {
                         return renderInvalidCodePage(res);
                     }
-                    if (!validateSubdomain(page)) {
+                    if (!validateSubdomain(req,page)) {
                         return renderInvalidCodePage(res);
                     }
                     fs.readFile('./public/views/landings/template.html', 'utf-8', function (err, template) {
