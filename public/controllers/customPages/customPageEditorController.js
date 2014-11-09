@@ -9,12 +9,13 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
                 }
                 $scope.pages = data;
                 if ($scope.customPage.page) {
-                    $scope.customPage.barcodes.slice(0, page.quantityDynamicBarcodes);
+                    var page = _.find($scope.pages, { _id: $scope.customPage.page });
+                    $scope.customPage.barcodes = $scope.customPage.barcodes.slice(0, page.quantityDynamicBarcodes);
                     _.forEach(_.range(page.quantityDynamicBarcodes - $scope.customPage.barcodes), function () {
                         $scope.customPage.barcodes.push({});
                     });
 
-                    $scope.customPage.qrCodes.slice(0, page.quantityDynamicQrCodes);
+                    $scope.customPage.qrCodes = $scope.customPage.qrCodes.slice(0, page.quantityDynamicQrCodes);
                     _.forEach(_.range(page.quantityDynamicQrCodes - $scope.customPage.qrCodes), function () {
                         $scope.customPage.qrCodes.push({});
                     });
