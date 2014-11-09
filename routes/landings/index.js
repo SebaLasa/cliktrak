@@ -12,16 +12,11 @@ function renderInvalidCodePage(res) {
 }
 
 function validateSubdomain(req, page){
-    console.log(req.hostname);
-    if (req.hostname == 'localhost' || req.hostname == '127.0.0.1')
+    if (req.hostname == 'localhost' || req.hostname == '127.0.0.1'){
         return true;
-
+    }
     var subdomain = req.hostname.split('.')[0];
-    if (subdomain == page.urlConfiguration.subdomain)
-        return true;
-
-    return false;
-    
+    return subdomain == page.urlConfiguration.subdomain;
 }
 
 module.exports = function (router) {
