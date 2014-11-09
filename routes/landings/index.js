@@ -2,6 +2,7 @@ var model = app.model,
     hash = app.security.hash,
     validate = app.validation.validate,
     query = app.data.query,
+    fs = require("fs"),
     _ = require('lodash'),
     contentGeneration = require("../../services/contentGeneration"),
     codeConverter = require('../../services/codeConverter.js');
@@ -64,12 +65,18 @@ module.exports = function (router) {
                     }
 
                     // TODO AN add validation subdomain.
-                    var content = page.html;
-                    content = contentGeneration.replaceStaticCodes(page, content);
-                    content = contentGeneration.replaceDynamicCodesPreviewMode(content);
-                    var pageContent = contentGeneration.gluePage(page.layout, content);
+                    fs.readFile('./public/views/landings/template.html','utf-8',function(err,template){
+                        if (err){
+                            return next(Error.create('An error occurred trying to render the page.', {pageId: pageId}, err));
+                        }
+                        var content = page.html;
+                        content = contentGeneration.replaceStaticCodes(page, content);
+                        content = contentGeneration.replaceDynamicCodesPreviewMode(content);
+                        var pageContent = contentGeneration.gluePage(page.layout, content, template);
 
-                    res.send(pageContent);
+                        res.send(pageContent);
+                    });
+
                 });
         });
     });
@@ -111,15 +118,20 @@ module.exports = function (router) {
                     if (!page) {
                         return renderInvalidCodePage(res);
                     }
-                    var content = page.html;
-                    console.log(content);
-                    content = contentGeneration.replaceStaticCodes(page, content);
-                    content = contentGeneration.replaceDynamicCodes(customPage, customPageValues, content);
 
-                    content = contentGeneration.replaceParameters(customPageValues, content);
-                    var pageContent = contentGeneration.gluePage(page.layout, content);
+                    fs.readFile('./public/views/landings/template.html','utf-8',function(err,template) {
+                        if (err) {
+                            return next(Error.create('An error occurred trying to render the page.', {pageId: pageId}, err));
+                        }
+                        var content = page.html;
+                        content = contentGeneration.replaceStaticCodes(page, content);
+                        content = contentGeneration.replaceDynamicCodes(customPage, customPageValues, content);
 
-                    res.send(pageContent);
+                        content = contentGeneration.replaceParameters(customPageValues, content);
+                        var pageContent = contentGeneration.gluePage(page.layout, content,template);
+
+                        res.send(pageContent);
+                    });
                 });
             });
         });

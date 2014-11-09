@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/stylesheets/landing.css">
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap-theme.css">
+    <style>
+        div.container-fluid{
+            background-color: {{bodyBackgroundColor}};
+        }
+
+        div.header{
+            background-color: {{headerBackgroundColor}};
+        }
+
+        div.footer{
+            background-color: {{footerBackgroundColor}};
+        }
+
+        div.imageHeaderContainer, div.footerContainer{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="header row">
+            <div class="imageHeaderContainer">
+                <img src="/{{headerImage}}"/>
+            </div>
+        </div>
+        <div class="content row">
+            <div class="contentContainer col-md-12">
+                {{content}}
+            </div>
+
+        </div>
+
+        <div class="footer row">
+            <div class="footerContainer col-md-12">
+                {{footer}}
+            </div>
+        </div>
+</div>
+
+</body>
+</html>
