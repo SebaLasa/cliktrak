@@ -54,9 +54,6 @@ module.exports.replaceDynamicCodesPreviewMode = function (content) {
 };
 
 module.exports.replaceParameters = function (customValues, content) {
-    /*var columns = _.map(_.range(15), function (x) {
-        return 'Parametro ' + x;
-    });*/
     _.forEach(_.range(15), function (x) {
         var searchString = '[[Parametro ' + (parseInt(x)+1) + ']]';
         var replaceValue = customValues["parameter"+x] || '';
