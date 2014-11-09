@@ -105,6 +105,8 @@ angular.module('clicks').controller('pageEditorController', function ($scope, $h
         $scope.formSubmitted = true;
     };
     $scope.save = function () {
+        $scope.page.quantityDynamicBarcodes = $($scope.page.html).find('.dynamicBarcode').length;
+        $scope.page.quantityDynamicQrCodes = $($scope.page.html).find('.dynamicQr').length;
         var data = { page: $scope.page, urlConfiguration: $scope.urlConfiguration };
         if ($routeParams.id) {
             return $http.put('/api/pages/' + $routeParams.id, data)
