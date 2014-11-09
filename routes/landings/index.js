@@ -11,6 +11,11 @@ function renderInvalidCodePage(res) {
     res.render('invalidCode');
 }
 
+function validateSubdomain(page){
+    return ['localhost', '127.0.0.1'].contains(req.hostname)
+        || req.subdomains.length == 1 && req.subdomains[0] == page.urlConfiguration.subdomain;
+}
+
 module.exports = function (router) {
     console.log('Loading landing module...');
     router.use(require('../trackingMiddleware.js')());
@@ -63,10 +68,11 @@ module.exports = function (router) {
                     if (page.deleted || !page.enabled) {
                         return renderInvalidCodePage(res);
                     }
-
-                    // TODO AN add validation subdomain.
-                    fs.readFile('./public/views/landings/template.html','utf-8',function(err,template){
-                        if (err){
+                    if (!validateSubdomain(page)) {
+                        return renderInvalidCodePage(res);
+                    }
+                    fs.readFile('./public/views/landings/template.html', 'utf-8', function (err, template) {
+                        if (err) {
                             return next(Error.create('An error occurred trying to render the page.', {pageId: pageId}, err));
                         }
                         var content = page.html;
@@ -108,7 +114,9 @@ module.exports = function (router) {
                     }
                 });
 
-                // TODO AN add validation subdomain.
+                if (!validateSubdomain(customPage)) {
+                    return renderInvalidCodePage(res);
+                }
                 // TODO AN add validation page deleted.
                 // TODO AN add validation page expired.
                 model.Page.findById(customPage.page).populate(['urlConfiguration', 'layout']).exec(function (err, page) {
@@ -119,7 +127,7 @@ module.exports = function (router) {
                         return renderInvalidCodePage(res);
                     }
 
-                    fs.readFile('./public/views/landings/template.html','utf-8',function(err,template) {
+                    fs.readFile('./public/views/landings/template.html', 'utf-8', function (err, template) {
                         if (err) {
                             return next(Error.create('An error occurred trying to render the page.', {pageId: pageId}, err));
                         }
@@ -128,7 +136,7 @@ module.exports = function (router) {
                         content = contentGeneration.replaceDynamicCodes(customPage, customPageValues, content);
 
                         content = contentGeneration.replaceParameters(customPageValues, content);
-                        var pageContent = contentGeneration.gluePage(page.layout, content,template);
+                        var pageContent = contentGeneration.gluePage(page.layout, content, template);
 
                         res.send(pageContent);
                     });
