@@ -11,7 +11,7 @@ function renderInvalidCodePage(res) {
     res.render('invalidCode');
 }
 
-function validateSubdomain(page){
+function validateSubdomain(req, page){
     return ['localhost', '127.0.0.1'].contains(req.hostname)
         || req.subdomains.length == 1 && req.subdomains[0] == page.urlConfiguration.subdomain;
 }
@@ -114,7 +114,7 @@ module.exports = function (router) {
                     }
                 });
 
-                if (!validateSubdomain(customPage)) {
+                if (!validateSubdomain(req, customPage)) {
                     return renderInvalidCodePage(res);
                 }
                 // TODO AN add validation page deleted.
