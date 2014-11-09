@@ -1,4 +1,5 @@
-angular.module('clicks').controller('pagesController', function ($scope, $http) {
+angular.module('clicks').controller('pagesController', function ($scope, $http, $window) {
+    $scope.host = $window.location.host;
     function loadPages() {
         $http.get('/api/pages/')
             .success(function (data, status) {
@@ -13,4 +14,11 @@ angular.module('clicks').controller('pagesController', function ($scope, $http) 
             });
     };
     loadPages();
+    $scope.getDisplayPageLink = function (page) {
+        var url = 'http://';
+        if (!page.forCustomPages) {
+            url += page.urlConfiguration.subdomain + '.';
+        }
+        return url + $scope.host + '/p/' + page.company + '.' + page._id + '/testing';
+    }
 });

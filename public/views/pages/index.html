@@ -52,11 +52,11 @@
                 <a href="#/pages/delete/{{page._id}}" title="Borrar página">
                     <span class="clickicon clickicon-trash"></span>
                 </a>
-                <a href="#/reports/page/{{page._id}}" title="Estadísticas">
-                    <span class="clickicon clickicon-signal"></span>
-                </a>
-                <a href="/p/{{page.company}}.{{page._id}}/testing" title="Ver página">
+                <a href="{{getDisplayPageLink(page)}}" title="Ver página">
                     <span class="clickicon clickicon-eye"></span>
+                </a>
+                <a href="#/reports/page/{{page._id}}" ng-hide="page.forCustomPages" title="Estadísticas">
+                    <span class="clickicon clickicon-signal"></span>
                 </a>
             </div>
         </div>
