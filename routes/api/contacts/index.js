@@ -10,6 +10,7 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Contacts.', { }, err));
             }
+            console.log(contacts);
             res.json(contacts);
         });
     });
@@ -147,6 +148,7 @@ module.exports = function (router) {
             return next(Error.http(400, 'Por favor complete todos los campos requeridos.', { fields: fields }));
         }
         var contact = new model.Contact(req.body);
+        console.log(contact);
         contact.editor = req.user._id;
         contact.company = req.company._id;
 
