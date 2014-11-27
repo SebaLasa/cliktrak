@@ -1,5 +1,4 @@
 angular.module('clicks').controller('campaignEditorController', function ($scope, $http, $location, $routeParams) {
-
     $scope.tinymceOptions = {
         plugins: "textcolor link table",
         toolbar: "undo redo | styleselect | alignleft aligncenter alignright alignfull | bold italic underline | forecolor backcolor | link table"
@@ -38,7 +37,7 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
                 $scope.email = data.email;
 
                 _.forEach($scope.contacts, function (contact) {
-                    if (_.find(data.email.contacts, { '_id': contact._id })) {
+                    if (_.find(data.email.contacts, {'_id': contact._id})) {
                         contact.selected = true;
                     }
                 });
@@ -49,6 +48,7 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
             });
     } else {
         $scope.pageTitle = 'Nueva campaña';
+        $scope.email = {message: ''};
     }
 
     function getDays() {
@@ -119,7 +119,7 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
             return alert('Por favor, seleccione al menos un contacto para la campaña.');
         }
         $scope.email.triggers = [
-            { days: getDays() }
+            {days: getDays()}
         ];
         var data = {campaign: $scope.campaign, email: $scope.email};
         if ($routeParams.id) {
@@ -141,10 +141,16 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
     };
 
     $scope.addFieldToMessage = function (field) {
+        if (!$scope.email.message) {
+            $scope.email.message = '';
+        }
         $scope.email.message += '##' + field + '##';
     };
 
     $scope.addCustomValue = function (customValue) {
+        if (!$scope.email.message) {
+            $scope.email.message = '';
+        }
         $scope.email.message += '##' + customValue + '##';
     }
 });
