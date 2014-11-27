@@ -11,8 +11,17 @@ module.exports = function (router) {
         });
     });
 
-    router.get('/pages/active', function (req, res, next) {
-        model.Page.find({company: req.company._id, enabled: true, deleted: false}).populate(['editor', 'urlConfiguration']).exec(function (err, pages) {
+    router.get('/pages/forCustomPages', function (req, res, next) {
+        model.Page.find({company: req.company._id, enabled: true, deleted: false, forCustomPages: true}).populate(['editor', 'urlConfiguration']).exec(function (err, pages) {
+            if (err) {
+                return next(Error.create('An error occurred trying get the Pages.', { }, err));
+            }
+            res.json(pages);
+        });
+    });
+
+    router.get('/pages/forCampaigns', function (req, res, next) {
+        model.Page.find({company: req.company._id, enabled: true, deleted: false, forCustomPages: false}).populate(['editor', 'urlConfiguration']).exec(function (err, pages) {
             if (err) {
                 return next(Error.create('An error occurred trying get the Pages.', { }, err));
             }

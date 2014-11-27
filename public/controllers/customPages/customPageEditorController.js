@@ -1,7 +1,7 @@
 angular.module('clicks').controller('customPageEditorController', function ($scope, $http, $location, $routeParams, $window) {
     $scope.host = $window.location.host;
     function loadPages() {
-        $http.get('/api/pages/active')
+        $http.get('/api/pages/forCustomPages')
             .success(function (data, status) {
                 if (!data.length) {
                     alert('Debe dar de alta una página para poder crear una página personalizada.');
