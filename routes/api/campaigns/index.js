@@ -75,6 +75,8 @@ module.exports = function (router) {
 
     router.put('/campaigns/:id', function (req, res, next) {
         delete req.body.campaign._id;
+        req.body.campaign.company = req.company._id;
+        req.body.campaign.editor = req.user._id;
         model.Campaign.findByIdAndUpdate(req.params.id, req.body.campaign, function (err, campaign) {
             if (err) {
                 return next(Error.create('An error occurred trying update the Campaign.', { }, err));
