@@ -9,7 +9,7 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
                 }
                 $scope.pages = data;
                 if ($scope.customPage.page) {
-                    var page = _.find($scope.pages, { _id: $scope.customPage.page });
+                    var page = _.find($scope.pages, {_id: $scope.customPage.page});
                     $scope.customPage.barcodes = $scope.customPage.barcodes.slice(0, page.quantityDynamicBarcodes);
                     _.forEach(_.range(page.quantityDynamicBarcodes - $scope.customPage.barcodes), function () {
                         $scope.customPage.barcodes.push({});
@@ -21,6 +21,7 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
                     });
                 } else {
                     $scope.customPage.page = data[0]._id;
+                    $scope.customPage.type = 'withLoad';
                 }
 
                 if ($routeParams.staticId) {
@@ -44,12 +45,12 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
             });
     } else {
         $scope.pageTitle = 'Nueva página personalizada';
-        $scope.customPage = { };
+        $scope.customPage = {};
         loadPages();
     }
 
     $scope.pageSelected = function () {
-        var page = _.find($scope.pages, { _id: $scope.customPage.page });
+        var page = _.find($scope.pages, {_id: $scope.customPage.page});
 
         $scope.customPage.barcodes = _.map(_.range(page.quantityDynamicBarcodes), function () {
             return {};
@@ -60,7 +61,7 @@ angular.module('clicks').controller('customPageEditorController', function ($sco
     };
 
     $scope.save = function () {
-        var data = { customPage: $scope.customPage, urlConfiguration: $scope.urlConfiguration };
+        var data = {customPage: $scope.customPage, urlConfiguration: $scope.urlConfiguration};
         if ($routeParams.id) {
             return $http.put('/api/customPages/' + $routeParams.id, data)
                 .success(function (data, status) {
