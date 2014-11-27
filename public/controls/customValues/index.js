@@ -9,7 +9,7 @@ angular.module('clicks').directive('customValues', function () {
         },
         controller: function ($scope) {
             $scope.customValues = _.map(_.range(15), function (x) {
-                return { value: 'parameter' + x, name: 'Parámetro ' + (x + 1) };
+                return { value: 'param' + x, name: 'Parámetro ' + (x + 1) };
             });
         }
     };
