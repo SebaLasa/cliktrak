@@ -88,7 +88,6 @@ function generateMessages(task, callback) {
                         return callback(err);
                     }
                     var paramToMatchWithContacts = task.paramToMatchWithContacts.replace('param', 'parameter');
-                    console.log('paramToMatchWithContacts',paramToMatchWithContacts);
                     var matches = _.compact(customPageValues.map(function (customValue) {
                         var contact = _.find(contacts, function (contact) {
                             return contact[task.contactFieldMatch] == customValue[paramToMatchWithContacts]

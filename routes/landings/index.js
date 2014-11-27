@@ -11,6 +11,14 @@ function renderInvalidCodePage(res) {
     res.render('invalidCode');
 }
 
+function validateExpiration(customPage) {
+    if (customPage.deleted) {
+        return false;
+    }
+    var today = new Date();
+    return customPage.dateStart <= today && today <= customPage.dateEnd;
+}
+
 function validateSubdomain(req, page) {
     if (!page.urlConfiguration || req.hostname == 'localhost' || req.hostname == '127.0.0.1') {
         return true;
@@ -68,10 +76,7 @@ module.exports = function (router) {
                         }
                     });
 
-                    if (page.deleted || !page.enabled) {
-                        return renderInvalidCodePage(res);
-                    }
-                    if (!validateSubdomain(req, page)) {
+                    if (page.deleted || !page.enabled || !validateSubdomain(req, page)) {
                         return renderInvalidCodePage(res);
                     }
                     fs.readFile('./public/views/landings/template.html', 'utf-8', function (err, template) {
@@ -104,7 +109,7 @@ module.exports = function (router) {
             }
             model.CustomPage.findById(customPageValues.customPage).populate(['urlConfiguration', 'company']).exec(function (err, customPage) {
                 if (err) {
-                    return next(Error.create('An error occurred trying to find the custom page.', { id: customPageValues.customPage }, err));
+                    return next(Error.create('An error occurred trying to find the custom page.', {id: customPageValues.customPage}, err));
                 }
                 if (!customPage) {
                     return renderInvalidCodePage(res);
@@ -117,11 +122,9 @@ module.exports = function (router) {
                     }
                 });
 
-                if (!validateSubdomain(req, customPage)) {
+                if (!validateSubdomain(req, customPage) || !validateExpiration(customPage)) {
                     return renderInvalidCodePage(res);
                 }
-                // TODO AN add validation page deleted.
-                // TODO AN add validation page expired.
                 model.Page.findById(customPage.page).populate(['urlConfiguration', 'layout']).exec(function (err, page) {
                     if (err) {
                         return next(Error.create('An error occurred trying to find the page.', err));
