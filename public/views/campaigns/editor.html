@@ -70,7 +70,7 @@
                     <span ng-show="formSubmitted && !campaignEditorForm.message.$valid" class="red">
                         El e-mail debe tener un contenido para poder enviarse.
                     </span>
-                    <textarea id="message" name="message" ng-model="email.message" required ui-tinymce></textarea>
+                    <textarea id="message" name="message" ng-model="email.message" required ui-tinymce="tinymceOptions"></textarea>
                 </div>
                 <div class="col-md-3">
 

@@ -1,4 +1,10 @@
 angular.module('clicks').controller('campaignEditorController', function ($scope, $http, $location, $routeParams) {
+
+    $scope.tinymceOptions = {
+        plugins: "textcolor link table",
+        toolbar: "undo redo | styleselect | alignleft aligncenter alignright alignfull | bold italic underline | forecolor backcolor | link table"
+    };
+
     $scope.allContacts = false;
     $scope.campaign = {};
     $scope.days = {};
