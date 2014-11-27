@@ -28,7 +28,7 @@ module.exports = function (router) {
     }
 
     router.get('/reports/page/:id', function (req, res, next) {
-        model.TrackedClick.find({ page: req.params.id }, function (err, clicks) {
+        model.TrackedClick.find({ page: req.params.id }).sort('timestamp').exec(function (err, clicks) {
             if (err) {
                 return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
             }
