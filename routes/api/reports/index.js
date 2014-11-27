@@ -27,6 +27,11 @@ module.exports = function (router) {
         };
     }
 
+    function getLocalTimeFormat(date, timezone) {
+        date.setHours(date.getHours() + timezone)
+        return date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    }
+
     router.get('/reports/pages/:id', function (req, res, next) {
         model.TrackedClick.find({page: req.params.id}).sort('timestamp').exec(function (err, clicks) {
             if (err) {
@@ -56,7 +61,7 @@ module.exports = function (router) {
                 var dataArray = _.map(clicks, function (click) {
                     return [
                         click.ipAddress,
-                        click.timestamp.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+                        getLocalTimeFormat(click.timestamp, req.company.timezone),
                         click.device,
                         click.page.name,
                         click.valueReference,
@@ -70,7 +75,7 @@ module.exports = function (router) {
                         return next(Error.create('An error occurred trying get the page\'s report.', {id: req.params.id}, err));
                     }
                     res.set('Content-Type', 'text/csv');
-                    res.setHeader('Content-disposition', 'attachment; filename=clicks ' + req.params.id + '.csv');
+                    res.setHeader('Content-disposition', 'attachment; filename=' + clicks[0].page.name + ' ' + getLocalTimeFormat(new Date(), req.company.timezone) + '.csv');
                     res.send(data);
                 });
             });
@@ -97,7 +102,7 @@ module.exports = function (router) {
                             }) || {};
                         return [
                             click.ipAddress,
-                            click.timestamp.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+                            getLocalTimeFormat(click.timestamp, req.company.timezone),
                             click.device,
                             click.customPage.name,
                             click.valueReference,
@@ -126,7 +131,7 @@ module.exports = function (router) {
                             return next(Error.create('An error occurred trying get the page\'s report.', {id: req.params.id}, err));
                         }
                         res.set('Content-Type', 'text/csv');
-                        res.setHeader('Content-disposition', 'attachment; filename=clicks ' + req.params.id + '.csv');
+                        res.setHeader('Content-disposition', 'attachment; filename=' + clicks[0].customPage.name + ' ' + getLocalTimeFormat(new Date(), req.company.timezone) + '.csv');
                         res.send(data);
                     });
                 });
