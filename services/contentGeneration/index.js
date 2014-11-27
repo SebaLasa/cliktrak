@@ -35,11 +35,11 @@ module.exports.replaceStaticCodes = function (page, content) {
 
 module.exports.replaceDynamicCodes = function (customPage, customValues, content) {
     _.forEach(customPage.barcodes, function (data, index) {
-        content = content.replace('src="images/codes/bc' + index + '.png"', 'src="/public-api/barcode/' + defaultSize + '/' + customValues[data.value] + '"');
+        content = content.replace('src="images/codes/bc' + index + '.png"', 'src="/public-api/barcode/' + defaultSize + '/' + customValues[data.value.replace('param', 'parameter')] + '"');
     });
 
     _.forEach(customPage.qrCodes, function (data, index) {
-        content = content.replace('src="images/codes/qr' + index + '.png"', 'src="/public-api/qr/' + defaultSize + '/' + new Buffer(customValues[data.value]).toString('base64') + '"');
+        content = content.replace('src="images/codes/qr' + index + '.png"', 'src="/public-api/qr/' + defaultSize + '/' + new Buffer(customValues[data.value.replace('param', 'parameter')]).toString('base64') + '"');
     });
     return content;
 };
