@@ -6,7 +6,10 @@ var nodemailer = require('nodemailer'),
 
 module.exports.run = function (cb) {
     var today = new Date();
-    model.emailing.Task.find({dateStart: { $lt: today }, dateEnd: { $gt: today }}).populate(['contacts', 'page']).exec(function (err, tasks) {
+    model.emailing.Task.find({
+        dateStart: {$lt: today},
+        dateEnd: {$gt: today}
+    }).populate(['contacts', 'page']).exec(function (err, tasks) {
         if (err) {
             return cb(err);
         }
@@ -74,7 +77,6 @@ function generateMessages(task, callback) {
         if (!task.contactFieldMatch || !task.paramToMatchWithContacts) {
             return callback();
         }
-
         model.Contact.find({company: task.company, deleted: false}, function (err, contacts) {
                 if (err) {
                     return callback(err);
@@ -83,13 +85,13 @@ function generateMessages(task, callback) {
                     if (err) {
                         return callback(err);
                     }
+                    var paramToMatchWithContacts = task.paramToMatchWithContacts.replace('param', 'parameter');
                     var matches = _.compact(customPageValues.map(function (customValue) {
                         var contact = _.find(contacts, function (contact) {
-                            return contact[task.contactFieldMatch] == customValue[task.paramToMatchWithContacts]
+                            return contact[task.contactFieldMatch] == customValue[paramToMatchWithContacts]
                         });
-                        return contact ? { contact: contact, customValue: customValue } : null;
+                        return contact ? {contact: contact, customValue: customValue} : null;
                     }));
-
                     var fields = getTemplateMessageFields(task.message);
                     _.forEach(matches, function (match) {
                         task.messages.push({
