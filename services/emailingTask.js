@@ -9,17 +9,20 @@ module.exports.run = function (cb) {
     model.emailing.Task.find({
         dateStart: {$lt: today},
         dateEnd: {$gt: today}
-    }).populate(['contacts', 'page']).exec(function (err, tasks) {
+    }).populate(['contacts', 'page', 'customPage']).exec(function (err, tasks) {
         if (err) {
             return cb(err);
         }
         async.each(tasks, function (task, messageCallback) {
-            if (!task.page) {
-                return generateMessages(task, messageCallback);
+            if (task.page) {
+                model.Page.populate(task.page, 'urlConfiguration').then(function () {
+                    generateMessages(task, messageCallback);
+                }).end();
+            } else {
+                model.CustomPage.populate(task.customPage, 'urlConfiguration').then(function () {
+                    generateMessages(task, messageCallback);
+                }).end();
             }
-            model.Page.populate(task.page, 'urlConfiguration').then(function () {
-                generateMessages(task, messageCallback);
-            }).end();
         }, function (err) {
             if (err) {
                 return cb(err);
@@ -53,7 +56,7 @@ function getCompiledMessageTemplate(task, fields, contact, customValue) {
         var value;
         if (field.property == 'url') {
             if (customValue) {
-                value = customValue.urlGenerated;
+                value = domain(task.customPage.urlConfiguration.subdomain) + customValue.urlGenerated;
             } else {
                 value = domain(task.page.urlConfiguration.subdomain) + '/p/' + task.company + '.' + task.page._id;
             }
@@ -86,6 +89,7 @@ function generateMessages(task, callback) {
                         return callback(err);
                     }
                     var paramToMatchWithContacts = task.paramToMatchWithContacts.replace('param', 'parameter');
+                    console.log('paramToMatchWithContacts',paramToMatchWithContacts);
                     var matches = _.compact(customPageValues.map(function (customValue) {
                         var contact = _.find(contacts, function (contact) {
                             return contact[task.contactFieldMatch] == customValue[paramToMatchWithContacts]
