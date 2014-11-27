@@ -3,7 +3,7 @@
 
     <h2>Importar contactos</h2>
 
-    <form ng-submit="save()">
+    <form ng-submit="(options.matchEmail || options.matchTelephone || options.matchMobile) && save()">
         <label for="uploadType">Método de Actualización</label>
 
         <div class="row">

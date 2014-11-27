@@ -253,7 +253,7 @@ nav {
 
 .daysReport, .deviceReport {
     height: 200px;
-    width: 200px;
+    //width: 200px;
 }
 
 .mobile {

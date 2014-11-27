@@ -7,11 +7,19 @@
 
     <div>
         <b>ID</b>
-        <span>{{campaign.internalId}}</span>
+        <span>{{campaign._id}}</span>
     </div>
     <div>
-        <b>Status</b>
-        <span>{{campaign.status}}</span>
+        <b>Nombre</b>
+        <span>{{campaign.name}}</span>
+    </div>
+    <div>
+        <b>Fecha inicio</b>
+        <span>{{email.dateStart}}</span>
+    </div>
+    <div>
+        <b>Fecha Fin</b>
+        <span>{{email.dateEnd}}</span>
     </div>
     <form ng-submit="delete()">
         <input type="submit" value="Borrar" class="btn btn-danger"/>

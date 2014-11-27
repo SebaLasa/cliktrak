@@ -130,7 +130,7 @@ angular.module('clicks').controller('campaignEditorController', function ($scope
 
     $scope.selectAllContacts = function () {
         _.forEach($scope.contacts, function (contact) {
-            contact.selected = true;
+            contact.selected = $scope.allContacts;
         });
     };
 
