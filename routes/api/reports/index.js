@@ -27,7 +27,7 @@ module.exports = function (router) {
         };
     }
 
-    router.get('/reports/page/:id', function (req, res, next) {
+    router.get('/reports/pages/:id', function (req, res, next) {
         model.TrackedClick.find({ page: req.params.id }).sort('timestamp').exec(function (err, clicks) {
             if (err) {
                 return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
@@ -36,7 +36,7 @@ module.exports = function (router) {
         });
     });
 
-    router.get('/reports/customPage/:id', function (req, res, next) {
+    router.get('/reports/customPages/:id', function (req, res, next) {
         model.TrackedClick.find({ customPage: req.params.id }, function (err, clicks) {
             if (err) {
                 return next(Error.create('An error occurred trying get the page\'s report.', { id: req.params.id }, err));
@@ -45,7 +45,7 @@ module.exports = function (router) {
         });
     });
 
-    router.get('/reports/page/:id/download', function (req, res, next) {
+    router.get('/reports/pages/:id/download', function (req, res, next) {
         model.TrackedClick.find({ page: req.params.id })
         .populate(['page'])
         .exec(function (err, clicks) {
@@ -76,7 +76,7 @@ module.exports = function (router) {
         });
     });
 
-    router.get('/reports/customPage/:id/download', function (req, res, next) {
+    router.get('/reports/customPages/:id/download', function (req, res, next) {
         model.TrackedClick.find({ customPage: req.params.id })
             .populate(['customPage'])
             .exec(function (err, clicks) {
