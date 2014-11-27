@@ -8,8 +8,8 @@ angular.module('clicks').directive('customValues', function () {
             disabled: '='
         },
         controller: function ($scope) {
-            $scope.customValues = _.map(_.range(15), function (x) {
-                return { value: 'param' + x, name: 'Parámetro ' + (x + 1) };
+            $scope.customValues = _.map(_.range(1, 16), function (x) {
+                return { value: 'param' + x, name: 'Parámetro ' + x };
             });
         }
     };

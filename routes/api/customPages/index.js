@@ -113,7 +113,7 @@ module.exports = function (router) {
             var upload;
             form.on('error', next);
             form.on('close', function () {
-                var columns = _.map(_.range(15), function (x) {
+                var columns = _.map(_.range(1, 16), function (x) {
                     return 'parameter' + x;
                 });
                 csvparse(upload.data, {columns: columns, delimiter: ';'}, function (err, output) {

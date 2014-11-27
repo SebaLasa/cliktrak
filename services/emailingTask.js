@@ -61,7 +61,6 @@ function getCompiledMessageTemplate(task, fields, contact, customValue) {
                 value = domain(task.page.urlConfiguration.subdomain) + '/p/' + task.company + '.' + task.page._id;
             }
         } else if (field.property.indexOf('param') > -1) {
-            // TODO AN adjust array index.
             value = customValue ? customValue[field.property.replace('param', 'parameter')] : field.property;
         } else {
             value = contact[field.property];

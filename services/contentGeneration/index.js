@@ -49,9 +49,9 @@ module.exports.replaceDynamicCodesPreviewMode = function (content) {
 };
 
 module.exports.replaceParameters = function (customValues, content) {
-    _.forEach(_.range(15), function (x) {
-        var searchString = '##param' + (x + 1) + '##';
-        var replaceValue = customValues["parameter" + x] || '';
+    _.forEach(_.range(1, 16), function (x) {
+        var searchString = '##param' + x + '##';
+        var replaceValue = customValues['parameter' + x] || '';
         content = content.replace(searchString, replaceValue)
     });
     return content

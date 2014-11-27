@@ -116,7 +116,6 @@ model.TrackedClick = mongoose.model('trackedClicks', new Schema({
 
 model.CustomPageValue = mongoose.model('customPageValues', new Schema({
     customPage: { type: ObjectId, ref: 'customPages', required: true },
-    parameter0: { type: String },
     parameter1: { type: String },
     parameter2: { type: String },
     parameter3: { type: String },
@@ -131,6 +130,7 @@ model.CustomPageValue = mongoose.model('customPageValues', new Schema({
     parameter12: { type: String },
     parameter13: { type: String },
     parameter14: { type: String },
+    parameter15: { type: String },
     urlGenerated: { type: String }
 }));
 
