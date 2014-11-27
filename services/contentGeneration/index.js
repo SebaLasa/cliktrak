@@ -50,7 +50,7 @@ module.exports.replaceDynamicCodesPreviewMode = function (content) {
 
 module.exports.replaceParameters = function (customValues, content) {
     _.forEach(_.range(15), function (x) {
-        var searchString = '[[Parámetro ' + (parseInt(x) + 1) + ']]';
+        var searchString = '##param' + (x + 1) + '##';
         var replaceValue = customValues["parameter" + x] || '';
         content = content.replace(searchString, replaceValue)
     });

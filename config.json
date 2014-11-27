@@ -7,8 +7,8 @@
         "host": "cliktrak.com",
         "port": 3000
     },
-    "//": "mongodb://127.0.0.1/clicks?safe=true",
-    "connectionString": "mongodb://crash:Clicks123@oceanic.mongohq.com:10031/clicks?safe=true",
+    "connectionString": "mongodb://127.0.0.1/clicks?safe=true",
+    "//": "mongodb://crash:Clicks123@oceanic.mongohq.com:10031/clicks?safe=true",
     "auth": {
         "loginPage": "/signin",
         "masterKey": "pass"
