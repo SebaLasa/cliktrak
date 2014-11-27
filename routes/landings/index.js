@@ -69,7 +69,7 @@ module.exports = function (router) {
                     }
 
                     req.trackedClick.page = page;
-                    console.log('refval:', req.trackedClick.valueReference = req.params.valueReference);
+                    req.trackedClick.valueReference = req.params.valueReference;
                     req.trackedClick.save(function (err) {
                         if (err) {
                             console.log(err);
@@ -116,6 +116,7 @@ module.exports = function (router) {
                 }
 
                 req.trackedClick.customPage = customPage;
+                req.trackedClick.valueReference = req.params.id;
                 req.trackedClick.save(function (err) {
                     if (err) {
                         console.log(err);
