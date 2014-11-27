@@ -83,7 +83,7 @@
                     <span ng-show="formSubmitted && !pageEditorForm.html.$valid" class="red">
                         La página debe tener un contenido para poder guardarse.
                     </span>
-                    <textarea id="html" name="html" ui-tinymce ng-model="page.html" required></textarea>
+                    <textarea id="html" name="html" ui-tinymce="tinymceOptions" ng-model="page.html" required></textarea>
                 </div>
                 <div class="col-md-4 form-group">
                     <div class="panel panel-default">

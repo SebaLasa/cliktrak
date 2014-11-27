@@ -1,4 +1,10 @@
 angular.module('clicks').controller('pageEditorController', function ($scope, $http, $location, $routeParams, $window) {
+
+    $scope.tinymceOptions = {
+        plugins: "textcolor link table",
+        toolbar: "undo redo | styleselect | alignleft aligncenter alignright alignfull | bold italic underline | forecolor backcolor | link table"
+    };
+
     function registerWatchers() {
         $scope.$watch(function () {
             return $($scope.page.html).find('.staticBarcode').length;

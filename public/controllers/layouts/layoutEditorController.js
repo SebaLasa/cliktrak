@@ -1,4 +1,10 @@
 angular.module('clicks').controller('layoutEditorController', function ($scope, $http, $location, $routeParams, $upload) {
+
+        $scope.tinymceOptions = {
+            plugins: "textcolor link table",
+            toolbar: "undo redo | styleselect | alignleft aligncenter alignright alignfull | bold italic underline | forecolor backcolor | link table"
+        };
+
         if ($routeParams.id) {
             $http.get('/api/layouts/' + $routeParams.id)
                 .success(function (data, status) {
