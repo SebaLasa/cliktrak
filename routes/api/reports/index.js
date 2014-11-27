@@ -81,7 +81,6 @@ module.exports = function (router) {
             if (err) {
                 return next(Error.create('An error occurred trying get the page\'s report.', {id: req.params.id}, err));
             }
-            console.log('values', values);
             model.TrackedClick.find({customPage: req.params.id})
                 .populate(['customPage'])
                 .exec(function (err, clicks) {
